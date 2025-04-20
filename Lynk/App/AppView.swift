@@ -65,39 +65,6 @@ struct AppView: View {
 		NavigationStack(path: $coordinator.path) {
 			VStack {
 				// Search Bar - Using native for now
-//				ScrollView {
-//					VStack(spacing: 18) {
-//						// Sorting pills
-//						ScrollView(.horizontal, showsIndicators: false) {
-//							HStack {
-//								ForEach(SortingPill.allCases, id: \.self) { pill in
-//									HStack {
-//										IconView(.systemName(pill.iconName))
-//											.frame(width: 16, height: 16)
-//										Text(pill.title)
-//									}
-//									.padding(.vertical, 8)
-//									.padding(.leading, 8)
-//									.padding(.trailing, 16)
-//									.background(Color.gray.opacity(0.2))
-//									.clipShape(.capsule)
-//								}
-//							}
-//						}
-//						LazyVStack(spacing: 12) {
-//							ForEach(bookmarksFetch, id: \.self) { bookmark in
-//								if let model = bookmark.createItemCellViewModel() {
-//									ItemCellView(model: model)
-//										.padding(8)
-//										.background()
-//										.clipShape(.rect(cornerRadius: 8))
-//										.shadow(color: .gray.opacity(0.3), radius: 4)
-//								}
-//							}
-//						}
-//						.padding(.horizontal, 16)
-//					}
-//				}
 				List {
 					Section {
 						ScrollView(.horizontal, showsIndicators: false) {
@@ -129,7 +96,7 @@ struct AppView: View {
 									.shadow(color: .gray.opacity(0.3), radius: 4)
 							}
 						}
-						.onDelete(perform: { _ in })
+						.onDelete(perform: deleteBookmarks)
 					}
 					.listRowSeparator(.hidden)
 					.listRowInsets(.init(vertical: 4, horizontal: 8))
@@ -152,6 +119,18 @@ struct AppView: View {
 			}
 		}
 		.searchable(text: $searchText, prompt: "Search with a keyword")
+	}
+	
+	private func deleteBookmarks(_ indexSet: IndexSet) {
+		for index in indexSet {
+			let bookmark = bookmarksFetch[index]
+			localStorage.delete(bookmark)
+		}
+		do {
+			try localStorage.save()
+		} catch {
+			print("Failed to delete bookmarks: \(error.localizedDescription)")
+		}
 	}
 }
 

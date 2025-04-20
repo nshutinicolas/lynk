@@ -76,12 +76,11 @@ class ShareViewController: UIViewController {
 	
 	@objc func saveBookmark(model: Model) {
 		defer { closeAction() }
-		guard let modelToSave else {
-			print("🚨No model to save🚨")
-			return
-		}
+		guard let modelToSave else { return }
 		do {
 			try bookmarkStorage.save(with: modelToSave.itemViewModel)
+			let stored = bookmarkStorage.fetchStoredBookmarks()
+			print("Stored: \(stored.count)")
 		} catch {
 			print("Saving error: \(error.localizedDescription)")
 		}

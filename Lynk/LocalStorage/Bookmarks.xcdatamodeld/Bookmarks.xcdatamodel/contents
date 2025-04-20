@@ -3,13 +3,13 @@
     <entity name="Bookmark" representedClassName="Bookmark" syncable="YES" codeGenerationType="class">
         <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
-        <relationship name="category" maxCount="1" deletionRule="Nullify" destinationEntity="BookmarkCategory" inverseName="category" inverseEntity="BookmarkCategory"/>
+        <relationship name="category" maxCount="1" deletionRule="Cascade" destinationEntity="BookmarkCategory" inverseName="category" inverseEntity="BookmarkCategory"/>
     </entity>
     <entity name="BookmarkCategory" representedClassName="BookmarkCategory" syncable="YES" codeGenerationType="class">
         <attribute name="imageUrl" optional="YES" attributeType="String"/>
         <attribute name="textContent" optional="YES" attributeType="String"/>
         <attribute name="type" attributeType="String"/>
         <attribute name="urlContent" optional="YES" attributeType="String"/>
-        <relationship name="category" maxCount="1" deletionRule="Nullify" destinationEntity="Bookmark" inverseName="category" inverseEntity="Bookmark"/>
+        <relationship name="category" maxCount="1" deletionRule="Cascade" destinationEntity="Bookmark" inverseName="category" inverseEntity="Bookmark"/>
     </entity>
 </model>

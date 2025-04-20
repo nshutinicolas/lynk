@@ -7,12 +7,21 @@
 
 import Foundation
 import CoreData
+import UniformTypeIdentifiers
 
 class BookmarkStorage: ObservableObject {
 	static let shared = BookmarkStorage()
 	let container = NSPersistentContainer(name: "Bookmarks")
+	private var storageFileURL: URL? = { FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: AppConstants.appGroup)?.appendingPathComponent(AppConstants.coreDataStorage, conformingTo: UTType.text)
+	}()
 	
 	private init() {
+		guard let storageFileURL else {
+			print("🚨failed to load the storage file🚨")
+			return
+		}
+		let description = NSPersistentStoreDescription(url: storageFileURL)
+		container.persistentStoreDescriptions = [description]
 		container.loadPersistentStores { _, error in
 			if let _ = error as NSError? {
 				// TODO: Handle this error correctly
@@ -22,36 +31,7 @@ class BookmarkStorage: ObservableObject {
 		}
 	}
 	
-	func saveContext(for context: NSManagedObjectContext, model: ItemCellView.Model) throws {
-		let bookmark = Bookmark(context: context)
-		bookmark.id = UUID()
-		bookmark.date = Date()
-		
-		let category = BookmarkCategory(context: context)
-		switch model.category {
-		case .text(let text):
-			category.type = "text"
-			category.textContent = text
-		case .url(let urlString):
-			category.type = "url"
-			category.urlContent = urlString
-		case .webPage(let title, let url, let imageUrl):
-			category.type = "web"
-			category.textContent = title
-			category.urlContent = url
-			category.imageUrl = imageUrl
-		}
-		bookmark.category = category
-		
-		if bookmark.hasChanges {
-			try context.save()
-		} else {
-			print("🚨Nothing to save🚨")
-		}
-	}
-	
 	func save(with model: ItemCellView.Model) throws {
-		print("Saving model")
 		let bookmark = Bookmark(context: container.viewContext)
 		bookmark.id = UUID(uuidString: model.id)
 		bookmark.date = .now
@@ -78,6 +58,60 @@ class BookmarkStorage: ObservableObject {
 			print("Saved")
 		} else {
 			print("🚨Nothing to save🚨")
+		}
+	}
+	
+	func fetchStoredBookmarks() -> [ItemCellView.Model] {
+		let request: NSFetchRequest<Bookmark> = Bookmark.fetchRequest()
+		do {
+			let bookmarks = try container.viewContext.fetch(request)
+			print("Stored content: \(bookmarks.count)")
+			let stored = bookmarks.compactMap { $0.createItemCellViewModel() }
+			return stored
+//			return bookmarks.compactMap(\.createItemCellViewModel)
+		} catch {
+			print("Fetching Error: \(error)")
+			return []
+		}
+	}
+	
+	func deleteStoredBookmark(_ bookmark: ItemCellView.Model) {
+		let request: NSFetchRequest<Bookmark> = Bookmark.fetchRequest()
+		request.predicate = NSPredicate(format: "id == %@", bookmark.id)
+		do {
+			let bookmarksToDelete = try container.viewContext.fetch(request)
+			for bookmark in bookmarksToDelete {
+				container.viewContext.delete(bookmark)
+			}
+			try container.viewContext.save()
+		} catch {
+			print("Deleting Error: \(error)")
+		}
+	}
+	
+	func deleteAllStoredBookmarks() {
+		let request: NSFetchRequest<Bookmark> = Bookmark.fetchRequest()
+		do {
+			let bookmarksToDelete = try container.viewContext.fetch(request)
+			for bookmark in bookmarksToDelete {
+				container.viewContext.delete(bookmark)
+			}
+			try container.viewContext.save()
+		} catch {
+			print("Delete error: \(error)")
+		}
+	}
+	
+	func findStoredBookmark(_ bookmark: ItemCellView.Model) -> Bookmark? {
+		let request: NSFetchRequest<Bookmark> = Bookmark.fetchRequest()
+		request.predicate = NSPredicate(format: "id == %@", bookmark.id)
+		do {
+			let bookmarksToFind = try container.viewContext.fetch(request)
+			print("Found \(bookmarksToFind.count) bookmarks")
+			return bookmarksToFind.first
+		} catch {
+			print("Failed to get bookmark matching: \(error)")
+			return nil
 		}
 	}
 }
