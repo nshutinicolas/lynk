@@ -52,15 +52,6 @@ struct AppView: View {
 	@Environment(\.managedObjectContext) private var localStorage
 	@FetchRequest(sortDescriptors: []) var bookmarksFetch: FetchedResults<Bookmark>
 	
-	var bookmarks: [ItemCellView.Model] = [
-		.init(id: UUID().uuidString, category: .text("This is the long ass text")),
-		.init(id: UUID().uuidString, category: .url("https://www.ibirori.rw/events")),
-		.init(id: UUID().uuidString, category: .webPage(
-			title: "The long ass title for the web page",
-			url: "https://ibirori.rw/events",
-			imageUrl: "https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg"
-		))
-	]
 	var body: some View {
 		NavigationStack(path: $coordinator.path) {
 			VStack {
@@ -102,20 +93,6 @@ struct AppView: View {
 					.listRowInsets(.init(vertical: 4, horizontal: 8))
 				}
 				.listStyle(.plain)
-			}
-			.safeAreaInset(edge: .bottom) {
-				Button {
-					let last = bookmarks.randomElement()
-					do {
-						try BookmarkStorage.shared.save(with: last!)
-					} catch {
-						print("Saving error: \(error.localizedDescription)")
-					}
-				} label: {
-					Text("Save random bookmarks")
-						.font(.caption)
-				}
-
 			}
 		}
 		.searchable(text: $searchText, prompt: "Search with a keyword")
