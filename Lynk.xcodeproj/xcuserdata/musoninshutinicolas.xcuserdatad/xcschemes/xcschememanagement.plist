@@ -7,7 +7,25 @@
 		<key>Lynk.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+		<key>LynkBookmark.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>6CF5BDFB2DA6CB4500EFE633</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>6CF5BE292DA6E65100EFE633</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

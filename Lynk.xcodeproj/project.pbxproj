@@ -6,20 +6,90 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		6CF5BE342DA6E65100EFE633 /* LynkBookmark.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 6CF5BE2A2DA6E65100EFE633 /* LynkBookmark.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6CF5BE322DA6E65100EFE633 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6CF5BDF42DA6CB4500EFE633 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6CF5BE292DA6E65100EFE633;
+			remoteInfo = LynkBookmark;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6CF5BE392DA6E65100EFE633 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				6CF5BE342DA6E65100EFE633 /* LynkBookmark.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		6CF5BDFC2DA6CB4500EFE633 /* Lynk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lynk.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6CF5BE2A2DA6E65100EFE633 /* LynkBookmark.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LynkBookmark.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		6CF5BE352DA6E65100EFE633 /* Exceptions for "LynkBookmark" folder in "LynkBookmark" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 6CF5BE292DA6E65100EFE633 /* LynkBookmark */;
+		};
+		6CF5BE3F2DA6EDA500EFE633 /* Exceptions for "Lynk" folder in "LynkBookmark" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Components/IconView.swift,
+				Components/ItemCellView.swift,
+				Components/RemoteImage.swift,
+				Components/TextBookmarkView.swift,
+				Components/URLBookMark.swift,
+				LocalStorage/Bookmarks.xcdatamodeld,
+				LocalStorage/LocalStorage.swift,
+			);
+			target = 6CF5BE292DA6E65100EFE633 /* LynkBookmark */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		6CF5BDFE2DA6CB4500EFE633 /* Lynk */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				6CF5BE3F2DA6EDA500EFE633 /* Exceptions for "Lynk" folder in "LynkBookmark" target */,
+			);
 			path = Lynk;
+			sourceTree = "<group>";
+		};
+		6CF5BE2B2DA6E65100EFE633 /* LynkBookmark */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				6CF5BE352DA6E65100EFE633 /* Exceptions for "LynkBookmark" folder in "LynkBookmark" target */,
+			);
+			path = LynkBookmark;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		6CF5BDF92DA6CB4500EFE633 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6CF5BE272DA6E65100EFE633 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -33,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				6CF5BDFE2DA6CB4500EFE633 /* Lynk */,
+				6CF5BE2B2DA6E65100EFE633 /* LynkBookmark */,
 				6CF5BDFD2DA6CB4500EFE633 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				6CF5BDFC2DA6CB4500EFE633 /* Lynk.app */,
+				6CF5BE2A2DA6E65100EFE633 /* LynkBookmark.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -55,10 +127,12 @@
 				6CF5BDF82DA6CB4500EFE633 /* Sources */,
 				6CF5BDF92DA6CB4500EFE633 /* Frameworks */,
 				6CF5BDFA2DA6CB4500EFE633 /* Resources */,
+				6CF5BE392DA6E65100EFE633 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				6CF5BE332DA6E65100EFE633 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				6CF5BDFE2DA6CB4500EFE633 /* Lynk */,
@@ -69,6 +143,28 @@
 			productName = Lynk;
 			productReference = 6CF5BDFC2DA6CB4500EFE633 /* Lynk.app */;
 			productType = "com.apple.product-type.application";
+		};
+		6CF5BE292DA6E65100EFE633 /* LynkBookmark */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6CF5BE362DA6E65100EFE633 /* Build configuration list for PBXNativeTarget "LynkBookmark" */;
+			buildPhases = (
+				6CF5BE262DA6E65100EFE633 /* Sources */,
+				6CF5BE272DA6E65100EFE633 /* Frameworks */,
+				6CF5BE282DA6E65100EFE633 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				6CF5BE2B2DA6E65100EFE633 /* LynkBookmark */,
+			);
+			name = LynkBookmark;
+			packageProductDependencies = (
+			);
+			productName = LynkBookmark;
+			productReference = 6CF5BE2A2DA6E65100EFE633 /* LynkBookmark.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -81,6 +177,9 @@
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					6CF5BDFB2DA6CB4500EFE633 = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					6CF5BE292DA6E65100EFE633 = {
 						CreatedOnToolsVersion = 16.2;
 					};
 				};
@@ -100,12 +199,20 @@
 			projectRoot = "";
 			targets = (
 				6CF5BDFB2DA6CB4500EFE633 /* Lynk */,
+				6CF5BE292DA6E65100EFE633 /* LynkBookmark */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		6CF5BDFA2DA6CB4500EFE633 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6CF5BE282DA6E65100EFE633 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -122,7 +229,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6CF5BE262DA6E65100EFE633 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6CF5BE332DA6E65100EFE633 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6CF5BE292DA6E65100EFE633 /* LynkBookmark */;
+			targetProxy = 6CF5BE322DA6E65100EFE633 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		6CF5BE082DA6CB4600EFE633 /* Debug */ = {
@@ -249,22 +371,27 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Lynk/Lynk.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Lynk/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Lynk;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Ibirori-LTD.Lynk";
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = rw.lynk.app.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -277,23 +404,82 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Lynk/Lynk.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Lynk/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Lynk;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Ibirori-LTD.Lynk";
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = rw.lynk.app.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		6CF5BE372DA6E65100EFE633 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = LynkBookmark/LynkBookmark.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LynkBookmark/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Lynk;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = rw.lynk.app.ios.LynkBookmark;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6CF5BE382DA6E65100EFE633 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = LynkBookmark/LynkBookmark.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LynkBookmark/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Lynk;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = rw.lynk.app.ios.LynkBookmark;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -317,6 +503,15 @@
 			buildConfigurations = (
 				6CF5BE0B2DA6CB4600EFE633 /* Debug */,
 				6CF5BE0C2DA6CB4600EFE633 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6CF5BE362DA6E65100EFE633 /* Build configuration list for PBXNativeTarget "LynkBookmark" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6CF5BE372DA6E65100EFE633 /* Debug */,
+				6CF5BE382DA6E65100EFE633 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
