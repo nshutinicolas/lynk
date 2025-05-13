@@ -27,18 +27,14 @@ struct URLBookMark: View {
 	var body: some View {
 		HStack(alignment: .top) {
 			ZStack {
-				if let icon = model.icon {
-					AsyncImage(url: URL(string: icon)) { phase in
-						if let image = phase.image {
-								image.resizable()
-									.aspectRatio(contentMode: .fill)
-									.frame(width: 60, height: 60)
-						} else {
+				if let iconUrl = model.icon {
+					RemoteImage(url: iconUrl)
+						.setErrorView {
 							IconView(.systemName("globe"))
 								.frame(width: 24, height: 24)
 								.padding()
 						}
-					}
+						.frame(width: 60, height: 60)
 				} else {
 					IconView(.systemName("globe"))
 						.frame(width: 24, height: 24)
@@ -55,8 +51,10 @@ struct URLBookMark: View {
 					.font(.footnote)
 					.foregroundStyle(.blue)
 					.underline()
-				
+				Text(model.date.formatted())
+					.font(.caption)
 			}
+			.frame(maxWidth: .infinity, alignment: .leading)
 		}
 		.frame(maxWidth: .infinity, alignment: .leading)
 	}

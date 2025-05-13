@@ -24,10 +24,12 @@ struct TextBookmarkView: View {
 				.clipShape(.rect(cornerRadius: 8))
 			VStack(alignment: .leading) {
 				Text(model.text)
+					.lineLimit(3)
 				// TODO: Fix the date
-				Text("\(Date.now.description(with: .current))")
+				Text(model.date.formatted())
 					.font(.footnote)
 			}
+			.frame(maxWidth: .infinity, alignment: .leading)
 		}
 		.frame(maxWidth: .infinity, alignment: .leading)
 	}

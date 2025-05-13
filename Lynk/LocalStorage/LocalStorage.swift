@@ -15,10 +15,13 @@ class BookmarkStorage: ObservableObject {
 	private var storageFileURL: URL? = { FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: AppConstants.appGroup)?.appendingPathComponent(AppConstants.coreDataStorage, conformingTo: UTType.text)
 	}()
 	
-	private init() {
+	init(inMemory: Bool = false) {
 		guard let storageFileURL else {
 			print("🚨failed to load the storage file🚨")
 			return
+		}
+		if inMemory {
+			container.persistentStoreDescriptions.first?.url = URL(fileURLWithPath: "/dev/null")
 		}
 		let description = NSPersistentStoreDescription(url: storageFileURL)
 		container.persistentStoreDescriptions = [description]
@@ -28,6 +31,10 @@ class BookmarkStorage: ObservableObject {
 				return
 			}
 			print("🎉Store Initialized🎉")
+			// For Previews only
+			if inMemory {
+				self.addDummyData()
+			}
 		}
 	}
 	
@@ -114,10 +121,35 @@ class BookmarkStorage: ObservableObject {
 			return nil
 		}
 	}
+	
+	func searchBookmarks(containingText text: String) -> [ItemCellView.Model] {
+		let request: NSFetchRequest<Bookmark> = Bookmark.fetchRequest()
+		request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", text)
+		request.predicate = NSPredicate(format: "description CONTAINS[cd] %@", text)
+		do {
+			let bookmarks = try container.viewContext.fetch(request)
+			return bookmarks.compactMap { $0.createItemCellViewModel() }
+		} catch {
+			return []
+		}
+	}
+	
+	// For Previews only
+	private func addDummyData() {
+		let data: [ItemCellView.Model] = [
+			.init(id: UUID().uuidString, category: .text("Text to share or view")),
+			.init(id: UUID().uuidString, category: .url("https://localhost.com")),
+			.init(id: UUID().uuidString, category: .webPage(title: "Title of the website underneath", url: "https://yegob.com", imageUrl: ""))
+		]
+		deleteAllStoredBookmarks()
+		for item in data {
+			try? save(with: item)
+		}
+	}
 }
 
 extension Bookmark {
-	func createItemCellViewModel() -> ItemCellView.Model? {
+	func createItemCellViewModel(shareable: Bool = false) -> ItemCellView.Model? {
 		guard let id, let date, let category, let categoryType = category.type else { return nil }
 		var itemCategory: ItemCellView.Category?
 		switch categoryType {
@@ -137,6 +169,6 @@ extension Bookmark {
 			return nil
 		}
 		guard let itemCategory else { return nil }
-		return .init(id: id.uuidString, category: itemCategory, date: date)
+		return .init(id: id.uuidString, category: itemCategory, date: date, showShareIcon: shareable)
 	}
 }

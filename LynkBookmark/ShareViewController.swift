@@ -133,6 +133,7 @@ class ShareViewController: UIViewController {
 						}
 					case .url:
 						if let url = data as? URL {
+							fetchPageMetadata(from: url)
 							modelToSave = Model(.init(id: UUID().uuidString, category: .url(url.absoluteString)))
 							DispatchQueue.main.async { [weak self] in
 								let urlView = ItemCellView(model: .init(id: UUID().uuidString, category: .url(url.absoluteString))).uiView()
@@ -162,7 +163,7 @@ class ShareViewController: UIViewController {
 	enum SupportedContentType: String {
 		case note = "public.plain-text"
 		case url = "public.url"
-		case webPage = "com.apple.property-list"
+		case webPage = "com.apple.property-list" // When Shared with Safari
 	}
 	// Doing this as a shortcut
 	@objc(Model)
@@ -172,4 +173,68 @@ class ShareViewController: UIViewController {
 			self.itemViewModel = itemViewModel
 		}
 	}
+	
+	// Clean up the code below and make it reusable
+	func fetchPageMetadata(from url: URL) {
+		let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+			guard let data = data, let html = String(data: data, encoding: .utf8), let self else {
+				return
+			}
+			
+			let title = self.extractTitle(from: html)
+			let faviconURL = self.extractFaviconURL(from: html, baseURL: url)
+			let description = self.extractDescription(from: html)
+			
+			print("Title: \(title ?? "N/A")")
+			print("Favicon: \(faviconURL?.absoluteString ?? "N/A")")
+			print("Description: \(description ?? "N/A")")
+		}
+		task.resume()
+	}
+	
+	func asyncFetch(from url: URL) async -> (title: String?, faviconURL: URL?, description: String?) {
+		do {
+			let (data, _) = try await URLSession.shared.data(from: url)
+			let html = String(data: data, encoding: .utf8)
+			guard let html else {
+				throw NSError(domain: "Invalid data", code: 400)
+			}
+			let title = self.extractTitle(from: html)
+			let faviconURL = self.extractFaviconURL(from: html, baseURL: url)
+			let description = self.extractDescription(from: html)
+			return (title: title, faviconURL: faviconURL, description: description)
+		} catch {
+			return (title: nil, faviconURL: nil, description: nil)
+		}
+	}
+	
+	func extractTitle(from html: String) -> String? {
+		let pattern = "<title>(.*?)</title>"
+		if let range = html.range(of: pattern, options: .regularExpression) {
+			return String(html[range]).replacingOccurrences(of: "<title>", with: "").replacingOccurrences(of: "</title>", with: "")
+		}
+		return nil
+	}
+	
+	func extractFaviconURL(from html: String, baseURL: URL) -> URL? {
+		let pattern = "<link[^>]+rel=[\"'](?:shortcut )?icon[\"'][^>]+href=[\"']([^\"']+)[\"']"
+		if let regex = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive),
+		   let match = regex.firstMatch(in: html, options: [], range: NSRange(location: 0, length: html.utf16.count)),
+		   let hrefRange = Range(match.range(at: 1), in: html) {
+			let href = String(html[hrefRange])
+			return URL(string: href, relativeTo: baseURL)?.absoluteURL
+		}
+		return nil
+	}
+
+	func extractDescription(from html: String) -> String? {
+		let pattern = "<meta[^>]*name=[\"']description[\"'][^>]*content=[\"']([^\"']+)[\"']"
+		if let regex = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive),
+		   let match = regex.firstMatch(in: html, options: [], range: NSRange(location: 0, length: html.utf16.count)),
+		   let contentRange = Range(match.range(at: 1), in: html) {
+			return String(html[contentRange])
+		}
+		return nil
+	}
+
 }
