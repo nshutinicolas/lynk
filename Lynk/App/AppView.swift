@@ -58,10 +58,9 @@ struct AppView: View {
 	
 	@Environment(\.managedObjectContext) private var localStorage
 	
-	
 	@FetchRequest(
 		entity: Bookmark.entity(),
-		sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: true)]
+		sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: false)]
 	) var bookmarksFetch: FetchedResults<Bookmark>
 	
 	var body: some View {

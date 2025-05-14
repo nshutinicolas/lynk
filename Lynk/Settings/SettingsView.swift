@@ -13,11 +13,13 @@ struct SettingsView: View {
 	@Environment(\.presentationMode) var presentationMode
 	@Environment(\.dismiss) private var dismiss
 	@EnvironmentObject private var appTheme: AppTheme
+	@EnvironmentObject private var storage: BookmarkStorage
 	
 	// State properties
 	@State private var presentEmailView = false
 	@State private var showAbout = false
 	@State private var emailCompose: MailComposeModel?
+	@State private var presentDeleteAllAlert = false
 	
     var body: some View {
 		VStack {
@@ -84,9 +86,31 @@ struct SettingsView: View {
 							separator()
 							row(icon: "faceid", title: "Biometric Authentication", description: "Protect your data on this app", disclosure: true)
 							separator()
-							row(icon: "trash", title: "Delete all your saved data", description: "This action will delete all the data shared or saved by this App")
+							// TODO: Refactor row to allow passing custom components ie support this
+							HStack {
+								HStack(alignment: .top) {
+									Image(systemName: "trash")
+										.foregroundStyle(.white)
+										.padding(8)
+										.background(Color.red)
+										.roundedBorder(color: .gray.opacity(0.3))
+									VStack(alignment: .leading, spacing: 4) {
+										Text("Delete all your saved data")
+										Text("This action will delete all the data shared or saved by this App")
+											.font(.caption)
+											.foregroundStyle(.secondary)
+											.multilineTextAlignment(.leading)
+									}
+								}
+								.frame(maxWidth: .infinity, alignment: .leading)
+							}
+							.frame(maxWidth: .infinity, alignment: .leading)
+							.background()
+							.padding(.vertical, 4)
+							.onTapGesture {
+								presentDeleteAllAlert = true
+							}
 						}
-						
 						// App
 						container(title: "APP") {
 							row(icon: "star", title: "Rate the app", description: "Are you enjoying the app? Share your experience with others", disclosure: false) {
@@ -141,10 +165,9 @@ struct SettingsView: View {
 				switch result {
 				case .success(let response):
 					print(response)
-					presentEmailView = false
+//					presentEmailView = false
 				case .failure(let error):
 					print("Email Error: \(error.localizedDescription)")
-					break
 				}
 			}
 		}
@@ -164,9 +187,10 @@ struct SettingsView: View {
 					openURL(url)
 				} label: {
 					Text("View Project on Github")
+						.fontWeight(.medium)
 				}
 				.foregroundStyle(Color(uiColor: .systemBackground))
-				.padding()
+				.padding(12)
 				.frame(maxWidth: .infinity)
 				.background(Color.primary)
 				.roundedBorder()
@@ -174,12 +198,20 @@ struct SettingsView: View {
 			.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
 			.padding(.vertical, 24)
 			.padding(.horizontal)
-			.presentationDetents([.fraction(0.4)])
+			.presentationDetents([.fraction(0.45)])
 			.presentationDragIndicator(.visible)
 		}
 		.onChange(of: emailCompose) { value in
 			guard value != nil else { return }
 			openSupportEmail()
+		}
+		.alert("Delete All Data", isPresented: $presentDeleteAllAlert) {
+			Button("Delete", role: .destructive) {
+				storage.deleteAllStoredBookmarks()
+				presentDeleteAllAlert = false
+			}
+		} message: {
+			Text("Are you sure you want to delete all the stored data?\nThis action cannot be undone.")
 		}
     }
 	
@@ -212,6 +244,7 @@ struct SettingsView: View {
 						Text(description)
 							.font(.caption)
 							.foregroundStyle(.secondary)
+							.multilineTextAlignment(.leading)
 					}
 				}
 				.frame(maxWidth: .infinity, alignment: .leading)
@@ -247,6 +280,7 @@ struct SettingsView: View {
 	@ViewBuilder
 	private func ShareApp() -> some View {
 		if let appURL = URL(string: AppConstants.appStoreUrl) {
+			#warning("Fix the action related to this - And texts")
 			ShareLink(
 				item: appURL,
 				subject: Text("YegoB App - Your Rwandan Music companion"),
@@ -264,4 +298,5 @@ struct SettingsView: View {
 #Preview {
     SettingsView()
 		.environmentObject(AppTheme())
+		.environmentObject(BookmarkStorage())
 }

@@ -18,6 +18,7 @@ struct LynkApp: App {
 				.environmentObject(coordinator)
 				.environment(\.managedObjectContext, storage.container.viewContext)
 				.environmentObject(appTheme)
+				.environmentObject(storage)
 				.onAppear {
 					appTheme.updateFromLocalStorage()
 				}
