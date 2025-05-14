@@ -5,12 +5,19 @@
 //  Created by Musoni nshuti Nicolas on 01/05/2025.
 //
 
+import MessageUI
 import SwiftUI
 
 struct SettingsView: View {
+	@Environment(\.openURL) private var openURL
 	@Environment(\.presentationMode) var presentationMode
 	@Environment(\.dismiss) private var dismiss
 	@EnvironmentObject private var appTheme: AppTheme
+	
+	// State properties
+	@State private var presentEmailView = false
+	@State private var showAbout = false
+	@State private var emailCompose: MailComposeModel?
 	
     var body: some View {
 		VStack {
@@ -82,36 +89,97 @@ struct SettingsView: View {
 						
 						// App
 						container(title: "APP") {
-							row(icon: "star", title: "Rate the app", description: "Are you enjoying the app? Share your experience with others", disclosure: false)
+							row(icon: "star", title: "Rate the app", description: "Are you enjoying the app? Share your experience with others", disclosure: false) {
+								AppReviewRequest.requestReviewManually()
+							}
 							separator()
-							row(icon: "square.and.arrow.up", title: "Share the App", description: "Let your friends know about the beauty of this app!", disclosure: false)
+							ShareApp()
 							separator()
-							row(icon: "bubble.and.pencil.rtl", title: "Leave a feedback", description: "Do you have something to let us know about this app?", disclosure: false)
+							row(icon: "captions.bubble", title: "Leave a feedback", description: "Do you have something to let us know about this app?", disclosure: false) {
+								emailCompose = .feedback
+							}
 						}
 						
 						// Legal
 						container(title: "LEGAL") {
-							row(icon: "person.badge.key", title: "Privacy Policy", disclosure: false)
+							row(icon: "person.badge.key", title: "Privacy Policy", disclosure: false) {
+								guard let url = URL(string: AppConstants.privacyPolicy) else { return }
+								openURL(url)
+							}
 							separator()
-							row(icon: "document", title: "Privacy Policy", disclosure: false)
+							row(icon: "doc", title: "Terms And Conditions", disclosure: false) {
+								guard let url = URL(string: AppConstants.termsAndConditions) else { return }
+								openURL(url)
+							}
 						}
 						
 						// Help & Support
 						container(title: "HELP & ABOUT") {
-							row(icon: "info.circle", title: "About", description: "Know more about Lynk")
+							row(icon: "info.circle", title: "About", description: "Know more about Lynk") {
+								showAbout = true
+							}
 							separator()
-							row(icon: "envelope", title: "Contact Support", description: "Reach out to our support team for any assistance")
+							row(icon: "envelope", title: "Contact Support", description: "Reach out to our support team for any assistance") {
+								emailCompose = .support
+							}
 							separator()
 							row(icon: "airplayvideo", title: "How to use the app", description: "Finding it difficult to get started, here are some tips")
 						}
-						Text("Version 1.0.0(12)")
-							.font(.callout)
-							.foregroundStyle(.secondary)
+						if let appVersion = Bundle.main.appVersion, let appBuild = Bundle.main.appBuild {
+							Text("Version \(appVersion)(\(appBuild))")
+								.font(.callout)
+								.foregroundStyle(.secondary)
+						}
 					}
 					.padding()
 				}
 				.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
 			}
+		}
+		.sheet(isPresented: $presentEmailView) {
+			MailComposeView(emailCompose ?? .support) { result in
+				switch result {
+				case .success(let response):
+					print(response)
+					presentEmailView = false
+				case .failure(let error):
+					print("Email Error: \(error.localizedDescription)")
+					break
+				}
+			}
+		}
+		.sheet(isPresented: $showAbout) {
+			VStack {
+				Text("Lynk")
+					.font(.title)
+					.fontDesign(.serif)
+					.fontWeight(.semibold)
+				Text("""
+				 Lynk is a minimal, privacy-focused app that makes it easy to save and share text and URLs. Whether you're collecting notes, saving important links, or quickly sharing something with a friend, Lynk keeps everything local and secure — nothing leaves your device.
+				 """)
+				Spacer()
+				Button {
+					guard let url = URL(string: AppConstants.githubUrl) else { return }
+					showAbout = false
+					openURL(url)
+				} label: {
+					Text("View Project on Github")
+				}
+				.foregroundStyle(Color(uiColor: .systemBackground))
+				.padding()
+				.frame(maxWidth: .infinity)
+				.background(Color.primary)
+				.roundedBorder()
+			}
+			.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+			.padding(.vertical, 24)
+			.padding(.horizontal)
+			.presentationDetents([.fraction(0.4)])
+			.presentationDragIndicator(.visible)
+		}
+		.onChange(of: emailCompose) { value in
+			guard value != nil else { return }
+			openSupportEmail()
 		}
     }
 	
@@ -132,7 +200,7 @@ struct SettingsView: View {
 	
 	// TODO: Pass in the foreground color for icon and text
 	@ViewBuilder
-	private func row(icon: String, title: String, description: String? = nil, disclosure: Bool = true) -> some View {
+	private func row(icon: String, title: String, description: String? = nil, disclosure: Bool = true, action: (() -> Void)? = nil) -> some View {
 		HStack {
 			HStack(alignment: description == nil ? .center : .top) {
 				Image(systemName: icon)
@@ -153,7 +221,12 @@ struct SettingsView: View {
 					.fontWeight(.semibold)
 			}
 		}
+		.frame(maxWidth: .infinity, alignment: .leading)
+		.background()
 		.padding(.vertical, 4)
+		.onTapGesture {
+			action?()
+		}
 	}
 	
 	@ViewBuilder
@@ -161,6 +234,30 @@ struct SettingsView: View {
 		Rectangle()
 			.fill(Color.gray.opacity(0.5))
 			.frame(height: 0.5)
+	}
+	
+	private func openSupportEmail() {
+		if MailComposeModel.canSendMail {
+			presentEmailView = true
+		} else {
+			MailComposeModel.support.sendEmail(openURL: openURL)
+		}
+	}
+	
+	@ViewBuilder
+	private func ShareApp() -> some View {
+		if let appURL = URL(string: AppConstants.appStoreUrl) {
+			ShareLink(
+				item: appURL,
+				subject: Text("YegoB App - Your Rwandan Music companion"),
+				message: Text("Join me on YegoB by downloading the app from App store"),
+				preview: SharePreview("YegoB App", image: Image(.logo))) {
+					row(icon: "square.and.arrow.up", title: "Share the App", description: "Let your friends know about the beauty of this app!", disclosure: false)
+						.foregroundStyle(Color(uiColor: .label))
+				}
+		} else {
+			EmptyView()
+		}
 	}
 }
 
