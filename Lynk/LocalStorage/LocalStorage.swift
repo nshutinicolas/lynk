@@ -38,7 +38,7 @@ class BookmarkStorage: ObservableObject {
 		}
 	}
 	
-	func save(with model: ItemCellView.Model) throws {
+	func save(with model: BookmarkModel) throws {
 		let bookmark = Bookmark(context: container.viewContext)
 		bookmark.id = UUID(uuidString: model.id)
 		bookmark.date = .now
@@ -68,7 +68,7 @@ class BookmarkStorage: ObservableObject {
 		}
 	}
 	
-	func fetchStoredBookmarks() -> [ItemCellView.Model] {
+	func fetchStoredBookmarks() -> [BookmarkModel] {
 		let request: NSFetchRequest<Bookmark> = Bookmark.fetchRequest()
 		do {
 			let bookmarks = try container.viewContext.fetch(request)
@@ -82,7 +82,7 @@ class BookmarkStorage: ObservableObject {
 		}
 	}
 	
-	func deleteStoredBookmark(_ bookmark: ItemCellView.Model) {
+	func deleteStoredBookmark(_ bookmark: BookmarkModel) {
 		let request: NSFetchRequest<Bookmark> = Bookmark.fetchRequest()
 		request.predicate = NSPredicate(format: "id == %@", bookmark.id)
 		do {
@@ -109,7 +109,7 @@ class BookmarkStorage: ObservableObject {
 		}
 	}
 	
-	func findStoredBookmark(_ bookmark: ItemCellView.Model) -> Bookmark? {
+	func findStoredBookmark(_ bookmark: BookmarkModel) -> Bookmark? {
 		let request: NSFetchRequest<Bookmark> = Bookmark.fetchRequest()
 		request.predicate = NSPredicate(format: "id == %@", bookmark.id)
 		do {
@@ -122,7 +122,7 @@ class BookmarkStorage: ObservableObject {
 		}
 	}
 	
-	func searchBookmarks(containingText text: String) -> [ItemCellView.Model] {
+	func searchBookmarks(containingText text: String) -> [BookmarkModel] {
 		let request: NSFetchRequest<Bookmark> = Bookmark.fetchRequest()
 		request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", text)
 		request.predicate = NSPredicate(format: "description CONTAINS[cd] %@", text)
@@ -136,7 +136,7 @@ class BookmarkStorage: ObservableObject {
 	
 	// For Previews only
 	private func addDummyData() {
-		let data: [ItemCellView.Model] = [
+		let data: [BookmarkModel] = [
 			.init(id: UUID().uuidString, category: .text("Text to share or view")),
 			.init(id: UUID().uuidString, category: .url("https://localhost.com")),
 			.init(id: UUID().uuidString, category: .webPage(title: "Title of the website underneath", url: "https://yegob.com", imageUrl: ""))
@@ -149,9 +149,9 @@ class BookmarkStorage: ObservableObject {
 }
 
 extension Bookmark {
-	func createItemCellViewModel(shareable: Bool = false) -> ItemCellView.Model? {
+	func createItemCellViewModel(shareable: Bool = false) -> BookmarkModel? {
 		guard let id, let date, let category, let categoryType = category.type else { return nil }
-		var itemCategory: ItemCellView.Category?
+		var itemCategory: BookmarkModel.Category?
 		switch categoryType {
 		case "text":
 			guard let text = category.textContent else { return nil }

@@ -7,29 +7,36 @@
 
 import SwiftUI
 
-struct ItemCellView: View {
-	struct Model: Identifiable, Hashable {
-		let id: String
-		let category: Category
-		let date: Date
-		let showShareIcon: Bool
-		init(id: String, category: Category, date: Date = .now, showShareIcon: Bool = false) {
-			self.id = id
-			self.category = category
-			self.date = date
-			self.showShareIcon = showShareIcon
-		}
-		
-		static func == (lhs: ItemCellView.Model, rhs: ItemCellView.Model) -> Bool {
-			lhs.id == rhs.id &&
-			lhs.category == rhs.category &&
-			lhs.date == rhs.date &&
-			lhs.showShareIcon == rhs.showShareIcon
-		}
+struct BookmarkModel: Identifiable, Hashable {
+	let id: String
+	let category: Category
+	let date: Date
+	let showShareIcon: Bool
+	init(id: String, category: Category, date: Date = .now, showShareIcon: Bool = false) {
+		self.id = id
+		self.category = category
+		self.date = date
+		self.showShareIcon = showShareIcon
 	}
 	
-	private let model: Model
-	init(model: Model) {
+	static func == (lhs: BookmarkModel, rhs: BookmarkModel) -> Bool {
+		lhs.id == rhs.id &&
+		lhs.category == rhs.category &&
+		lhs.date == rhs.date &&
+		lhs.showShareIcon == rhs.showShareIcon
+	}
+	
+	enum Category: Hashable {
+		case text(String)
+		case url(String)
+		case webPage(title: String, url: String, imageUrl: String?)
+	}
+}
+
+struct ItemCellView: View {
+	
+	private let model: BookmarkModel
+	init(model: BookmarkModel) {
 		self.model = model
 	}
 	
@@ -69,18 +76,12 @@ struct ItemCellView: View {
 		.frame(maxWidth: .infinity)
 	}
 	
-	enum Category: Hashable {
-		case text(String)
-		case url(String)
-		case webPage(title: String, url: String, imageUrl: String?)
-	}
-	
 	// Computed properties
-	private var _shareIconTapped: (Model) -> Void = { _ in }
+	private var _shareIconTapped: (BookmarkModel) -> Void = { _ in }
 }
 
 extension ItemCellView {
-	func shareIconTapped(_ action: @escaping(Model) -> Void) -> Self {
+	func shareIconTapped(_ action: @escaping(BookmarkModel) -> Void) -> Self {
 		var modified = self
 		modified._shareIconTapped = action
 		return modified

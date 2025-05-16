@@ -153,8 +153,8 @@ class ShareViewController: UIViewController {
 	// Doing this as a shortcut
 	@objc(Model)
 	class Model: NSObject {
-		let itemViewModel: ItemCellView.Model
-		init(_ itemViewModel: ItemCellView.Model) {
+		let itemViewModel: BookmarkModel
+		init(_ itemViewModel: BookmarkModel) {
 			self.itemViewModel = itemViewModel
 		}
 	}

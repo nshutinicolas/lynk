@@ -398,7 +398,7 @@ struct AppView: View {
 		}
 	}
 	
-	private func shareBookmark(_ bookmark: ItemCellView.Model) {
+	private func shareBookmark(_ bookmark: BookmarkModel) {
 		// TODO: Implement the share logic
 //		switch bookmark.category {
 //		case .text(let text):
@@ -424,7 +424,7 @@ struct AppView: View {
 		}
 	}
 	
-	private func bookmarkTapped(_ bookmark: ItemCellView.Model) {
+	private func bookmarkTapped(_ bookmark: BookmarkModel) {
 		switch bookmark.category {
 		case .text(let string):
 			print(string)
