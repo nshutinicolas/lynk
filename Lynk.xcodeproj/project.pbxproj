@@ -60,12 +60,16 @@
 				Components/IconView.swift,
 				Components/ItemCellView.swift,
 				Components/RemoteImage.swift,
+				Components/SuccessSaveView.swift,
 				Components/TextBookmarkView.swift,
 				Components/URLBookMark.swift,
 				Constants/Constants.swift,
 				"Extensions/Date+Extension.swift",
+				Extensions/RoundedCorner.swift,
+				Helpers/AppFlag.swift,
 				LocalStorage/Bookmarks.xcdatamodeld,
 				LocalStorage/LocalStorage.swift,
+				Network/Network.swift,
 			);
 			target = 6CF5BE292DA6E65100EFE633 /* LynkBookmark */;
 		};

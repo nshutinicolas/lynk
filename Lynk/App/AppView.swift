@@ -47,6 +47,8 @@ enum SortingPill: Equatable, CaseIterable, Identifiable {
 
 struct AppView: View {
 	@EnvironmentObject private var coordinator: AppCoordinator
+	@Environment(\.managedObjectContext) private var localStorage
+	@Environment(\.openURL) private var openURL
 	
 	// Top Bar
 	@State private var searchText: String = ""
@@ -55,8 +57,6 @@ struct AppView: View {
 	@Namespace private var searchBarAnimation
 	@State private var showSettings = false
 	@FocusState private var searchFieldIsFocused: Bool
-	
-	@Environment(\.managedObjectContext) private var localStorage
 	
 	@FetchRequest(
 		entity: Bookmark.entity(),
@@ -330,6 +330,9 @@ struct AppView: View {
 											.background()
 											.clipShape(.rect(cornerRadius: 8))
 											.shadow(color: .gray.opacity(0.3), radius: 4)
+											.onTapGesture {
+												bookmarkTapped(model)
+											}
 											.contextMenu {
 												Button {
 													
@@ -414,10 +417,25 @@ struct AppView: View {
 //		}
 	}
 	
-#warning("Implement the search functionality of the app")
+	#warning("Implement the search functionality of the app")
 	private func search(for text: String) {
 		if searchText.isEmpty {
 			
+		}
+	}
+	
+	private func bookmarkTapped(_ bookmark: ItemCellView.Model) {
+		switch bookmark.category {
+		case .text(let string):
+			print(string)
+			// TODO: Implement a bottom sheet that will show this text
+			break
+		case .url(let urlString):
+			guard let url = URL(string: urlString) else { return }
+			openURL(url)
+		case .webPage(_, let urlString, _):
+			guard let url = URL(string: urlString) else { return }
+			openURL(url)
 		}
 	}
 }

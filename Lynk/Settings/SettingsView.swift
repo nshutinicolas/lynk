@@ -113,6 +113,10 @@ struct SettingsView: View {
 						}
 						// App
 						container(title: "APP") {
+							row(icon: "square.split.1x2", title: "Show save preview", description: "This will let you see a preview of the data you are about to save in the app", disclosure: false) {
+//								AppReviewRequest.requestReviewManually()
+							}
+							separator()
 							row(icon: "star", title: "Rate the app", description: "Are you enjoying the app? Share your experience with others", disclosure: false) {
 								AppReviewRequest.requestReviewManually()
 							}

@@ -40,6 +40,11 @@ struct ItemCellView: View {
 				case .text(let text):
 					TextBookmarkView(model: .init(text: text, date: model.date))
 				case .url(let url):
+					/**
+					 Idealy we shouldn't have a url save as is.
+					 Possible reasons it happened is saving when no network was available
+					 TODO: Reload this url and transform it to webPage if network is available
+					 */
 					TextBookmarkView(model: .init(text: url, date: model.date))
 				case .webPage(title: let title, url: let url, imageUrl: let iconName):
 					URLBookMark(model: .init(title: title, url: url, date: model.date, icon: iconName))

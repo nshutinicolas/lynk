@@ -35,17 +35,19 @@ struct URLBookMark: View {
 								.padding()
 						}
 						.frame(width: 60, height: 60)
+						.background()
 				} else {
 					IconView(.systemName("globe"))
 						.frame(width: 24, height: 24)
 						.padding()
+						.background(Color.gray.opacity(0.2))
 				}
 			}
-			.background(Color.gray.opacity(0.2))
 			.clipShape(.rect(cornerRadius: 8))
 			VStack(alignment: .leading, spacing: 12) {
 				Text(model.title)
 					.fontWeight(.medium)
+					.lineLimit(3)
 				Text(model.url)
 					.lineLimit(2)
 					.font(.footnote)
