@@ -38,7 +38,7 @@ class BookmarkStorage: ObservableObject {
 		}
 	}
 	
-	func save(with model: BookmarkModel) throws {
+	func save(model: BookmarkModel) throws {
 		let bookmark = Bookmark(context: container.viewContext)
 		bookmark.id = UUID(uuidString: model.id)
 		bookmark.date = .now
@@ -143,7 +143,7 @@ class BookmarkStorage: ObservableObject {
 		]
 		deleteAllStoredBookmarks()
 		for item in data {
-			try? save(with: item)
+			try? save(model: item)
 		}
 	}
 }

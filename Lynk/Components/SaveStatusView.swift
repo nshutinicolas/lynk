@@ -7,19 +7,19 @@
 
 import SwiftUI
 
-enum SaveStatus {
+enum SaveStatus: Equatable {
 	case loading
 	case success
 	case error(SaveError)
 }
 
-enum SaveError: Error {
+enum SaveError: Error, Equatable {
 	case invalidType
 	case invalidInputItems
 	case invalidData
 	case custom(String)
 	
-	var errorDescription: String? {
+	var errorDescription: String {
 		switch self {
 		case .invalidType:
 			return "Unsupported type"
@@ -33,12 +33,12 @@ enum SaveError: Error {
 	}
 }
 
-struct SuccessSaveView: View {
+struct SaveStatusView: View {
 	@State private var scale: CGFloat = 0
-	@Binding private var status: SaveStatus
+	private var status: SaveStatus
 	
-	init(status: Binding<SaveStatus>) {
-		self._status = status
+	init(status: SaveStatus) {
+		self.status = status
 	}
 	
 	var body: some View {
@@ -91,9 +91,9 @@ struct SuccessSaveView: View {
 		.task {
 #if targetEnvironment(simulator)
 			try? await Task.sleep(nanoseconds: 1000_000_000)
-			status = .success
+//			status = .success
 			try? await Task.sleep(nanoseconds: 2000_000_000)
-			status = .error(.invalidInputItems)
+//			status = .error(.invalidInputItems)
 #endif
 		}
 	}
@@ -102,5 +102,5 @@ struct SuccessSaveView: View {
 @available(iOS 17.0, *)
 #Preview {
 	@Previewable @State var status: SaveStatus = .loading
-	return SuccessSaveView(status: $status)
+	return SaveStatusView(status: status)
 }

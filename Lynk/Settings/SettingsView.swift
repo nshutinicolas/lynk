@@ -15,6 +15,10 @@ struct SettingsView: View {
 	@EnvironmentObject private var appTheme: AppTheme
 	@EnvironmentObject private var storage: BookmarkStorage
 	
+	// Flag
+	@Flag(.showSavePreview) private var showSavePreview
+	@State private var showSavePreviewLocalValue: Bool = false
+	
 	// State properties
 	@State private var presentEmailView = false
 	@State private var showAbout = false
@@ -113,9 +117,27 @@ struct SettingsView: View {
 						}
 						// App
 						container(title: "APP") {
-							row(icon: "square.split.1x2", title: "Show save preview", description: "This will let you see a preview of the data you are about to save in the app", disclosure: false) {
-//								AppReviewRequest.requestReviewManually()
+							HStack {
+								HStack(alignment: .top) {
+									Image(systemName: "square.split.1x2")
+										.padding(8)
+										.roundedBorder(color: .gray.opacity(0.3))
+									VStack(alignment: .leading, spacing: 4) {
+										Text("Show save preview")
+										Text("This will let you see a preview of the data you are about to save in the app")
+											.font(.caption)
+											.foregroundStyle(.secondary)
+											.multilineTextAlignment(.leading)
+									}
+									.frame(maxWidth: .infinity, alignment: .leading)
+								}
+								.frame(maxWidth: .infinity, alignment: .leading)
+								Toggle(isOn: $showSavePreviewLocalValue) { }
+									.frame(maxWidth: 40)
 							}
+							.frame(maxWidth: .infinity, alignment: .leading)
+							.background()
+							.padding(.vertical, 4)
 							separator()
 							row(icon: "star", title: "Rate the app", description: "Are you enjoying the app? Share your experience with others", disclosure: false) {
 								AppReviewRequest.requestReviewManually()
@@ -216,6 +238,14 @@ struct SettingsView: View {
 			}
 		} message: {
 			Text("Are you sure you want to delete all the stored data?\nThis action cannot be undone.")
+		}
+		// Migrate this to the view model
+		.onAppear {
+			showSavePreviewLocalValue = showSavePreview
+		}
+		.onChange(of: showSavePreviewLocalValue) { value in
+			guard value != showSavePreview else { return } // Prevent overwriting when it is the same value
+			showSavePreview = value
 		}
     }
 	

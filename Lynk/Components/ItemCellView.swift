@@ -31,11 +31,17 @@ struct BookmarkModel: Identifiable, Hashable {
 		case url(String)
 		case webPage(title: String, url: String, imageUrl: String?)
 	}
+	
+	static let mockData: [BookmarkModel] = [
+		BookmarkModel(id: UUID().uuidString, category: .text("This is the text value")),
+		BookmarkModel(id: UUID().uuidString, category: .url("https://ibirori.rw/event/hahiye-kwa-popo")),
+		BookmarkModel(id: UUID().uuidString, category: .webPage(title: "The we title that is kinder longer", url: "https://ibirori.rw/event/hahiye-kwa-popo", imageUrl: "https://github.com/favicon.ico"))
+	]
 }
 
 struct ItemCellView: View {
-	
 	private let model: BookmarkModel
+	
 	init(model: BookmarkModel) {
 		self.model = model
 	}
