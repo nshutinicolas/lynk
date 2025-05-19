@@ -9,19 +9,53 @@ import SwiftUI
 
 class ExtensionShareViewModel: ObservableObject {
 	@Flag(.showSavePreview) private(set) var showSavePreview
+	
+	private var localStorage = BookmarkStorage.shared
+	
 	@Published var saveStatus: SaveStatus = .loading
 	@Published var showSavePreviewOverlay: Bool = false
 	@Published var model: BookmarkModel?
 	
 	private let network = Network.shared
+	private var saveTask: Task<Void, Never>?
 	
 	init() { }
+	
+	deinit{
+		saveTask?.cancel()
+	}
 	
 	/// Change the value for `saveStatus`
 	/// - Parameter status: `SaveStatus`
 	@MainActor
 	func updateSaveStatus(to status: SaveStatus) {
 		saveStatus = status
+	}
+	
+	@MainActor
+	func updateOverlayVisibility(_ visible: Bool) {
+		showSavePreviewOverlay = visible
+	}
+	
+	func saveBookmark(_ model: BookmarkModel, completion: @escaping () -> Void) {
+		guard saveTask == nil else { return }
+		saveTask = Task {
+			do {
+				await updateOverlayVisibility(true)
+				try localStorage.save(model: model)
+				await updateSaveStatus(to: .success)
+				// Introduce in a little delay in-between
+				try? await Task.sleep(for: .seconds(2))
+				completion()
+			} catch {
+				await updateOverlayVisibility(true)
+				await updateSaveStatus(to: .error(.custom(error.localizedDescription)))
+				// Introduce in a little delay in-between
+				try? await Task.sleep(for: .seconds(2))
+				completion()
+			}
+			saveTask = nil
+		}
 	}
 	
 	@MainActor
@@ -114,8 +148,6 @@ class ExtensionShareViewModel: ObservableObject {
 
 struct ExtensionShareView: View {
 	@Flag(.showSavePreview) private var showSavePreview
-	// Using it this way as a hack to make it shared with the extension
-	private var localStorage = BookmarkStorage.shared
 	
 	@ObservedObject private var viewModel = ExtensionShareViewModel()
 	
@@ -148,20 +180,31 @@ struct ExtensionShareView: View {
 							}
 					}
 					.frame(maxWidth: .infinity, alignment: .trailing)
-					if let model = viewModel.model {
-						ItemCellView(model: model)
+					VStack {
+						if let model = viewModel.model {
+							ItemCellView(model: model)
+								.transition(.move(edge: .bottom).combined(with: .opacity))
+						} else {
+							ProgressView()
+								.controlSize(.regular)
+								.frame(width: 48, height: 48)
+								.transition(.opacity)
+						}
 					}
+					.animation(.default, value: viewModel.model)
 					Button {
 						// When user attampts to save a non-existing bookmark, show an error/warning or inform them
 						guard let model = viewModel.model else { return }
-						saveBookmark(model)
+						viewModel.saveBookmark(model) {
+							onClose()
+						}
 					} label: {
 						Label("Bookmark", systemImage: "square.and.arrow.down")
 							.fontWeight(.medium)
 							.foregroundStyle(.white)
+							.frame(maxWidth: .infinity)
 					}
 					.padding(.vertical, 12)
-					.frame(maxWidth: .infinity)
 					.background(Color.blue)
 					.roundedBorder()
 					.padding(.bottom)
@@ -186,28 +229,13 @@ struct ExtensionShareView: View {
 		.onChange(of: viewModel.model) { model in
 			guard let model else { return }
 			if viewModel.showSavePreview == false {
-				saveBookmark(model)
+				viewModel.saveBookmark(model) {
+					onClose()
+				}
 			}
 		}
 		.task {
 			await viewModel.getSharedContent(with: context)
-		}
-	}
-	
-	private func saveBookmark(_ model: BookmarkModel) {
-		Task {
-			do {
-				try localStorage.save(model: model)
-				viewModel.updateSaveStatus(to: .success)
-				// Introduce in a little delay in-between
-				try? await Task.sleep(for: .seconds(2))
-				onClose()
-			} catch {
-				viewModel.updateSaveStatus(to: .error(.custom(error.localizedDescription)))
-				// Introduce in a little delay in-between
-				try? await Task.sleep(for: .seconds(2))
-				onClose()
-			}
 		}
 	}
 }
