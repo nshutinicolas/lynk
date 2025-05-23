@@ -1,5 +1,5 @@
 //
-//  URLBookMark.swift
+//  WebPageBookmark.swift
 //  Keep Track
 //
 //  Created by Musoni nshuti Nicolas on 28/03/2025.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct URLBookMark: View {
+struct WebPageBookmark: View {
 	struct Model {
 		let title: String
 		let url: String
@@ -63,7 +63,7 @@ struct URLBookMark: View {
 }
 
 #Preview {
-	URLBookMark(model: .init(
+	WebPageBookmark(model: .init(
 		title: "Title of the article",
 		url: "https://ibirori.rw",
 		icon: "https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg"

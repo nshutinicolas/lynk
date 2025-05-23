@@ -39,10 +39,15 @@ struct IconView: View {
 }
 
 #Preview("Icon") {
-	IconView(.systemName("house"))
-		.foregroundStyle(.white)
-		.padding()
-		.background(Color.red)
-		.clipShape(.rect(cornerRadius: 8))
-		.frame(width: 100, height: 100)
+	VStack {
+		IconView(.systemName("house"))
+			.foregroundStyle(.white)
+			.padding()
+			.background(Color.red)
+			.clipShape(.rect(cornerRadius: 8))
+			.frame(width: 100, height: 100)
+//		IconView(.remote(""))
+		IconView(.image(UIImage(systemName: "house")!))
+			.frame(width: 100, height: 100)
+	}
 }

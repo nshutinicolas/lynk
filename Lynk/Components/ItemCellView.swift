@@ -60,7 +60,7 @@ struct ItemCellView: View {
 					 */
 					TextBookmarkView(model: .init(text: url, date: model.date))
 				case .webPage(title: let title, url: let url, imageUrl: let iconName):
-					URLBookMark(model: .init(title: title, url: url, date: model.date, icon: iconName))
+					WebPageBookmark(model: .init(title: title, url: url, date: model.date, icon: iconName))
 				}
 			}
 			if model.showShareIcon {
