@@ -28,13 +28,13 @@ struct BookmarkModel: Identifiable, Hashable {
 	
 	enum Category: Hashable {
 		case text(String)
-		case url(String)
+		case url(url: String, title: String? = nil)
 		case webPage(title: String, url: String, imageUrl: String?)
 	}
 	
 	static let mockData: [BookmarkModel] = [
 		BookmarkModel(id: UUID().uuidString, category: .text("This is the text value")),
-		BookmarkModel(id: UUID().uuidString, category: .url("https://ibirori.rw/event/hahiye-kwa-popo")),
+		BookmarkModel(id: UUID().uuidString, category: .url(url: "https://ibirori.rw/event/hahiye-kwa-popo", title: "Ibirori event")),
 		BookmarkModel(id: UUID().uuidString, category: .webPage(title: "The we title that is kinder longer", url: "https://ibirori.rw/event/hahiye-kwa-popo", imageUrl: "https://github.com/favicon.ico"))
 	]
 }
@@ -52,13 +52,13 @@ struct ItemCellView: View {
 				switch model.category {
 				case .text(let text):
 					TextBookmarkView(model: .init(text: text, date: model.date))
-				case .url(let url):
+				case .url(let url, let title):
 					/**
 					 Idealy we shouldn't have a url save as is.
 					 Possible reasons it happened is saving when no network was available
 					 TODO: Reload this url and transform it to webPage if network is available
 					 */
-					TextBookmarkView(model: .init(text: url, date: model.date))
+					URLBookmark(model: .init(url: url, text: title))
 				case .webPage(title: let title, url: let url, imageUrl: let iconName):
 					WebPageBookmark(model: .init(title: title, url: url, date: model.date, icon: iconName))
 				}
@@ -97,7 +97,7 @@ extension ItemCellView {
 #Preview("Cell view") {
 	VStack(spacing: 16) {
 		ItemCellView(model: .init(id: "1", category: .text("Hello text")))
-		ItemCellView(model: .init(id: "2", category: .url("https://ibirori.rw")))
+		ItemCellView(model: .init(id: "2", category: .url(url: "https://ibirori.rw", title: "Ibirori event")))
 		ItemCellView(model: .init(id: "5", category: .webPage(title: "Who knew that this would happen", url: "https://yegob.rw/who-knew-this-would-happen", imageUrl: "house")))
 		ItemCellView(model: .init(id: "7", category: .webPage(title: "YegoB News Feed", url: "https://yegob.rw/news-feed", imageUrl: "https://picsum.photos/200/300"), date: .now, showShareIcon: true))
 	}

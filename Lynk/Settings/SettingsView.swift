@@ -86,10 +86,12 @@ struct SettingsView: View {
 						}
 						// Data
 						container(title: "DATA") {
+#if DEBUG
 							row(icon: "icloud", title: "iCloud Sync", description: "Sync with your icloud to access your data across devices.", disclosure: true)
 							separator()
 							row(icon: "faceid", title: "Biometric Authentication", description: "Protect your data on this app", disclosure: true)
 							separator()
+#endif
 							// TODO: Refactor row to allow passing custom components ie support this
 							HStack {
 								HStack(alignment: .top) {

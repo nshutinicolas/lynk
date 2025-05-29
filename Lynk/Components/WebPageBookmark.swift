@@ -33,6 +33,8 @@ struct WebPageBookmark: View {
 							IconView(.systemName("globe"))
 								.frame(width: 24, height: 24)
 								.padding()
+								.background(Color.gray.opacity(0.2))
+								.clipShape(.rect(cornerRadius: 8))
 						}
 						.frame(width: 60, height: 60)
 						.background()
@@ -41,6 +43,7 @@ struct WebPageBookmark: View {
 						.frame(width: 24, height: 24)
 						.padding()
 						.background(Color.gray.opacity(0.2))
+						.clipShape(.rect(cornerRadius: 8))
 				}
 			}
 			.clipShape(.rect(cornerRadius: 8))
@@ -63,10 +66,17 @@ struct WebPageBookmark: View {
 }
 
 #Preview {
-	WebPageBookmark(model: .init(
-		title: "Title of the article",
-		url: "https://ibirori.rw",
-		icon: "https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg"
-	))
+	VStack {
+		WebPageBookmark(model: .init(
+			title: "Title of the article",
+			url: "https://ibirori.rw",
+			icon: "https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg"
+		))
+		WebPageBookmark(model: .init(
+			title: "Title of the article",
+			url: "https://ibirori.rw",
+			icon: nil
+		))
+	}
 	.frame(maxWidth: .infinity)
 }

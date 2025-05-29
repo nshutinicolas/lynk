@@ -46,7 +46,6 @@ struct IconView: View {
 			.background(Color.red)
 			.clipShape(.rect(cornerRadius: 8))
 			.frame(width: 100, height: 100)
-//		IconView(.remote(""))
 		IconView(.image(UIImage(systemName: "house")!))
 			.frame(width: 100, height: 100)
 	}

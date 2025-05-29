@@ -115,7 +115,7 @@ class ExtensionShareViewModel: ObservableObject {
 					}
 					model = BookmarkModel(id: UUID().uuidString, category: .webPage(title: title , url: url.absoluteString, imageUrl: iconUrl))
 				} catch {
-					model = BookmarkModel(id: UUID().uuidString, category: .url(url.absoluteString))
+					model = BookmarkModel(id: UUID().uuidString, category: .url(url: url.absoluteString))
 				}
 			} else {
 				throw SaveError.invalidData

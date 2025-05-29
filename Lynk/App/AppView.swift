@@ -8,14 +8,14 @@
 import SwiftUI
 
 enum SortingPill: Equatable, CaseIterable, Identifiable {
-	case Scheduled
+	case scheduled
 	case all
 	case text
 	case web
 	
 	var id: String {
 		switch self {
-		case .Scheduled: return "scheduled"
+		case .scheduled: return "scheduled"
 		case .all: return "all"
 		case .text: return "text"
 		case .web: return "web"
@@ -24,7 +24,7 @@ enum SortingPill: Equatable, CaseIterable, Identifiable {
 	
 	var title: String {
 		switch self {
-		case .Scheduled:
+		case .scheduled:
 			return "Scheduled"
 		case .all:
 			return "All"
@@ -37,7 +37,7 @@ enum SortingPill: Equatable, CaseIterable, Identifiable {
 	
 	var iconName: String {
 		switch self {
-		case .Scheduled: return "clock"
+		case .scheduled: return "clock"
 		case .all: return "list.bullet"
 		case .text: return "textformat"
 		case .web: return "safari"
@@ -57,6 +57,26 @@ struct AppView: View {
 	@Namespace private var searchBarAnimation
 	@State private var showSettings = false
 	@FocusState private var searchFieldIsFocused: Bool
+	
+	private var filteredBookmarks: [Bookmark] {
+		guard !searchText.isEmpty else {
+			return Array(bookmarksFetch)
+		}
+		
+		return Array(bookmarksFetch).filter { bookmark in
+			let model = bookmark.createItemCellViewModel()
+			switch model?.category {
+			case .text(let text):
+				return text.lowercased().contains(searchText.lowercased())
+			case .url(let url, let title):
+				return url.lowercased().contains(searchText.lowercased()) || ((title?.lowercased().contains(searchText.lowercased())) != nil)
+			case .webPage(let title, let url , _):
+				return title.lowercased().contains(searchText.lowercased()) || url.lowercased().contains(searchText.lowercased())
+			default:
+				return false
+			}
+		}
+	}
 	
 	@FetchRequest(
 		entity: Bookmark.entity(),
@@ -138,136 +158,8 @@ struct AppView: View {
 					}
 				}
 				.padding([.horizontal, .top])
-				/*
-				HStack(spacing: 16) {
-//					if showSearchBar == false {
-//						Text("Lynk")
-//							.font(.title)
-//							.frame(maxWidth: .infinity, alignment: .leading)
-//					}
-					ZStack {
-						if showSearchBar {
-							HStack {
-								HStack {
-									TextField("Search bookmark", text: $searchText)
-										.padding(.vertical, 10)
-										.padding(.horizontal, 8)
-									Image(systemName: "xmark")
-										.font(.footnote)
-										.padding(8)
-										.background(Color.gray.opacity(0.2))
-										.clipShape(.circle)
-										.padding(4)
-										.onTapGesture {
-											searchText = ""
-										}
-								}
-								.roundedBorder(color: .gray.opacity(0.8), lineWidth: 1)
-								Image(systemName: "xmark")
-									.font(.title3)
-									.padding(10)
-									.onTapGesture {
-										withAnimation {
-											showSearchBar = false
-										}
-									}
-									.roundedBorder(color: .gray.opacity(0.8), lineWidth: 1)
-							}
-						} else {
-							if bookmarksFetch.isEmpty == false {
-								Image(systemName: "magnifyingglass")
-									.font(.title3)
-									.onTapGesture {
-										withAnimation {
-											showSearchBar = true
-										}
-									}
-									.padding(10)
-									.roundedBorder(color: .gray.opacity(0.8), lineWidth: 1)
-							}
-						}
-					}
-					if showSearchBar == false {
-						Image(systemName: "gearshape")
-							.font(.title3)
-							.rotationEffect(.degrees(rotateSettingsIcon ? 180 : 0))
-							.animation(.default, value: rotateSettingsIcon)
-							.onTapGesture {
-								rotateSettingsIcon.toggle()
-								showSettings = true
-							}
-							.padding(10)
-							.roundedBorder(color: .gray.opacity(0.8), lineWidth: 1)
-					}
-				}
-				.frame(maxWidth: .infinity, alignment: .trailing)
-				.padding(.horizontal)
-				 */
-				/*
-				HStack {
-					if showSearchBar {
-						HStack {
-							HStack {
-								TextField("Search bookmark", text: $searchText)
-									.padding(.vertical, 12)
-									.padding(.horizontal, 8)
-								Image(systemName: "xmark")
-									.font(.footnote)
-									.padding(8)
-									.background(Color.gray.opacity(0.2))
-									.clipShape(.circle)
-									.padding(4)
-									.onTapGesture {
-										searchText = ""
-									}
-							}
-							.overlay {
-								RoundedRectangle(cornerRadius: 8)
-									.stroke(lineWidth: 0.5)
-									.fill(Color.gray.opacity(0.6))
-							}
-							Image(systemName: "xmark")
-								.font(.title3)
-								.padding(8)
-								.onTapGesture {
-									withAnimation {
-										showSearchBar = false
-									}
-								}
-						}
-						.animation(.interactiveSpring, value: showSearchBar)
-					} else {
-						HStack {
-							Text("Lynk")
-								.font(.title)
-								.frame(maxWidth: .infinity)
-							HStack(spacing: 16) {
-								if bookmarksFetch.isEmpty == false {
-									Image(systemName: "magnifyingglass")
-										.font(.title2)
-										.onTapGesture {
-											withAnimation {
-												showSearchBar = true
-											}
-										}
-								}
-								Image(systemName: "gearshape")
-									.font(.title2)
-									.rotationEffect(.degrees(rotateSettingsIcon ? 180 : 0))
-									.animation(.default, value: rotateSettingsIcon)
-									.onTapGesture {
-										rotateSettingsIcon.toggle()
-									}
-							}
-							.padding(.vertical, 10)
-						}
-						.animation(.interactiveSpring, value: showSearchBar == false)
-					}
-				}
-				.padding([.horizontal, .top])
-				.padding(.bottom, 4)
-				 */
-				if bookmarksFetch.isEmpty {
+				
+				if filteredBookmarks.isEmpty {
 					VStack {
 						Image(systemName: "paperclip.badge.ellipsis")
 							.font(.largeTitle)
@@ -296,32 +188,10 @@ struct AppView: View {
 				} else {
 					VStack(spacing: 0) {
 						List {
-							/*
 							Section {
-								ScrollView(.horizontal, showsIndicators: false) {
-									HStack {
-										ForEach(SortingPill.allCases, id: \.self) { pill in
-											HStack {
-												IconView(.systemName(pill.iconName))
-													.frame(width: 16, height: 16)
-												Text(pill.title)
-											}
-											.padding(.vertical, 8)
-											.padding(.leading, 8)
-											.padding(.trailing, 16)
-											.background(Color.gray.opacity(0.2))
-											.clipShape(.capsule)
-										}
-									}
-								}
-							}
-							.listRowSeparator(.hidden)
-							.listRowInsets(.init(edge: 0))
-							.padding(.vertical)
-							 */
-							Section {
-								ForEach(bookmarksFetch, id: \.self) { bookmark in
-									if let model = bookmark.createItemCellViewModel(shareable: true) {
+								ForEach(filteredBookmarks, id: \.self) { bookmark in
+									// TODO: Change to shareable after implementing the share sheet
+									if let model = bookmark.createItemCellViewModel(shareable: false) {
 										ItemCellView(model: model)
 											.shareIconTapped { item in
 												shareBookmark(item)
@@ -350,9 +220,6 @@ struct AppView: View {
 													Label("Delete", systemImage: "trash")
 														.tint(Color.red)
 												}
-											} preview: {
-												ItemCellView(model: model)
-													.padding()
 											}
 									}
 								}
@@ -371,9 +238,6 @@ struct AppView: View {
 		}
 		.onChange(of: showSearchBar) { value in
 			searchFieldIsFocused = value
-		}
-		.onChange(of: searchText) { value in
-			search(for: value)
 		}
 	}
 	
@@ -400,27 +264,17 @@ struct AppView: View {
 	
 	private func shareBookmark(_ bookmark: BookmarkModel) {
 		// TODO: Implement the share logic
-//		switch bookmark.category {
-//		case .text(let text):
-//			ShareLink(item: text, subject: Text(text))
-//		case .url(let stringUrl):
-//			if let url = URL(string: stringUrl) {
-//				ShareLink(item: url, subject: Text(stringUrl))
-//			} else {
-//				ShareLink(item: stringUrl, subject: Text(stringUrl))
-//			}
-//		case .webPage(let title, let url, let imageUrl):
-//			if let url = URL(string: url) {
-//				ShareLink(item: url, subject: Text(title), preview: SharePreview(""))
-//			}
-//			ShareLink(item: URL(string: url), subject: Text(title)
-//		}
-	}
-	
-	#warning("Implement the search functionality of the app")
-	private func search(for text: String) {
-		if searchText.isEmpty {
-			
+		switch bookmark.category {
+		case .text(let text):
+			ShareSheetHelper.present(items: [text])
+		case .url(let stringUrl, let title):
+			if let url = URL(string: stringUrl) {
+				ShareSheetHelper.present(items: [url])
+			} else {
+				ShareSheetHelper.present(items: [stringUrl, title ?? "No title"])
+			}
+		case .webPage(let title, let url, _):
+			ShareSheetHelper.present(items: [title, url])
 		}
 	}
 	
@@ -430,7 +284,7 @@ struct AppView: View {
 			print(string)
 			// TODO: Implement a bottom sheet that will show this text
 			break
-		case .url(let urlString):
+		case .url(let urlString, _):
 			guard let url = URL(string: urlString) else { return }
 			openURL(url)
 		case .webPage(_, let urlString, _):
@@ -445,4 +299,21 @@ struct AppView: View {
 	AppView()
 		.environmentObject(AppCoordinator())
 		.environment(\.managedObjectContext, context)
+}
+
+// TODO: Revisit this when implementing the share icon action
+struct ShareSheetHelper {
+	static func present(items: [Any]) {
+		let keyWindow = UIApplication.shared.connectedScenes
+			.filter({$0.activationState == .foregroundActive})
+			.map({$0 as? UIWindowScene})
+			.compactMap({$0})
+			.first?.windows
+			.filter({$0.isKeyWindow}).first
+		
+		if let rootViewController = keyWindow?.rootViewController {
+			let activityViewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
+			rootViewController.present(activityViewController, animated: true)
+		}
+	}
 }

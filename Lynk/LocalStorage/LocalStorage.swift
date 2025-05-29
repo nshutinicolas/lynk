@@ -48,8 +48,9 @@ class BookmarkStorage: ObservableObject {
 		case .text(let text):
 			category.type = "text"
 			category.textContent = text
-		case .url(let urlString):
+		case .url(let urlString, let title):
 			category.type = "url"
+			category.textContent = title
 			category.urlContent = urlString
 		case .webPage(let title, let url, let imageUrl):
 			category.type = "web"
@@ -138,7 +139,7 @@ class BookmarkStorage: ObservableObject {
 	private func addDummyData() {
 		let data: [BookmarkModel] = [
 			.init(id: UUID().uuidString, category: .text("Text to share or view")),
-			.init(id: UUID().uuidString, category: .url("https://localhost.com")),
+			.init(id: UUID().uuidString, category: .url(url: "https://localhost.com", title: nil)),
 			.init(id: UUID().uuidString, category: .webPage(title: "Title of the website underneath", url: "https://yegob.com", imageUrl: ""))
 		]
 		deleteAllStoredBookmarks()
@@ -158,7 +159,7 @@ extension Bookmark {
 			itemCategory = .text(text)
 		case "url":
 			guard let urlString = category.urlContent else { return nil }
-			itemCategory = .url(urlString)
+			itemCategory = .url(url: urlString, title: category.textContent)
 		case "web":
 			guard let text = category.textContent,
 				  let url = category.urlContent,
