@@ -71,7 +71,7 @@
 				Helpers/AppFlag.swift,
 				LocalStorage/Bookmarks.xcdatamodeld,
 				LocalStorage/LocalStorage.swift,
-				Network/Network.swift,
+				Network/WebPageMetadata.swift,
 			);
 			target = 6CF5BE292DA6E65100EFE633 /* LynkBookmark */;
 		};

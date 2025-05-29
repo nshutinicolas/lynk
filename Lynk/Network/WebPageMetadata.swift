@@ -1,5 +1,5 @@
 //
-//  Network.swift
+//  WebPageMetadata.swift
 //  Lynk
 //
 //  Created by Musoni nshuti Nicolas on 16/05/2025.
@@ -7,8 +7,8 @@
 
 import Foundation
 
-class Network {
-	static let shared = Network()
+class WebPageMetadata {
+	static let shared = WebPageMetadata()
 	
 	private init() {}
 	

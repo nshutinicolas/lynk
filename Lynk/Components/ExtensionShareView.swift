@@ -16,7 +16,7 @@ class ExtensionShareViewModel: ObservableObject {
 	@Published var showSavePreviewOverlay: Bool = false
 	@Published var model: BookmarkModel?
 	
-	private let network = Network.shared
+	private let network = WebPageMetadata.shared
 	private var saveTask: Task<Void, Never>?
 	
 	init() { }
