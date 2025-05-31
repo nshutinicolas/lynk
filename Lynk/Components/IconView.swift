@@ -19,9 +19,15 @@ struct IconView: View {
 	var body: some View {
 		switch iconType {
 		case .image(let image):
+			#if os(macOS)
+			Image(nsImage: image)
+				.resizable()
+				.aspectRatio(contentMode: contentMode)
+			#else
 			Image(uiImage: image)
 				.resizable()
 				.aspectRatio(contentMode: contentMode)
+			#endif
 		case .systemName(let icon):
 			Image(systemName: icon)
 				.resizable()
@@ -33,7 +39,7 @@ struct IconView: View {
 	
 	enum IconType {
 		case systemName(String)
-		case image(UIImage)
+		case image(PlatformImage)
 		case remote(String)
 	}
 }
@@ -46,7 +52,12 @@ struct IconView: View {
 			.background(Color.red)
 			.clipShape(.rect(cornerRadius: 8))
 			.frame(width: 100, height: 100)
+		#if os(macOS)
+		IconView(.image(NSImage(systemSymbolName: "house", accessibilityDescription: "House")!))
+			.frame(width: 100, height: 100)
+		#else
 		IconView(.image(UIImage(systemName: "house")!))
 			.frame(width: 100, height: 100)
+		#endif
 	}
 }

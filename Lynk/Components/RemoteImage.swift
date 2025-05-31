@@ -42,9 +42,15 @@ struct RemoteImage<Placeholder: View, ErrorView: View>: View {
 						.animation(.easeOut, value: loader.loadingState != .loading)
 				}
 			case .loaded(let image):
+#if os(macOS)
+				Image(nsImage: image)
+					.resizable()
+					.animation(.easeIn(duration: 0.5), value: loader.loadingState != .loading)
+#else
 				Image(uiImage: image)
 					.resizable()
 					.animation(.easeIn(duration: 0.5), value: loader.loadingState != .loading)
+#endif
 			case .failed:
 				if let errorView {
 					errorView
@@ -91,68 +97,5 @@ extension RemoteImage {
 			.frame(width: 300, height: 220)
 			.background(Color.gray.opacity(0.3))
 			.clipShape(.rect(cornerRadius: 8))
-	}
-}
-
-final class ImageCache {
-	static let shared = ImageCache()
-	
-	private let cache = NSCache<NSString, UIImage>()
-	
-	private init() { }
-	
-	func get(forKey key: String) -> UIImage? {
-		cache.object(forKey: key as NSString)
-	}
-	
-	func set(_ image: UIImage, forKey key: String) {
-		cache.setObject(image, forKey: key as NSString)
-	}
-}
-
-final class ImageLoader: ObservableObject {
-	enum LoadingState: Equatable {
-		case loading
-		case loaded(UIImage)
-		case failed
-	}
-	@Published var loadingState = LoadingState.loading
-	
-	init() { }
-	
-	// Private
-	private var cancellable: AnyCancellable?
-	private let cache = ImageCache.shared
-	
-	deinit {
-		cancellable?.cancel()
-	}
-	
-	func load(for urlString: String) {
-		if let cachedImage = ImageCache.shared.get(forKey: urlString) {
-			DispatchQueue.main.async { [weak self] in
-				self?.loadingState = .loaded(cachedImage)
-			}
-			return
-		}
-		
-		guard let url = URL(string: urlString) else {
-			DispatchQueue.main.async { [weak self] in
-				self?.loadingState = .failed
-			}
-			return
-		}
-		cancellable = URLSession.shared.dataTaskPublisher(for: url)
-			.map { UIImage(data: $0.data) }
-			.replaceError(with: nil)
-			.receive(on: DispatchQueue.main)
-			.sink { [weak self] downloaded in
-				guard let self, let downloaded else {
-					self?.loadingState = .failed
-					return
-				}
-				self.cache.set(downloaded, forKey: urlString)
-				self.loadingState = .loaded(downloaded)
-			}
 	}
 }
