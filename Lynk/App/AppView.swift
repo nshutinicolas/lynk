@@ -58,6 +58,8 @@ struct AppView: View {
 	@State private var showSettings = false
 	@FocusState private var searchFieldIsFocused: Bool
 	
+	@State private var displayMode: DisplayMode = .list
+	
 	private var filteredBookmarks: [Bookmark] {
 		guard !searchText.isEmpty else {
 			return Array(bookmarksFetch)
@@ -93,7 +95,7 @@ struct AppView: View {
 						.fontDesign(.serif)
 						.fontWeight(.semibold)
 				}
-				.frame(maxWidth: .infinity, alignment: .center)
+				.frame(maxWidth: .infinity, alignment: .leading)
 				.overlay(alignment: .trailing) {
 					HStack {
 						ZStack {
@@ -130,30 +132,22 @@ struct AppView: View {
 								.matchedGeometryEffect(id: "SEARCH_BAR", in: searchBarAnimation)
 							} else {
 								if bookmarksFetch.isEmpty == false {
-									Image(systemName: "magnifyingglass")
-										.font(.title3)
-										.onTapGesture {
-											withAnimation {
-												showSearchBar = true
-											}
-										}
-										.padding(10)
-										.roundedBorder(color: .gray.opacity(0.8), lineWidth: 1)
+									navIcon("magnifyingglass")
 										.matchedGeometryEffect(id: "SEARCH_BAR", in: searchBarAnimation)
 								}
 							}
 						}
 						if showSearchBar == false {
-							Image(systemName: "gearshape")
-								.font(.title3)
-								.rotationEffect(.degrees(rotateSettingsIcon ? 180 : 0))
-								.animation(.default, value: rotateSettingsIcon)
+							navIcon(displayMode == .list ? "list.bullet" : "square.grid.2x2" )
+								.animation(.spring, value: displayMode)
+								.onTapGesture {
+									displayMode = displayMode.toggle
+								}
+							navIcon("gearshape")
 								.onTapGesture {
 									rotateSettingsIcon.toggle()
 									showSettings = true
 								}
-								.padding(10)
-								.roundedBorder(color: .gray.opacity(0.8), lineWidth: 1)
 						}
 					}
 				}
@@ -239,6 +233,15 @@ struct AppView: View {
 		.onChange(of: showSearchBar) { value in
 			searchFieldIsFocused = value
 		}
+		.onAppear {
+			@Cached<String>(.layout) var layout
+			guard let layout, let displayMode = DisplayMode(rawValue: layout) else { return }
+			self.displayMode = displayMode
+		}
+		.onChange(of: displayMode) { newValue in
+			@Cached<String>(.layout) var layout
+			layout = newValue.rawValue
+		}
 	}
 	
 	private func deleteBookmark(_ bookmark: Bookmark) {
@@ -290,6 +293,29 @@ struct AppView: View {
 		case .webPage(_, let urlString, _):
 			guard let url = URL(string: urlString) else { return }
 			openURL(url)
+		}
+	}
+	
+	@ViewBuilder
+	private func navIcon(_ icon: String) -> some View {
+		Image(systemName: icon)
+			.resizable()
+			.frame(width: 20, height: 20)
+			.padding(12)
+			.roundedBorder(color: .gray.opacity(0.8))
+	}
+}
+
+extension AppView {
+	enum DisplayMode: String {
+		case list
+		case grid
+		
+		var toggle: Self {
+			switch self {
+			case .list: return .grid
+			case .grid: return .list
+			}
 		}
 	}
 }
