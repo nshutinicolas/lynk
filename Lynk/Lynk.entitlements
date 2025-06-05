@@ -6,7 +6,7 @@
 	<string>development</string>
 	<key>com.apple.developer.icloud-container-identifiers</key>
 	<array>
-		<string>iCloud.rw.lynk.app.ios.ernest.container</string>
+		<string>iCloud.rw.lynk.app.ernest.ios</string>
 	</array>
 	<key>com.apple.developer.icloud-services</key>
 	<array>

@@ -30,6 +30,14 @@ struct BookmarkModel: Identifiable, Hashable {
 		case text(String)
 		case url(url: String, title: String? = nil)
 		case webPage(title: String, url: String, imageUrl: String?)
+		
+		var rawValue: String {
+			switch self {
+			case .text: return "text"
+			case .url: return "url"
+			case .webPage: return "web"
+			}
+		}
 	}
 	
 	static let mockData: [BookmarkModel] = [

@@ -16,4 +16,5 @@ enum AppConstants {
 	static let githubUrl = "https://github.com/nshutinicolas/lynk_saver"
 	static let appStoreUrl = "https://apps.apple.com/app/" // TODO: Fix this after uploading to test flight
 	static let appStoreReviewUrl = "https://apps.apple.com/app/" // TODO: Fix after uploading to test flight
+	static let icloudContainer = "iCloud.rw.lynk.app.ernest.ios"
 }

@@ -70,6 +70,7 @@
 				"Extensions/Date+Extension.swift",
 				Extensions/RoundedCorner.swift,
 				Helpers/AppFlag.swift,
+				Helpers/Cached.swift,
 				Helpers/ImageCache.swift,
 				LocalStorage/Bookmarks.xcdatamodeld,
 				LocalStorage/LocalStorage.swift,
@@ -88,8 +89,15 @@
 				Components/TextBookmarkView.swift,
 				Components/URLBookmark.swift,
 				Components/WebPageBookmark.swift,
+				Constants/Constants.swift,
+				"Extensions/Date+Extension.swift",
+				Extensions/RoundedCorner.swift,
+				Helpers/Cached.swift,
 				Helpers/ImageCache.swift,
+				LocalStorage/Bookmarks.xcdatamodeld,
+				LocalStorage/LocalStorage.swift,
 				Models/BookmarkModel.swift,
+				Modifiers/ColorTheme.swift,
 				Network/ImageLoader.swift,
 			);
 			target = 6CFC312E2DEB023D003BCCBF /* Lynk-mac */;

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23605" systemVersion="24D81" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23605" systemVersion="24F74" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
     <entity name="Bookmark" representedClassName="Bookmark" syncable="YES" codeGenerationType="class">
-        <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
-        <relationship name="category" maxCount="1" deletionRule="Cascade" destinationEntity="BookmarkCategory" inverseName="category" inverseEntity="BookmarkCategory"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="category" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="BookmarkCategory" inverseName="category" inverseEntity="BookmarkCategory"/>
     </entity>
     <entity name="BookmarkCategory" representedClassName="BookmarkCategory" syncable="YES" codeGenerationType="class">
         <attribute name="imageUrl" optional="YES" attributeType="String"/>
         <attribute name="textContent" optional="YES" attributeType="String"/>
-        <attribute name="type" attributeType="String"/>
+        <attribute name="type" optional="YES" attributeType="String"/>
         <attribute name="urlContent" optional="YES" attributeType="String"/>
-        <relationship name="category" maxCount="1" deletionRule="Cascade" destinationEntity="Bookmark" inverseName="category" inverseEntity="Bookmark"/>
+        <relationship name="category" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Bookmark" inverseName="category" inverseEntity="Bookmark"/>
     </entity>
 </model>
