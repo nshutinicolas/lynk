@@ -80,6 +80,43 @@ struct AppView: View {
 		}
 	}
 	
+	private var bookmarkCollection: [BookmarkCollection] {
+		var domainDictionary = [String: [Bookmark]]()
+		for bookmark in filteredBookmarks {
+			switch bookmark.createItemCellViewModel()?.category {
+			case .text:
+				break
+			case .url(let url, _):
+				let domain = extractDomainName(from: url)
+				guard let domain else { break }
+				if domainDictionary[domain] == nil {
+					domainDictionary[domain] = [bookmark]
+				} else {
+					domainDictionary[domain]?.append(bookmark)
+				}
+			case .webPage(_, let url, _):
+				let domain = extractDomainName(from: url)
+				guard let domain else { break }
+				if domainDictionary[domain] == nil {
+					domainDictionary[domain] = [bookmark]
+				} else {
+					domainDictionary[domain]?.append(bookmark)
+				}
+			default:
+				break
+			}
+		}
+		return domainDictionary.map { domain, bookmarks in
+			let icon = bookmarks.first?.category?.imageUrl
+			return BookmarkCollection(title: domain, icon: icon, bookmarks: bookmarks)
+		}
+		.sorted {
+			let newestDate1 = $0.bookmarks.compactMap { $0.date }.max() ?? Date.distantPast
+			let newestDate2 = $1.bookmarks.compactMap { $0.date }.max() ?? Date.distantPast
+			return newestDate1 > newestDate2
+		}
+	}
+	
 	@FetchRequest(
 		entity: Bookmark.entity(),
 		sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: false)]
@@ -134,6 +171,11 @@ struct AppView: View {
 								if bookmarksFetch.isEmpty == false {
 									navIcon("magnifyingglass")
 										.matchedGeometryEffect(id: "SEARCH_BAR", in: searchBarAnimation)
+										.onTapGesture {
+											withAnimation {
+												showSearchBar = true
+											}
+										}
 								}
 							}
 						}
@@ -183,41 +225,50 @@ struct AppView: View {
 					VStack(spacing: 0) {
 						List {
 							Section {
-								ForEach(filteredBookmarks, id: \.self) { bookmark in
-									// TODO: Change to shareable after implementing the share sheet
-									if let model = bookmark.createItemCellViewModel(shareable: false) {
-										ItemCellView(model: model)
-											.shareIconTapped { item in
-												shareBookmark(item)
-											}
-											.padding(8)
-											.background()
-											.clipShape(.rect(cornerRadius: 8))
-											.shadow(color: .gray.opacity(0.3), radius: 4)
-											.onTapGesture {
-												bookmarkTapped(model)
-											}
-											.contextMenu {
-												Button {
-													
-												} label: {
-													Label("Copy", systemImage: "document.on.document")
-												}
-												Button {
-													
-												} label: {
-													Label("Edit", systemImage: "pencil.and.list.clipboard")
-												}
-												Button {
-													deleteBookmark(bookmark)
-												} label: {
-													Label("Delete", systemImage: "trash")
-														.tint(Color.red)
-												}
-											}
+								switch displayMode {
+								case .grid:
+									LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]) {
+										ForEach(bookmarkCollection) { collection in
+											bookmarkCollectionView(collection)
+										}
 									}
+								case .list:
+									ForEach(filteredBookmarks, id: \.self) { bookmark in
+										// TODO: Change to shareable after implementing the share sheet
+										if let model = bookmark.createItemCellViewModel(shareable: false) {
+											ItemCellView(model: model)
+												.shareIconTapped { item in
+													shareBookmark(item)
+												}
+												.padding(8)
+												.background()
+												.clipShape(.rect(cornerRadius: 8))
+												.shadow(color: .gray.opacity(0.3), radius: 4)
+												.onTapGesture {
+													bookmarkTapped(model)
+												}
+												.contextMenu {
+													Button {
+														
+													} label: {
+														Label("Copy", systemImage: "document.on.document")
+													}
+													Button {
+														
+													} label: {
+														Label("Edit", systemImage: "pencil.and.list.clipboard")
+													}
+													Button {
+														deleteBookmark(bookmark)
+													} label: {
+														Label("Delete", systemImage: "trash")
+															.tint(Color.red)
+													}
+												}
+										}
+									}
+									.onDelete(perform: deleteBookmarks)
 								}
-								.onDelete(perform: deleteBookmarks)
 							}
 							.listRowSeparator(.hidden)
 							.listRowInsets(.init(edge: 8))
@@ -303,6 +354,48 @@ struct AppView: View {
 			.frame(width: 20, height: 20)
 			.padding(12)
 			.roundedBorder(color: .gray.opacity(0.8))
+	}
+	
+	@ViewBuilder
+	private func bookmarkCollectionView(_ collection: BookmarkCollection) -> some View {
+		VStack {
+			Group {
+				if let icon = collection.icon {
+					RemoteImage(url: icon)
+						.setErrorView {
+							Image(systemName: "globe")
+								.resizable()
+						}
+						.scaledToFit()
+						.frame(width: 80, height: 80)
+				} else {
+					Image(systemName: "globe")
+						.resizable()
+						.scaledToFit()
+						.frame(width: 80, height: 80)
+				}
+			}
+			.padding(8)
+			.background()
+			.clipShape(.rect(cornerRadius: 8))
+			.shadow(color: Color.gray.opacity(0.5), radius: 4, x: 2, y:2)
+			Text(collection.title)
+				.lineLimit(2, reservesSpace: true)
+		}
+		.frame(maxWidth: .infinity)
+	}
+	
+	private func extractDomainName(from url: String) -> String? {
+		guard let url = URL(string: url), let host = url.host() else { return nil }
+		let domain = host.replacingOccurrences(of: "www.", with: "")
+		return domain
+	}
+	
+	private struct BookmarkCollection: Identifiable, Hashable {
+		let id: String = UUID().uuidString
+		let title: String
+		let icon: String?
+		let bookmarks: [Bookmark]
 	}
 }
 

@@ -171,10 +171,12 @@ class BookmarkStorage: ObservableObject {
 		let data: [BookmarkModel] = [
 			.init(id: UUID().uuidString, category: .text("Text to share or view")),
 			.init(id: UUID().uuidString, category: .url(url: "https://localhost.com/whatever", title: nil)),
-			.init(id: UUID().uuidString, category: .webPage(title: "Title of the website underneath", url: "https://yegob.com", imageUrl: "")),
-			.init(id: UUID().uuidString, category: .webPage(title: "Title of the website underneath", url: "https://yegob.com", imageUrl: "")),
+			.init(id: UUID().uuidString, category: .webPage(title: "Title of the website underneath", url: "https://yegob.com", imageUrl: "https://radio.yegob.rw/wp-content/uploads/2022/05/cropped-YEGOBRADIO.jpg")),
+			.init(id: UUID().uuidString, category: .webPage(title: "Title of the website underneath", url: "https://yegob.com", imageUrl: "https://radio.yegob.rw/wp-content/uploads/2022/05/cropped-YEGOBRADIO.jpg")),
 			.init(id: UUID().uuidString, category: .webPage(title: "Title of the website underneath", url: "https://localhost.com/ahandi-hose", imageUrl: "")),
-			.init(id: UUID().uuidString, category: .webPage(title: "Title of the website underneath", url: "https://yegob.com", imageUrl: ""))
+			.init(id: UUID().uuidString, category: .webPage(title: "Title of the website underneath", url: "https://m.youtube.com/inama-nziza", imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLKtkLz6Q_ouCtcto4FCIkEkKfJwVmpjHcRA&s")),
+			.init(id: UUID().uuidString, category: .url(url: "https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png", title: "Some weird repository on gituhb")),
+			.init(id: UUID().uuidString, category: .url(url: "https://localhost.com/whatever", title: nil))
 		]
 		deleteAllStoredBookmarks()
 		for item in data {
