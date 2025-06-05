@@ -1,5 +1,5 @@
 //
-//  HomeView.swift
+//  MacHomeView.swift
 //  Lynk-mac
 //
 //  Created by Musoni nshuti Nicolas on 31/05/2025.
@@ -7,9 +7,35 @@
 
 import SwiftUI
 
-struct HomeView: View {
+struct MacHomeView: View {
 	@State private var searchText: String = ""
 	@State private var selectedBookmark: BookmarkModel?
+	@Environment(\.managedObjectContext) private var localStorage
+	
+	private var filteredBookmarks: [Bookmark] {
+		guard searchText.isEmpty == false else {
+			return Array(bookmarksFetch)
+		}
+		
+		return Array(bookmarksFetch).filter { bookmark in
+			let model = bookmark.createItemCellViewModel()
+			switch model?.category {
+			case .text(let text):
+				return text.lowercased().contains(searchText.lowercased())
+			case .url(let url, let title):
+				return url.lowercased().contains(searchText.lowercased()) || ((title?.lowercased().contains(searchText.lowercased())) != nil)
+			case .webPage(let title, let url , _):
+				return title.lowercased().contains(searchText.lowercased()) || url.lowercased().contains(searchText.lowercased())
+			default:
+				return false
+			}
+		}
+	}
+	
+	@FetchRequest(
+		entity: Bookmark.entity(),
+		sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: false)]
+	) var bookmarksFetch: FetchedResults<Bookmark>
 	
     var body: some View {
 		NavigationSplitView {
@@ -52,11 +78,19 @@ struct HomeView: View {
 					RoundedRectangle(cornerRadius: 8)
 						.stroke(lineWidth: 0.5)
 				)
-				List(BookmarkModel.mockData) { bookmark in
-					ItemCellView(model: bookmark)
-						.onTapGesture {
-							selectedBookmark = bookmark
+				List {
+					Section {
+						ForEach(bookmarksFetch) { bookmark in
+							if let model = bookmark.createItemCellViewModel() {
+								ItemCellView(model: model)
+									.onTapGesture {
+										selectedBookmark = model
+									}
+							}
 						}
+					}
+					.listRowSeparator(.hidden)
+					.listRowInsets(EdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8))
 				}
 				.listStyle(.plain)
 			}
@@ -104,8 +138,29 @@ struct HomeView: View {
 			break
 		}
 	}
+	
+	private func deleteBookmark(_ bookmark: Bookmark) {
+		localStorage.delete(bookmark)
+		do {
+			try localStorage.save()
+		} catch {
+			print("Failed to delete bookmarks: \(error.localizedDescription)")
+		}
+	}
+	
+	private func deleteBookmarks(_ indexSet: IndexSet) {
+		for index in indexSet {
+			let bookmark = bookmarksFetch[index]
+			localStorage.delete(bookmark)
+		}
+		do {
+			try localStorage.save()
+		} catch {
+			print("Failed to delete bookmarks: \(error.localizedDescription)")
+		}
+	}
 }
 
 #Preview {
-    HomeView()
+	MacHomeView()
 }

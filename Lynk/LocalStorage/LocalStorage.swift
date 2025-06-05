@@ -7,34 +7,72 @@
 
 import Foundation
 import CoreData
+import CloudKit
 import UniformTypeIdentifiers
+
+extension Bookmark {
+	static let containerName = "Bookmarks"
+}
 
 class BookmarkStorage: ObservableObject {
 	static let shared = BookmarkStorage()
-	let container = NSPersistentContainer(name: "Bookmarks")
+	let container = NSPersistentCloudKitContainer(name: Bookmark.containerName)
 	private var storageFileURL: URL? = { FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: AppConstants.appGroup)?.appendingPathComponent(AppConstants.coreDataStorage, conformingTo: UTType.text)
 	}()
 	
 	init(inMemory: Bool = false) {
-		guard let storageFileURL else {
-			print("🚨failed to load the storage file🚨")
-			return
-		}
+		var description: NSPersistentStoreDescription
 		if inMemory {
-			container.persistentStoreDescriptions.first?.url = URL(fileURLWithPath: "/dev/null")
+			// For unit testing
+			let url = URL(fileURLWithPath: "/dev/null")
+			description = NSPersistentStoreDescription(url: url)
+		} else if let containerDescription = container.persistentStoreDescriptions.first {
+			description = containerDescription
+		} else {
+			description = NSPersistentStoreDescription()
 		}
-		let description = NSPersistentStoreDescription(url: storageFileURL)
+		
+		description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+		description.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
+		description.cloudKitContainerOptions = NSPersistentCloudKitContainerOptions(
+			containerIdentifier: AppConstants.icloudContainer
+		)
 		container.persistentStoreDescriptions = [description]
-		container.loadPersistentStores { _, error in
-			if let _ = error as NSError? {
+		container.loadPersistentStores { [weak self] _, error in
+			if let error = error as NSError? {
 				// TODO: Handle this error correctly
+				print("🚨Failed to initialize store: \(error.localizedDescription)")
 				return
 			}
 			print("🎉Store Initialized🎉")
 			// For Previews only
 			if inMemory {
-				self.addDummyData()
+				self?.addDummyData()
 			}
+			
+			// Enable automatic merging of changes
+			self?.container.viewContext.automaticallyMergesChangesFromParent = true
+			self?.container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+		}
+		#if DEBUG
+		checkCloudKitAvailability()
+		#endif
+	}
+	
+	// Debugging
+	func checkCloudKitAvailability() {
+		do {
+			try container.initializeCloudKitSchema(options: [.printSchema])
+			print("CloudKit schema initialized successfully")
+		} catch {
+			print("Failed to initialize CloudKit schema: \(error.localizedDescription)")
+		}
+		let container = CKContainer(identifier: "iCloud.rw.lynk.app.ernest.ios")
+		container.accountStatus { status, error in
+			if let error = error {
+				print("iCloudc error: \(error.localizedDescription)")
+			}
+			print("iCloud status: \(status)")
 		}
 	}
 	
@@ -44,16 +82,14 @@ class BookmarkStorage: ObservableObject {
 		bookmark.date = .now
 		
 		let category = BookmarkCategory(context: container.viewContext)
+		category.type = model.category.rawValue
 		switch model.category {
 		case .text(let text):
-			category.type = "text"
 			category.textContent = text
 		case .url(let urlString, let title):
-			category.type = "url"
 			category.textContent = title
 			category.urlContent = urlString
 		case .webPage(let title, let url, let imageUrl):
-			category.type = "web"
 			category.textContent = title
 			category.urlContent = url
 			category.imageUrl = imageUrl
@@ -76,7 +112,6 @@ class BookmarkStorage: ObservableObject {
 			print("Stored content: \(bookmarks.count)")
 			let stored = bookmarks.compactMap { $0.createItemCellViewModel() }
 			return stored
-//			return bookmarks.compactMap(\.createItemCellViewModel)
 		} catch {
 			print("Fetching Error: \(error)")
 			return []
@@ -139,7 +174,10 @@ class BookmarkStorage: ObservableObject {
 	private func addDummyData() {
 		let data: [BookmarkModel] = [
 			.init(id: UUID().uuidString, category: .text("Text to share or view")),
-			.init(id: UUID().uuidString, category: .url(url: "https://localhost.com", title: nil)),
+			.init(id: UUID().uuidString, category: .url(url: "https://localhost.com/whatever", title: nil)),
+			.init(id: UUID().uuidString, category: .webPage(title: "Title of the website underneath", url: "https://yegob.com", imageUrl: "")),
+			.init(id: UUID().uuidString, category: .webPage(title: "Title of the website underneath", url: "https://yegob.com", imageUrl: "")),
+			.init(id: UUID().uuidString, category: .webPage(title: "Title of the website underneath", url: "https://localhost.com/ahandi-hose", imageUrl: "")),
 			.init(id: UUID().uuidString, category: .webPage(title: "Title of the website underneath", url: "https://yegob.com", imageUrl: ""))
 		]
 		deleteAllStoredBookmarks()
