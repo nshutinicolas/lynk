@@ -80,11 +80,29 @@ struct MacHomeView: View {
 				)
 				List {
 					Section {
-						ForEach(bookmarksFetch) { bookmark in
+						ForEach(filteredBookmarks) { bookmark in
 							if let model = bookmark.createItemCellViewModel() {
 								ItemCellView(model: model)
 									.onTapGesture {
 										selectedBookmark = model
+									}
+									.contextMenu {
+										Button {
+											
+										} label: {
+											Label("Copy", systemImage: "document.on.document")
+										}
+										Button {
+											
+										} label: {
+											Label("Edit", systemImage: "pencil.and.list.clipboard")
+										}
+										Button {
+											deleteBookmark(bookmark)
+										} label: {
+											Label("Delete", systemImage: "trash")
+												.tint(Color.red)
+										}
 									}
 							}
 						}
@@ -122,6 +140,9 @@ struct MacHomeView: View {
 						openExternalBookmarkLink()
 					}
 			}
+		}
+		.onReceive(NotificationCenter.default.publisher(for: .NSPersistentStoreRemoteChange)) { _ in
+			localStorage.refreshAllObjects()
 		}
     }
 	

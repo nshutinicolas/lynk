@@ -17,20 +17,16 @@ extension Bookmark {
 class BookmarkStorage: ObservableObject {
 	static let shared = BookmarkStorage()
 	let container = NSPersistentCloudKitContainer(name: Bookmark.containerName)
-	private var storageFileURL: URL? = { FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: AppConstants.appGroup)?.appendingPathComponent(AppConstants.coreDataStorage, conformingTo: UTType.text)
-	}()
 	
 	init(inMemory: Bool = false) {
-		var description: NSPersistentStoreDescription
-		if inMemory {
-			// For unit testing
-			let url = URL(fileURLWithPath: "/dev/null")
-			description = NSPersistentStoreDescription(url: url)
-		} else if let containerDescription = container.persistentStoreDescriptions.first {
-			description = containerDescription
-		} else {
-			description = NSPersistentStoreDescription()
-		}
+		let description: NSPersistentStoreDescription = {
+			if inMemory {
+				// For unit testing
+				let url = URL(fileURLWithPath: "/dev/null")
+				return NSPersistentStoreDescription(url: url)
+			}
+			return container.persistentStoreDescriptions.first ?? NSPersistentStoreDescription()
+		}()
 		
 		description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
 		description.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)

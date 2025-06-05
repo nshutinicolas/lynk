@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct Lynk_macApp: App {
+	@StateObject private var localStorate = BookmarkStorage.shared
 	var body: some Scene {
         WindowGroup {
             ContentView()
+				.environment(\.managedObjectContext, localStorate.container.viewContext)
         }
     }
 }
