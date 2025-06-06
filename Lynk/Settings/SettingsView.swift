@@ -18,12 +18,16 @@ struct SettingsView: View {
 	// Flag
 	@Flag(.showSavePreview) private var showSavePreview
 	@State private var showSavePreviewLocalValue: Bool = false
+	@Flag(.appLockEnabled) private var appLockEnabled
+	@State private var appLockEnabledLocalValue = false
 	
 	// State properties
 	@State private var presentEmailView = false
 	@State private var showAbout = false
 	@State private var emailCompose: MailComposeModel?
 	@State private var presentDeleteAllAlert = false
+	
+	private var authService = AuthService.shared
 	
     var body: some View {
 		VStack {
@@ -86,12 +90,53 @@ struct SettingsView: View {
 						}
 						// Data
 						container(title: "DATA") {
-#if DEBUG
-							row(icon: "icloud", title: "iCloud Sync", description: "Sync with your icloud to access your data across devices.", disclosure: true)
+							HStack {
+								HStack(alignment: .top) {
+									Image(systemName: "icloud")
+										.padding(8)
+										.roundedBorder(color: .gray.opacity(0.3))
+									VStack(alignment: .leading, spacing: 4) {
+										Text("iCloud Sync")
+										Text("Sync with your icloud to access your data across devices.")
+											.font(.caption)
+											.foregroundStyle(.secondary)
+											.multilineTextAlignment(.leading)
+									}
+									.frame(maxWidth: .infinity, alignment: .leading)
+								}
+								.frame(maxWidth: .infinity, alignment: .leading)
+								Toggle(isOn: .constant(true)) { }
+									.frame(maxWidth: 40)
+									.disabled(true)
+							}
+							.frame(maxWidth: .infinity, alignment: .leading)
+							.background()
+							.padding(.vertical, 4)
 							separator()
-							row(icon: "faceid", title: "Biometric Authentication", description: "Protect your data on this app", disclosure: true)
-							separator()
-#endif
+							if authService.hasBiometrics() {
+								HStack {
+									HStack(alignment: .top) {
+										Image(systemName: "faceid")
+											.padding(8)
+											.roundedBorder(color: .gray.opacity(0.3))
+										VStack(alignment: .leading, spacing: 4) {
+											Text("Biometric Authentication")
+											Text("Protect your data on this app")
+												.font(.caption)
+												.foregroundStyle(.secondary)
+												.multilineTextAlignment(.leading)
+										}
+										.frame(maxWidth: .infinity, alignment: .leading)
+									}
+									.frame(maxWidth: .infinity, alignment: .leading)
+									Toggle(isOn: $appLockEnabledLocalValue) { }
+										.frame(maxWidth: 40)
+								}
+								.frame(maxWidth: .infinity, alignment: .leading)
+								.background()
+								.padding(.vertical, 4)
+								separator()
+							}
 							// TODO: Refactor row to allow passing custom components ie support this
 							HStack {
 								HStack(alignment: .top) {
@@ -244,10 +289,15 @@ struct SettingsView: View {
 		// Migrate this to the view model
 		.onAppear {
 			showSavePreviewLocalValue = showSavePreview
+			appLockEnabledLocalValue = appLockEnabled
 		}
 		.onChange(of: showSavePreviewLocalValue) { value in
 			guard value != showSavePreview else { return } // Prevent overwriting when it is the same value
 			showSavePreview = value
+		}
+		.onChange(of: appLockEnabledLocalValue) { value in
+			guard value != appLockEnabled else { return }
+			appLockEnabled = value
 		}
     }
 	
