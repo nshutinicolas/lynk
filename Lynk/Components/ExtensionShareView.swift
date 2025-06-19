@@ -7,10 +7,22 @@
 
 import SwiftUI
 
+enum ExtensionShareError: Error {
+	case invalidType(String)
+	case invalidData
+	
+	var description: String {
+		switch self {
+		case .invalidType(let type):
+			return "Invalid type - \(type)"
+		case .invalidData:
+			return "Invalid data"
+		}
+	}
+}
+
 class ExtensionShareViewModel: ObservableObject {
 	@Flag(.showSavePreview) private(set) var showSavePreview
-	
-	private var localStorage = BookmarkStorage.shared
 	
 	@Published var saveStatus: SaveStatus = .loading
 	@Published var showSavePreviewOverlay: Bool = false
@@ -41,7 +53,9 @@ class ExtensionShareViewModel: ObservableObject {
 		guard saveTask == nil else { return }
 		saveTask = Task {
 			do {
+				await updateSaveStatus(to: .loading)
 				await updateOverlayVisibility(true)
+				let localStorage = BookmarkStorage.shared
 				try localStorage.save(model: model)
 				await updateSaveStatus(to: .success)
 				// Introduce in a little delay in-between
@@ -104,7 +118,7 @@ class ExtensionShareViewModel: ObservableObject {
 			if let sharedText = data as? String {
 				model = BookmarkModel(id: UUID().uuidString, category: .text(sharedText))
 			} else {
-				throw SaveError.invalidData
+				throw ExtensionShareError.invalidData
 			}
 		case .url:
 			if let url = data as? URL {
@@ -118,24 +132,15 @@ class ExtensionShareViewModel: ObservableObject {
 					model = BookmarkModel(id: UUID().uuidString, category: .url(url: url.absoluteString))
 				}
 			} else {
-				throw SaveError.invalidData
+				throw ExtensionShareError.invalidData
 			}
 		case .webPage:
 			guard let sharedData = data as? NSDictionary, let jsonValue = sharedData[NSExtensionJavaScriptPreprocessingResultsKey] as? NSDictionary else { break }
-			guard let title = jsonValue["title"] as? String, let urlString = jsonValue["url"] as? String, let url = URL(string: urlString), let iconUrl = jsonValue["icon"] as? String else { break }
+			guard let title = jsonValue["title"] as? String, let urlString = jsonValue["url"] as? String, let iconUrl = jsonValue["icon"] as? String else { break }
 			
-			do {
-				let metadata = try await network.fetchPageMetadata(from: url)
-				// Learn the behavior of getting the favicon - sometimes it fails
-				guard let title = metadata.title, let _ = metadata.faviconURL?.absoluteString else {
-					throw NSError(domain: "INVALID_DATA", code: 400)
-				}
-				model = BookmarkModel(id: UUID().uuidString, category: .webPage(title: title , url: url.absoluteString, imageUrl: iconUrl))
-			} catch {
-				model = BookmarkModel(id: UUID().uuidString, category: .webPage(title: title, url: urlString, imageUrl: iconUrl))
-			}
+			model = BookmarkModel(id: UUID().uuidString, category: .webPage(title: title, url: urlString, imageUrl: iconUrl))
 		default:
-			throw SaveError.invalidType
+			throw ExtensionShareError.invalidType(contentType)
 		}
 	}
 	

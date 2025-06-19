@@ -50,7 +50,7 @@ struct WebPageBookmark: View {
 			VStack(alignment: .leading, spacing: 12) {
 				Text(model.title)
 					.fontWeight(.medium)
-					.lineLimit(3)
+					.lineLimit(2)
 				Text(model.url)
 					.lineLimit(2)
 					.font(.footnote)

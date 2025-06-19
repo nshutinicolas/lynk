@@ -1,17 +1,17 @@
 var GrabWebContent = function() {}
 
 function getFaviconUrl() {
-	// Try to find the favicon in various ways
+	// Try to find the favicon using link tag
 	const links = document.getElementsByTagName('link');
 	let faviconUrl = null;
 	
 	// Check for <link rel="icon"> or <link rel="shortcut icon">
 	for (let i = 0; i < links.length; i++) {
 		const link = links[i];
-		if (link.rel === 'icon' || link.rel === 'shortcut icon') {
+		const rel = link.rel.toLowerCase();
+		if (rel.includes('icon')) {
 			faviconUrl = link.href;
-			// Prefer the first one found, unless there's a better one later
-			break;
+			if (faviconUrl) break;
 		}
 	}
 	
@@ -34,9 +34,15 @@ GrabWebContent.prototype = {
 	},
 	finalize: function(parameters) {
 		var customJavascript = parameters["customJavaScript"];
-		eval(customJavascript)
+		if (customJavascript && typeof customJavascript === 'string') {
+			try {
+				(new Function(customJavascript))()
+			} catch (e) {
+				console.error("Failed to load Script: ", e)
+			}
+		}
 	}
 };
 
-// This global name should be named as is ie: `ExtensionPreprocessingJS`
+// This global name should be named as is ie: `ExtensionPreprocessingJS` - extracted from Apple Docs
 var ExtensionPreprocessingJS = new GrabWebContent;
