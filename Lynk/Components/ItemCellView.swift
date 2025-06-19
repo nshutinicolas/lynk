@@ -26,7 +26,7 @@ struct ItemCellView: View {
 					 Possible reasons it happened is saving when no network was available
 					 TODO: Reload this url and transform it to webPage if network is available
 					 */
-					URLBookmark(model: .init(url: url, text: title))
+					URLBookmark(model: .init(url: url, text: title, date: model.date))
 				case .webPage(title: let title, url: let url, imageUrl: let iconName):
 					WebPageBookmark(model: .init(title: title, url: url, date: model.date, icon: iconName))
 				}
