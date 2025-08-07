@@ -50,24 +50,22 @@ class ExtensionShareViewModel: ObservableObject {
 	}
 	
 	func saveBookmark(_ model: BookmarkModel, completion: @escaping () -> Void) {
-		guard saveTask == nil else { return }
+		guard saveTask == nil, let lightStorage = BookmarkStorage.createLightweightContainer() else { return }
 		saveTask = Task {
-			do {
-				await updateSaveStatus(to: .loading)
-				await updateOverlayVisibility(true)
-				let localStorage = BookmarkStorage.shared
-				try localStorage.save(model: model)
-				await updateSaveStatus(to: .success)
-				// Introduce in a little delay in-between
-				try? await Task.sleep(for: .seconds(2))
-				completion()
-			} catch {
-				await updateOverlayVisibility(true)
-				await updateSaveStatus(to: .error(.custom(error.localizedDescription)))
-				// Introduce in a little delay in-between
-				try? await Task.sleep(for: .seconds(2))
-				completion()
+			await updateSaveStatus(to: .loading)
+			await updateOverlayVisibility(true)
+			let context = lightStorage.viewContext
+			await context.perform {
+				let bookmark = BookmarkStorage.nsBookmark(for: model, context: context)
+				if bookmark.hasChanges {
+					try? context.save()
+				}
 			}
+			//				try lightStorage.save(model: model)
+			await updateSaveStatus(to: .success)
+			// Introduce in a little delay in-between
+			try? await Task.sleep(for: .seconds(2))
+			completion()
 			saveTask = nil
 		}
 	}

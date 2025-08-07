@@ -9,6 +9,7 @@ import SwiftUI
 
 @main
 struct LynkApp: App {
+	@Environment(\.scenePhase) var scenePhase
 	@StateObject private var coordinator = AppCoordinator()
 	@StateObject private var storage = BookmarkStorage.shared
 	@StateObject private var appTheme = AppTheme()
@@ -21,6 +22,16 @@ struct LynkApp: App {
 				.environmentObject(storage)
 				.onAppear {
 					appTheme.updateFromLocalStorage()
+				}
+				.onChange(of: scenePhase) { newValue in
+					switch newValue {
+					case .active:
+						// This solves the issue when the app is in the background and the extention adds a new item
+						// Not sure if this is the right way
+						storage.container.viewContext.refreshAllObjects()
+					default:
+						break
+					}
 				}
         }
     }

@@ -19,6 +19,7 @@ class BookmarkStorage: ObservableObject {
 	let container = NSPersistentCloudKitContainer(name: Bookmark.containerName)
 	
 	init(inMemory: Bool = false) {
+		#if os(macOS)
 		let description: NSPersistentStoreDescription = {
 			if inMemory {
 				// For unit testing
@@ -27,6 +28,22 @@ class BookmarkStorage: ObservableObject {
 			}
 			return container.persistentStoreDescriptions.first ?? NSPersistentStoreDescription()
 		}()
+		#else
+		let description: NSPersistentStoreDescription = {
+			if inMemory {
+				// For unit testing
+				let url = URL(fileURLWithPath: "/dev/null")
+				return NSPersistentStoreDescription(url: url)
+			}
+			let storeURL = FileManager.default
+				.containerURL(forSecurityApplicationGroupIdentifier: AppConstants.appGroup)?
+				.appendingPathComponent(AppConstants.coreDataStorage)
+			guard let storeURL else {
+				return NSPersistentStoreDescription()
+			}
+			return NSPersistentStoreDescription(url: storeURL)
+		}()
+		#endif
 		
 		description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
 		description.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
@@ -49,10 +66,27 @@ class BookmarkStorage: ObservableObject {
 			// Enable automatic merging of changes
 			self?.container.viewContext.automaticallyMergesChangesFromParent = true
 			self?.container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+			
+			self?.addObservers()
 		}
 		#if DEBUG
 		checkCloudKitAvailability()
 		#endif
+	}
+	
+	// CoreData observer to notify iCloud that there has been a change so that it can sync
+	private func addObservers() {
+		NotificationCenter.default.addObserver(
+			forName: .NSPersistentStoreRemoteChange,
+			object: container.persistentStoreCoordinator,
+			queue: .main
+		) { [weak self] notification in
+			print("📬 Detected external change to store (Share Extension or CloudKit)")
+			self?.container.viewContext.perform {
+				self?.container.viewContext.mergeChanges(fromContextDidSave: notification)
+			}
+			self?.objectWillChange.send()
+		}
 	}
 	
 	// Debugging
@@ -207,5 +241,71 @@ extension Bookmark {
 		}
 		guard let itemCategory else { return nil }
 		return .init(id: id.uuidString, category: itemCategory, date: date, showShareIcon: shareable)
+	}
+}
+
+// Only for the extension
+
+extension BookmarkStorage {
+	static func nsBookmark(for model: BookmarkModel, context: NSManagedObjectContext) -> Bookmark {
+		let bookmark = Bookmark(context: context)
+		bookmark.id = UUID(uuidString: model.id)
+		bookmark.date = .now
+		
+		let category = BookmarkCategory(context: context)
+		category.type = model.category.rawValue
+		switch model.category {
+		case .text(let text):
+			category.textContent = text
+		case .url(let urlString, let title):
+			category.textContent = title
+			category.urlContent = urlString
+		case .webPage(let title, let url, let imageUrl):
+			category.textContent = title
+			category.urlContent = url
+			category.imageUrl = imageUrl
+		}
+		bookmark.category = category
+		
+		return bookmark
+	}
+	
+	static func createLightweightContainer() -> NSPersistentContainer? {
+		let container = NSPersistentContainer(name: Bookmark.containerName)
+		
+		guard let storageFileURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: AppConstants.appGroup)?
+			.appendingPathComponent(AppConstants.coreDataStorage) else {
+			print("🚨 App Group container not found")
+			return nil
+		}
+		
+		let description = NSPersistentStoreDescription(url: storageFileURL)
+		description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+		container.persistentStoreDescriptions = [description]
+		
+		container.loadPersistentStores { _, error in
+			if let error = error as NSError? {
+				print("🚨 Failed to load persistent store: \(error), \(error.userInfo)")
+				return
+			}
+			print("🎉 Light Store Initialized 🎉")
+//			self.addObservers(for: container)
+		}
+		
+		return container
+	}
+
+	static func addObservers(for container: NSPersistentContainer) {
+		NotificationCenter.default.addObserver(
+			forName: .NSPersistentStoreRemoteChange,
+			object: container.persistentStoreCoordinator,
+			queue: .main
+		) { notification in
+			print("📬 Detected external change to store (Share Extension or CloudKit)")
+			container.viewContext.perform {
+				container.viewContext.mergeChanges(fromContextDidSave: notification)
+			}
+//			self.objectWillChange.send()
+		}
 	}
 }
