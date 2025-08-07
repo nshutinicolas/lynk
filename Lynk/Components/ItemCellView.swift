@@ -16,43 +16,51 @@ struct ItemCellView: View {
 	
 	var body: some View {
 		HStack(alignment: .top, spacing: 4) {
-			ZStack {
-				switch model.category {
-				case .text(let text):
-					TextBookmarkView(model: .init(text: text, date: model.date))
-				case .url(let url, let title):
-					/**
-					 Idealy we shouldn't have a url save as is.
-					 Possible reasons it happened is saving when no network was available
-					 TODO: Reload this url and transform it to webPage if network is available
-					 */
-					URLBookmark(model: .init(url: url, text: title, date: model.date))
-				case .webPage(title: let title, url: let url, imageUrl: let iconName):
-					WebPageBookmark(model: .init(title: title, url: url, date: model.date, icon: iconName))
-				}
+			switch model.category {
+			case .text(let text):
+				TextBookmarkView(model: .init(text: text, date: model.date))
+			case .url(let url, let title):
+				/**
+				 Ideally we shouldn't have a url save as is.
+				 Possible reasons it happened is saving when no network was available
+				 TODO: Reload this url and transform it to webPage if network is available
+				 */
+				URLBookmark(model: .init(url: url, text: title, date: model.date))
+			case .webPage(title: let title, url: let url, imageUrl: let iconName):
+				WebPageBookmark(model: .init(title: title, url: url, date: model.date, icon: iconName))
 			}
 			if model.showShareIcon {
-				ZStack {
-					Image(systemName: "square.and.arrow.up")
-						.resizable()
-						.scaledToFit()
-						.frame(width: 16, height: 16)
-				}
-				.padding(8)
-				.background()
-				.clipShape(.rect(cornerRadius: 4))
-				.shadow(color: .gray, radius: 2)
-				.onTapGesture {
-					_shareIconTapped(model)
-				}
+				shareIcon
+					.onTapGesture {
+						_shareIconTapped(model)
+					}
 			}
 		}
 		.frame(maxWidth: .infinity)
 		.background()
+		.overlay(alignment: .topLeading) {
+			if model.opened == false {
+				Circle()
+					.fill(Color.orange)
+					.frame(width: 12, height: 12)
+			}
+		}
 	}
 	
 	// Computed properties
 	private var _shareIconTapped: (BookmarkModel) -> Void = { _ in }
+	
+	@ViewBuilder
+	private var shareIcon: some View {
+		Image(systemName: "square.and.arrow.up")
+			.resizable()
+			.scaledToFit()
+			.frame(width: 16, height: 16)
+			.padding(8)
+			.background()
+			.clipShape(.rect(cornerRadius: 4))
+			.shadow(color: .gray, radius: 2)
+	}
 }
 
 extension ItemCellView {

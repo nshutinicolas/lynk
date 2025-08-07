@@ -90,7 +90,7 @@ class BookmarkStorage: ObservableObject {
 	}
 	
 	// Debugging
-	func checkCloudKitAvailability() {
+	private func checkCloudKitAvailability() {
 		do {
 			try container.initializeCloudKitSchema(options: [.printSchema])
 			print("CloudKit schema initialized successfully")
@@ -100,7 +100,7 @@ class BookmarkStorage: ObservableObject {
 		let container = CKContainer(identifier: "iCloud.rw.lynk.app.ernest.ios")
 		container.accountStatus { status, error in
 			if let error = error {
-				print("iCloudc error: \(error.localizedDescription)")
+				print("iCloud error: \(error.localizedDescription)")
 			}
 			print("iCloud status: \(status)")
 		}
@@ -110,6 +110,7 @@ class BookmarkStorage: ObservableObject {
 		let bookmark = Bookmark(context: container.viewContext)
 		bookmark.id = UUID(uuidString: model.id)
 		bookmark.date = .now
+		bookmark.opened = model.opened
 		
 		let category = BookmarkCategory(context: container.viewContext)
 		category.type = model.category.rawValue
@@ -200,6 +201,18 @@ class BookmarkStorage: ObservableObject {
 		}
 	}
 	
+	func updateBookmarkStatus(for bookmark: BookmarkModel) {
+		if let existingBookmark = findStoredBookmark(bookmark) {
+			existingBookmark.opened = bookmark.opened
+			do {
+				try container.viewContext.save()
+				print("Saved🎉")
+			} catch {
+				print("🚨Failed to save \(error.localizedDescription)")
+			}
+		}
+	}
+	
 	// For Previews only
 	private func addDummyData() {
 		let data: [BookmarkModel] = [
@@ -240,7 +253,13 @@ extension Bookmark {
 			return nil
 		}
 		guard let itemCategory else { return nil }
-		return .init(id: id.uuidString, category: itemCategory, date: date, showShareIcon: shareable)
+		return BookmarkModel(
+			id: id.uuidString,
+			category: itemCategory,
+			date: date,
+			opened: opened,
+			showShareIcon: shareable
+		)
 	}
 }
 

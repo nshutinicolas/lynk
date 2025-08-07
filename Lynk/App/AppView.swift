@@ -47,6 +47,7 @@ enum SortingPill: Equatable, CaseIterable, Identifiable {
 
 struct AppView: View {
 	@EnvironmentObject private var coordinator: AppCoordinator
+	@EnvironmentObject private var sharedStorage: BookmarkStorage
 	@Environment(\.managedObjectContext) private var localStorage
 	@Environment(\.openURL) private var openURL
 	
@@ -196,31 +197,7 @@ struct AppView: View {
 				.padding([.horizontal, .top])
 				
 				if filteredBookmarks.isEmpty {
-					VStack {
-						Image(systemName: "paperclip.badge.ellipsis")
-							.font(.largeTitle)
-							.foregroundStyle(Color.pink.gradient)
-							.padding()
-							.overlay {
-								Circle()
-									.stroke(lineWidth: 2)
-									.fill(Color.green.opacity(0.7).gradient)
-							}
-							.padding(28)
-							.overlay {
-								Circle()
-									.stroke(lineWidth: 2)
-									.fill(Color.blue.opacity(0.4).gradient)
-							}
-						Text("No Bookmarks Found")
-							.font(.title3)
-						
-						Button("Learn how to add a bookmark") {
-							
-						}
-						.padding()
-					}
-					.frame(maxWidth: .infinity, maxHeight: .infinity)
+					emptyView
 				} else {
 					VStack(spacing: 0) {
 						List {
@@ -345,6 +322,14 @@ struct AppView: View {
 			guard let url = URL(string: urlString) else { return }
 			openURL(url)
 		}
+		updateStatus(for: bookmark)
+	}
+	
+	private func updateStatus(for model: BookmarkModel) {
+		var bookmarkModel = model
+		bookmarkModel.updateOpenedState(to: true)
+		// Save the updated model
+		sharedStorage.updateBookmarkStatus(for: bookmarkModel)
 	}
 	
 	@ViewBuilder
@@ -383,6 +368,35 @@ struct AppView: View {
 				.lineLimit(2, reservesSpace: true)
 		}
 		.frame(maxWidth: .infinity)
+	}
+	
+	@ViewBuilder
+	private var emptyView: some View {
+		VStack {
+			Image(systemName: "paperclip.badge.ellipsis")
+				.font(.largeTitle)
+				.foregroundStyle(Color.pink.gradient)
+				.padding()
+				.overlay {
+					Circle()
+						.stroke(lineWidth: 2)
+						.fill(Color.green.opacity(0.7).gradient)
+				}
+				.padding(28)
+				.overlay {
+					Circle()
+						.stroke(lineWidth: 2)
+						.fill(Color.blue.opacity(0.4).gradient)
+				}
+			Text("No Bookmarks Found")
+				.font(.title3)
+			
+			Button("Learn how to add a bookmark") {
+				
+			}
+			.padding()
+		}
+		.frame(maxWidth: .infinity, maxHeight: .infinity)
 	}
 	
 	private func extractDomainName(from url: String) -> String? {
