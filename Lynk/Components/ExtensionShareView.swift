@@ -151,8 +151,12 @@ class ExtensionShareViewModel: ObservableObject {
 
 struct ExtensionShareView: View {
 	@Flag(.showSavePreview) private var showSavePreview
+	@Flag(.enableReminders) private var enableReminders
 	
 	@ObservedObject private var viewModel = ExtensionShareViewModel()
+	@State private var setReminder: Bool = false
+	@State private var selectedDate: Date = .now
+	@State private var selectedTime: Date = .now
 	
 	// Private
 	private let context: NSExtensionContext?
@@ -195,6 +199,38 @@ struct ExtensionShareView: View {
 						}
 					}
 					.animation(.default, value: viewModel.model)
+					if enableReminders {
+						Group {
+							HStack {
+								Group {
+									if setReminder {
+										Image(systemName: "checkmark.square")
+											.resizable()
+											.frame(width: 20, height: 20)
+									} else {
+										Image(systemName: "square")
+											.resizable()
+											.frame(width: 20, height: 20)
+									}
+								}
+								.animation(.easeInOut, value: setReminder)
+								Text("Set Reminder")
+							}
+							.frame(maxWidth: .infinity, alignment: .leading)
+							.padding(8)
+							.roundedBorder()
+							.onTapGesture {
+								withAnimation {
+									setReminder.toggle()
+								}
+							}
+							// Reminder View
+							if setReminder {
+								ReminderView(selectedDate: $selectedDate, selectedTime: $selectedTime)
+									.transition(.move(edge: .bottom).combined(with: .opacity))
+							}
+						}
+					}
 					Button {
 						// When user attampts to save a non-existing bookmark, show an error/warning or inform them
 						guard let model = viewModel.model else { return }
@@ -243,7 +279,8 @@ struct ExtensionShareView: View {
 	}
 }
 
-#Preview {
+// TODO: Fix the preview to show mocked content
+#Preview("Extension") {
 	ExtensionShareView(context: nil, onClose: { })
 		.environmentObject(BookmarkStorage())
 }

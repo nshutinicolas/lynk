@@ -58,9 +58,12 @@
 		6CF5BE3F2DA6EDA500EFE633 /* Exceptions for "Lynk" folder in "LynkBookmark" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Components/DateTimePopover.swift,
 				Components/ExtensionShareView.swift,
 				Components/IconView.swift,
 				Components/ItemCellView.swift,
+				Components/PopoverController.swift,
+				Components/ReminderView.swift,
 				Components/RemoteImage.swift,
 				Components/SaveStatusView.swift,
 				Components/TextBookmarkView.swift,
@@ -85,6 +88,7 @@
 			membershipExceptions = (
 				Components/IconView.swift,
 				Components/ItemCellView.swift,
+				Components/ReminderView.swift,
 				Components/RemoteImage.swift,
 				Components/TextBookmarkView.swift,
 				Components/URLBookmark.swift,
