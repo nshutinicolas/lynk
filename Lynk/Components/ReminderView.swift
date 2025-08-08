@@ -28,7 +28,7 @@ struct ReminderView: View {
 						.resizable()
 						.frame(width: 20, height: 20)
 						.padding(8)
-						.background(Color.gray.opacity(0.2))
+						.background(Color.gray.opacity(0.1))
 						.clipShape(.rect(cornerRadius: 4))
 					VStack(alignment: .leading, spacing: 0) {
 						Text("Date")
@@ -49,7 +49,7 @@ struct ReminderView: View {
 						.resizable()
 						.frame(width: 20, height: 20)
 						.padding(8)
-						.background(Color.gray.opacity(0.2))
+						.background(Color.gray.opacity(0.1))
 						.clipShape(.rect(cornerRadius: 4))
 					VStack(alignment: .leading, spacing: 0) {
 						Text("Time")

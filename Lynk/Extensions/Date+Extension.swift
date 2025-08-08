@@ -23,4 +23,8 @@ extension Date {
 			return dateFormatter.string(from: self)
 		}
 	}
+	
+	var components: DateComponents {
+		Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: self)
+	}
 }

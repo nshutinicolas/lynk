@@ -29,6 +29,7 @@ class ExtensionShareViewModel: ObservableObject {
 	@Published var model: BookmarkModel?
 	
 	private let network = WebPageMetadata.shared
+	private let notificationManager = NotificationManager.shared
 	private var saveTask: Task<Void, Never>?
 	
 	init() { }
@@ -49,7 +50,7 @@ class ExtensionShareViewModel: ObservableObject {
 		showSavePreviewOverlay = visible
 	}
 	
-	func saveBookmark(_ model: BookmarkModel, completion: @escaping () -> Void) {
+	func saveBookmark(_ model: BookmarkModel, reminder: ReminderContent? = nil, completion: @escaping () -> Void) {
 		guard saveTask == nil, let lightStorage = BookmarkStorage.createLightweightContainer() else { return }
 		saveTask = Task {
 			await updateSaveStatus(to: .loading)
@@ -61,7 +62,14 @@ class ExtensionShareViewModel: ObservableObject {
 					try? context.save()
 				}
 			}
-			//				try lightStorage.save(model: model)
+			if let reminder {
+				notificationManager.scheduleNotification(
+					for: model,
+					date: reminder.date,
+					time: reminder.time
+				)
+			}
+//			try lightStorage.save(model: model)
 			await updateSaveStatus(to: .success)
 			// Introduce in a little delay in-between
 			try? await Task.sleep(for: .seconds(2))
@@ -146,6 +154,11 @@ class ExtensionShareViewModel: ObservableObject {
 		case note = "public.plain-text"
 		case url = "public.url"
 		case webPage = "com.apple.property-list" // When Shared with Safari
+	}
+	
+	struct ReminderContent {
+		let date: Date
+		let time: Date
 	}
 }
 
@@ -234,7 +247,10 @@ struct ExtensionShareView: View {
 					Button {
 						// When user attampts to save a non-existing bookmark, show an error/warning or inform them
 						guard let model = viewModel.model else { return }
-						viewModel.saveBookmark(model) {
+						var reminder: ExtensionShareViewModel.ReminderContent? {
+							enableReminders && setReminder ? ExtensionShareViewModel.ReminderContent(date: selectedDate, time: selectedTime) : nil
+						}
+						viewModel.saveBookmark(model, reminder: reminder) {
 							onClose()
 						}
 					} label: {

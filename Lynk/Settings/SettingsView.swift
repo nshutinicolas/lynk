@@ -20,6 +20,8 @@ struct SettingsView: View {
 	@State private var showSavePreviewLocalValue: Bool = false
 	@Flag(.appLockEnabled) private var appLockEnabled
 	@State private var appLockEnabledLocalValue = false
+	@Flag(.enableReminders) private var enableReminders
+	@State private var enableRemindersLocalValue: Bool = false
 	
 	// State properties
 	@State private var presentEmailView = false
@@ -28,6 +30,7 @@ struct SettingsView: View {
 	@State private var presentDeleteAllAlert = false
 	
 	private var authService = AuthService.shared
+	private var notificationManager = NotificationManager.shared
 	
     var body: some View {
 		VStack {
@@ -166,6 +169,28 @@ struct SettingsView: View {
 						container(title: "APP") {
 							HStack {
 								HStack(alignment: .top) {
+									Image(systemName: "bell")
+										.padding(8)
+										.roundedBorder(color: .gray.opacity(0.3))
+									VStack(alignment: .leading, spacing: 4) {
+										Text("Reminder Notifications")
+										Text("Enable this option if you would like to get reminders for your bookmarks")
+											.font(.caption)
+											.foregroundStyle(.secondary)
+											.multilineTextAlignment(.leading)
+									}
+									.frame(maxWidth: .infinity, alignment: .leading)
+								}
+								.frame(maxWidth: .infinity, alignment: .leading)
+								Toggle(isOn: $enableRemindersLocalValue) { }
+									.frame(maxWidth: 40)
+							}
+							.frame(maxWidth: .infinity, alignment: .leading)
+							.background()
+							.padding(.vertical, 4)
+							separator()
+							HStack {
+								HStack(alignment: .top) {
 									Image(systemName: "square.split.1x2")
 										.padding(8)
 										.roundedBorder(color: .gray.opacity(0.3))
@@ -298,6 +323,17 @@ struct SettingsView: View {
 		.onChange(of: appLockEnabledLocalValue) { value in
 			guard value != appLockEnabled else { return }
 			appLockEnabled = value
+		}
+		.onChange(of: enableRemindersLocalValue) { value in
+			enableReminders = value
+			// Ideally, disabling this should disable it in system settings
+			// For my implementation, I only disable it for the app and I won't be sending notifications from this app
+			guard value else { return }
+			notificationManager.requestNotificationPermission()
+		}
+		.task {
+			let status = await notificationManager.notificationPermissionStatus()
+			enableRemindersLocalValue = status == .authorized && enableReminders
 		}
     }
 	
