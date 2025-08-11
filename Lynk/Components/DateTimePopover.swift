@@ -10,14 +10,15 @@ import SwiftUI
 
 extension View {
 	@ViewBuilder
-	func dateTimePopover(
+	func calendarPopover(
 		for displayedComponent: DatePickerComponents,
 		isPresented: Binding<Bool>,
 		selected: Binding<Date>,
 		/// Using `PartialRangeFrom` since I only need the users to set notification from now onward.
-		in dateRange: PartialRangeFrom<Date> = Date.now...
+		in dateRange: PartialRangeFrom<Date> = Date.now...,
+		arrowDirection: UIPopoverArrowDirection = .any
 	) -> some View {
-		self.nativePopover(isPresented: isPresented, arrowDirection: .unknown) {
+		self.nativePopover(isPresented: isPresented, arrowDirection: arrowDirection) {
 			DateTimePopover(display: displayedComponent, selected: selected, in: dateRange)
 		}
 	}

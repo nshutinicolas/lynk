@@ -40,7 +40,7 @@ struct ReminderView: View {
 				}
 			}
 			.frame(maxWidth: .infinity, alignment: .leading)
-			.dateTimePopover(for: .date, isPresented: $showDatePicker, selected: $selectedDate)
+			.calendarPopover(for: .date, isPresented: $showDatePicker, selected: $selectedDate)
 			Button {
 				showTimePicker.toggle()
 			} label: {
@@ -61,7 +61,7 @@ struct ReminderView: View {
 				}
 			}
 			.frame(maxWidth: .infinity, alignment: .leading)
-			.dateTimePopover(for: .hourAndMinute, isPresented: $showTimePicker, selected: $selectedTime)
+			.calendarPopover(for: .hourAndMinute, isPresented: $showTimePicker, selected: $selectedTime)
 		}
 		.frame(maxWidth: .infinity, alignment: .leading)
 	}
