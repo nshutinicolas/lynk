@@ -181,11 +181,14 @@ struct AppView: View {
 							}
 						}
 						if showSearchBar == false {
+							// TODO: Make it beautiful and appealing
+							#if DEBUG
 							navIcon(displayMode == .list ? "list.bullet" : "square.grid.2x2" )
 								.animation(.spring, value: displayMode)
 								.onTapGesture {
 									displayMode = displayMode.toggle
 								}
+							#endif
 							navIcon("gearshape")
 								.onTapGesture {
 									rotateSettingsIcon.toggle()
@@ -220,11 +223,13 @@ struct AppView: View {
 												.padding(8)
 												.background()
 												.clipShape(.rect(cornerRadius: 8))
-												.shadow(color: .gray.opacity(0.3), radius: 4)
+												.shadow(color: Color(uiColor: .tertiarySystemFill), radius: 2, x: 2, y:2)
 												.onTapGesture {
 													bookmarkTapped(model)
 												}
 												.contextMenu {
+													// TODO: Implement these actions
+													#if DEBUG
 													Button {
 														
 													} label: {
@@ -235,6 +240,7 @@ struct AppView: View {
 													} label: {
 														Label("Edit", systemImage: "pencil.and.list.clipboard")
 													}
+													#endif
 													Button {
 														deleteBookmark(bookmark)
 													} label: {
@@ -363,7 +369,7 @@ struct AppView: View {
 			.padding(8)
 			.background()
 			.clipShape(.rect(cornerRadius: 8))
-			.shadow(color: Color.gray.opacity(0.5), radius: 4, x: 2, y:2)
+			.shadow(color: Color(uiColor: .tertiarySystemFill), radius: 2, x: 2, y:2)
 			Text(collection.title)
 				.lineLimit(2, reservesSpace: true)
 		}
