@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 class AppTheme: ObservableObject {
-	@AppStorage("colorScheme") private var storedColorScheme: String?
+	@Cached<String>(.colorScheme) private var storedColorScheme
 	var colorScheme: ColorScheme? = .none {
 		didSet {
 			updateColorScheme()
@@ -65,8 +65,3 @@ extension ColorScheme {
 		}
 	}
 }
-
-/**
- /Users/musoninshutinicolas/Documents/Projects/Lynk/Lynk/App/AppTheme.swift:32:35 'shared' is unavailable in application extensions for iOS: Use view controller based solutions where appropriate instead.
-
- */

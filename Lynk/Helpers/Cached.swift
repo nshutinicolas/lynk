@@ -38,5 +38,6 @@ extension Cached {
 extension Cached {
 	enum Key: String {
 		case layout
+		case colorScheme
 	}
 }
