@@ -10,19 +10,23 @@ import UserNotifications
 
 final class NotificationManager {
 	static let shared = NotificationManager()
+	// Make it accessible for reuse
+	let notificationCenter = NotificationCenter.default
 	
 	@Flag(.enableReminders) private var enableReminders
 	
 	private init() { }
 	
 	func notificationPermissionStatus() async -> UNAuthorizationStatus {
-		return await UNUserNotificationCenter.current().notificationSettings().authorizationStatus
+		await UNUserNotificationCenter.current().notificationSettings().authorizationStatus
 	}
 	
 	func requestNotificationPermission() {
 		let options: UNAuthorizationOptions = [.alert, .badge, .sound]
 		UNUserNotificationCenter.current().requestAuthorization(options: options) { [weak self] success, error in
 			self?.enableReminders = success
+			// Post a notification when notification request status changes
+			self?.notificationCenter.post(name: NSNotification.Name(rawValue: "PUSH_NOTIFICATION_REQUEST"), object: nil, userInfo: nil)
 			if let error {
 				// Handle the error gracefully. Make sure enableReminders is false
 				print("🚨Notification Error: \(error.localizedDescription)")

@@ -42,12 +42,14 @@ extension Flag {
 		case showSavePreview = "extension.show_save_preview"
 		case appLockEnabled = "settings.app_lock_enabled"
 		case enableReminders = "settings.enable_reminders"
+		case isFirstLaunch = "app.is_first_launch"
 		
 		var defaultValue: Bool {
 			switch self {
 			case .showSavePreview: return false
 			case .appLockEnabled: return false
 			case .enableReminders: return true
+			case .isFirstLaunch: return true
 			}
 		}
 	}

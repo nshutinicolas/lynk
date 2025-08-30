@@ -12,10 +12,17 @@ struct ContentView: View {
 	private var authService = AuthService.shared
 	@State private var isAuthenticated: Bool = false
 	@Flag(.appLockEnabled) private var appLockEnabled
+	@Flag(.isFirstLaunch) private var isFirstLaunch
+	@State private var isOnboardingFlowCompleted: Bool = false
 	
     var body: some View {
 		Group {
-			if appLockEnabled == false || isAuthenticated {
+			if isFirstLaunch && isOnboardingFlowCompleted == false {
+				WelcomeView()
+					.onboardingComplete { status in
+						isOnboardingFlowCompleted = status
+					}
+			} else if appLockEnabled == false || isAuthenticated {
 				AppView()
 			} else {
 				AuthView(action: authenticate)
