@@ -398,7 +398,8 @@ struct AppView: View {
 				.font(.title3)
 			
 			Button("Learn how to add a bookmark") {
-				
+				guard let url = URL(string: AppConstants.howtoDoc) else { return }
+				openURL(url)
 			}
 			.padding()
 		}

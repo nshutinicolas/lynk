@@ -46,7 +46,7 @@ extension Flag {
 		
 		var defaultValue: Bool {
 			switch self {
-			case .showSavePreview: return false
+			case .showSavePreview: return true
 			case .appLockEnabled: return false
 			case .enableReminders: return true
 			case .isFirstLaunch: return true

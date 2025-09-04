@@ -245,7 +245,10 @@ struct SettingsView: View {
 								emailCompose = .support
 							}
 							separator()
-							row(icon: "airplayvideo", title: "How to use the app", description: "Finding it difficult to get started, here are some tips")
+							row(icon: "airplayvideo", title: "How to use the app", description: "Finding it difficult to get started, here are some tips") {
+								guard let url = URL(string: AppConstants.howtoDoc) else { return }
+								openURL(url)
+							}
 						}
 						if let appVersion = Bundle.main.appVersion, let appBuild = Bundle.main.appBuild {
 							Text("Version \(appVersion)(\(appBuild))")
@@ -270,14 +273,16 @@ struct SettingsView: View {
 			}
 		}
 		.sheet(isPresented: $showAbout) {
-			VStack {
+			VStack(spacing: 16) {
 				Text("Lynk")
 					.font(.title)
 					.fontDesign(.serif)
 					.fontWeight(.semibold)
 				Text("""
-				 Lynk is a minimal, privacy-focused app that makes it easy to save and share text and URLs. Whether you're collecting notes, saving important links, or quickly sharing something with a friend, Lynk keeps everything local and secure — nothing leaves your device.
-				 """)
+				Lynk is a minimal, privacy-focused app that makes it easy to save and share text and URLs. Whether you're collecting notes, saving important links, or quickly sharing something with a friend, we keep everything in your iCloud
+				""")
+				.multilineTextAlignment(.leading)
+				.fixedSize(horizontal: false, vertical: true)
 				Spacer()
 				Button {
 					guard let url = URL(string: AppConstants.githubUrl) else { return }
@@ -296,7 +301,7 @@ struct SettingsView: View {
 			.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
 			.padding(.vertical, 24)
 			.padding(.horizontal)
-			.presentationDetents([.fraction(0.45)])
+			.presentationDetents([.fraction(0.4)])
 			.presentationDragIndicator(.visible)
 		}
 		.onChange(of: emailCompose) { value in
