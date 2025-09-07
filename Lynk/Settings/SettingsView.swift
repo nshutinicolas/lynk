@@ -70,21 +70,21 @@ struct SettingsView: View {
 									Image(systemName: "iphone.gen2")
 										.font(.title2)
 										.padding(12)
-										.roundedBorder(lineWidth: appTheme.colorScheme == .none ? 3 : 1)
+										.roundedBorder(color: Color.gray, lineWidth: appTheme.colorScheme == .none ? 3 : 1)
 										.onTapGesture {
 											appTheme.colorScheme = .none
 										}
 									Image(systemName: "sun.max.fill")
 										.font(.title2)
 										.padding(12)
-										.roundedBorder(lineWidth: appTheme.colorScheme == .light ? 3 : 1)
+										.roundedBorder(color: Color.gray, lineWidth: appTheme.colorScheme == .light ? 3 : 1)
 										.onTapGesture {
 											appTheme.colorScheme = .light
 										}
 									Image(systemName: "moon.fill")
 										.font(.title2)
 										.padding(12)
-										.roundedBorder(lineWidth: appTheme.colorScheme == .dark ? 3 : 1)
+										.roundedBorder(color: Color.gray, lineWidth: appTheme.colorScheme == .dark ? 3 : 1)
 										.onTapGesture {
 											appTheme.colorScheme = .dark
 										}

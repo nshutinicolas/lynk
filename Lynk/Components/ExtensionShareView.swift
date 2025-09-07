@@ -185,19 +185,19 @@ struct ExtensionShareView: View {
 			if showSavePreview {
 				VStack(spacing: 16) {
 					HStack {
-						Circle()
-							.fill(Color(uiColor: .secondarySystemBackground))
-							.frame(width: 44, height: 44)
-							.overlay {
-								Image(systemName: "xmark")
-									.resizable()
-									.scaledToFit()
-									.foregroundStyle(Color(uiColor: .label))
-									.frame(width: 16, height: 16)
-							}
-							.onTapGesture {
-								onClose()
-							}
+						Button {
+							onClose()
+						} label: {
+							Image(systemName: "xmark")
+								.resizable()
+								.scaledToFit()
+								.foregroundStyle(Color(uiColor: .label))
+								.frame(width: 16, height: 16)
+								.frame(width: 44, height: 44)
+								.background(Color(uiColor: .secondarySystemBackground))
+								.clipShape(.circle)
+						}
+						.buttonStyle(.plain)
 					}
 					.frame(maxWidth: .infinity, alignment: .trailing)
 					VStack {
@@ -230,7 +230,7 @@ struct ExtensionShareView: View {
 								Text("Set Reminder")
 							}
 							.frame(maxWidth: .infinity, alignment: .leading)
-							.padding(8)
+							.padding(12)
 							.roundedBorder()
 							.onTapGesture {
 								withAnimation {
@@ -262,11 +262,10 @@ struct ExtensionShareView: View {
 					.padding(.vertical, 12)
 					.background(Color.blue)
 					.roundedBorder()
-					.padding(.bottom)
 				}
 				.padding([.horizontal, .top])
 				.background()
-				.clipShape(.rect(cornerRadii: .init(topLeading: 12, bottomLeading: 0, bottomTrailing: 0, topTrailing: 12)))
+				.clipShape(.rect(cornerRadii: RectangleCornerRadii(topLeading: 12, bottomLeading: 0, bottomTrailing: 0, topTrailing: 12)))
 			} else {
 				EmptyView()
 			}
