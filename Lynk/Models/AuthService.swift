@@ -8,6 +8,10 @@
 import Foundation
 import LocalAuthentication
 
+enum AuthError: Error {
+	case biometricsNotAvailable
+}
+
 final class AuthService {
 	static let shared = AuthService()
 	private init() { }
@@ -16,12 +20,18 @@ final class AuthService {
 	func hasBiometrics() -> Bool {
 		let context = LAContext()
 		var error: NSError?
-		return context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
+		return context.canEvaluatePolicy(
+			.deviceOwnerAuthenticationWithBiometrics,
+			error: &error
+		)
 	}
 	
 	func authenticateUser() async throws -> Bool {
 		let context = LAContext()
 		let reason = "Lynk requires your permission to only allow you to view content stored on this this App"
+		guard hasBiometrics() else {
+			throw AuthError.biometricsNotAvailable
+		}
 		return try await context.evaluatePolicy(
 			.deviceOwnerAuthenticationWithBiometrics,
 			localizedReason: reason

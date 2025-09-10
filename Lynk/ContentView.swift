@@ -9,11 +9,20 @@ import LocalAuthentication
 import SwiftUI
 
 struct ContentView: View {
+	@Environment(\.openURL) var openURL
 	private var authService = AuthService.shared
 	@State private var isAuthenticated: Bool = false
 	@Flag(.appLockEnabled) private var appLockEnabled
 	@Flag(.isFirstLaunch) private var isFirstLaunch
 	@State private var isOnboardingFlowCompleted: Bool = false
+	
+	// Auth Error
+	@State private var biometricAuthError: NSError? {
+		didSet {
+			showBiometricAuthErrorAlert = true
+		}
+	}
+	@State private var showBiometricAuthErrorAlert: Bool = false
 	
     var body: some View {
 		Group {
@@ -28,6 +37,19 @@ struct ContentView: View {
 				AuthView(action: authenticate)
 			}
 		}
+		.alert(
+			biometricAuthError?.userInfo["NSLocalizedDescription"] as? String ?? "Biometric Authentication Failed",
+			isPresented: $showBiometricAuthErrorAlert,
+			presenting: biometricAuthError
+		) { _ in
+			Button("Settings") {
+				guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
+				openURL(settingsUrl)
+			}
+			Button("Cancel") { }
+		} message: { error in
+			Text(error?.userInfo["NSDebugDescription"] as? String ?? "Failed to validate biometric authentication on this device. Please check your device settings and try again.")
+		}
     }
 	
 	private func authenticate() {
@@ -37,48 +59,14 @@ struct ContentView: View {
 				isAuthenticated = authState
 			} catch {
 				print("Auth Error: \(error.localizedDescription)")
+				biometricAuthError = error as NSError
 				isAuthenticated = false
 			}
 		}
 	}
 }
 
-struct AuthView: View {
-	let action: () -> Void
-	
-	init(action: @escaping() -> Void) {
-		self.action = action
-	}
-	
-	var body: some View {
-		VStack {
-			Text("Welcome to Lynk")
-				.font(.largeTitle)
-				.padding()
-			Image(systemName: "faceid")
-				.resizable()
-				.frame(width: 80, height: 80)
-				.padding()
-			Button {
-				action()
-			} label: {
-				Text("Authenticate")
-					.foregroundStyle(.white)
-					.padding(.vertical, 12)
-					.padding(.horizontal, 32)
-			}
-			.background(Color.blue)
-			.clipShape(.rect(cornerRadius: 8))
-		}
-		.frame(maxWidth: .infinity, maxHeight: .infinity)
-	}
-}
-
 #Preview {
     ContentView()
 		.environmentObject(AppCoordinator())
-}
-
-#Preview {
-	AuthView(action: { })
 }

@@ -92,6 +92,7 @@ class ExtensionShareViewModel: ObservableObject {
 			saveStatus = .error(.custom(error.localizedDescription))
 		}
 	}
+	
 	@MainActor
 	private func asyncGetSharedData(for context: NSExtensionContext?) async throws {
 		guard let extensionItems = context?.inputItems as? [NSExtensionItem] else {
@@ -262,10 +263,16 @@ struct ExtensionShareView: View {
 					.padding(.vertical, 12)
 					.background(Color.blue)
 					.roundedBorder()
+					.padding(.bottom, 12)
 				}
 				.padding([.horizontal, .top])
 				.background()
-				.clipShape(.rect(cornerRadii: RectangleCornerRadii(topLeading: 12, bottomLeading: 0, bottomTrailing: 0, topTrailing: 12)))
+				.clipShape(.rect(cornerRadii: RectangleCornerRadii(
+					topLeading: 12,
+					bottomLeading: 0,
+					bottomTrailing: 0,
+					topTrailing: 12
+				)))
 			} else {
 				EmptyView()
 			}

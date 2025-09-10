@@ -39,7 +39,7 @@ class ShareViewController: UIViewController {
 			sharedItemView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
 			sharedItemView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 			sharedItemView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-			sharedItemView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+			sharedItemView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
 		])
 	}
 }
