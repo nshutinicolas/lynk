@@ -21,17 +21,10 @@ final class NotificationManager {
 		await UNUserNotificationCenter.current().notificationSettings().authorizationStatus
 	}
 	
-	func requestNotificationPermission() {
+	func requestNotificationPermission() async throws -> Bool {
 		let options: UNAuthorizationOptions = [.alert, .badge, .sound]
-		UNUserNotificationCenter.current().requestAuthorization(options: options) { [weak self] success, error in
-			self?.enableReminders = success
-			// Post a notification when notification request status changes
-			self?.notificationCenter.post(name: NSNotification.Name(rawValue: "PUSH_NOTIFICATION_REQUEST"), object: nil, userInfo: nil)
-			if let error {
-				// Handle the error gracefully. Make sure enableReminders is false
-				print("🚨Notification Error: \(error.localizedDescription)")
-			}
-		}
+		let response = try await UNUserNotificationCenter.current().requestAuthorization(options: options)
+		return response
 	}
 	
 	func scheduleNotification(for model: BookmarkModel, date: Date, time: Date) {

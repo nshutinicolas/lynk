@@ -71,7 +71,10 @@ struct WelcomeView: View {
 							.multilineTextAlignment(.center)
 						
 						primaryButton(title: "Enable Notifications") {
-							notificationManager.requestNotificationPermission()
+							Task {
+								_ = try await notificationManager.requestNotificationPermission()
+								completeOnboarding()
+							}
 						}
 						
 						secondaryButton(title: "skip for now") {
@@ -90,15 +93,6 @@ struct WelcomeView: View {
 		}
 		.animation(.easeInOut, value: onboardingStage)
 		.background()
-		.onAppear {
-			notificationManager.notificationCenter.addObserver(
-				forName: NSNotification.Name(rawValue: "PUSH_NOTIFICATION_REQUEST"),
-				object: nil,
-				queue: nil
-			) { _ in
-				self.completeOnboarding()
-			}
-		}
     }
 	
 	@ViewBuilder

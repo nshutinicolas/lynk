@@ -28,6 +28,7 @@ struct SettingsView: View {
 	@State private var showAbout = false
 	@State private var emailCompose: MailComposeModel?
 	@State private var presentDeleteAllAlert = false
+	@State private var showPushNotificationsAlert: Bool = false
 	
 	private var authService = AuthService.shared
 	private var notificationManager = NotificationManager.shared
@@ -348,11 +349,32 @@ struct SettingsView: View {
 			// Ideally, disabling this should disable it in system settings
 			// For my implementation, I only disable it for the app and I won't be sending notifications from this app
 			guard value else { return }
-			notificationManager.requestNotificationPermission()
+			Task {
+				let state = try await notificationManager.requestNotificationPermission()
+				guard state == false  else { return }
+				let status = await notificationManager.notificationPermissionStatus()
+				switch status {
+				case .authorized:
+					// We good to go
+					break
+				default:
+					showPushNotificationsAlert = true
+				}
+			}
 		}
 		.task {
 			let status = await notificationManager.notificationPermissionStatus()
 			enableRemindersLocalValue = status == .authorized && enableReminders
+		}
+		.alert("Notification Permission Error", isPresented: $showPushNotificationsAlert) {
+			Button("Settings") {
+				enableRemindersLocalValue = false
+				guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
+				openURL(settingsUrl)
+			}
+			Button("Cancel") { enableRemindersLocalValue = false }
+		} message: {
+			Text("Open the settings app to enable the notifications.")
 		}
     }
 	
