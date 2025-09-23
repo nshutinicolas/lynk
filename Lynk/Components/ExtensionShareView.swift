@@ -123,7 +123,17 @@ class ExtensionShareViewModel: ObservableObject {
 		switch SupportedContentType(rawValue: contentType) {
 		case .note:
 			if let sharedText = data as? String {
-				model = BookmarkModel(id: UUID().uuidString, category: .text(sharedText))
+				/**
+				 Note: Some apps render their url as a string like linkedin and youtube(only tested on these)
+				 The task for this edge case is to check if the string is url or just text
+				 
+				 When the url is valid, rerun updateContent(with:) with contentType as url
+				 */
+				if let url = URL(string: sharedText), url.isValid {
+					try await updateContent(with: url as NSSecureCoding, contentType: SupportedContentType.url.rawValue)
+				} else {
+					model = BookmarkModel(id: UUID().uuidString, category: .text(sharedText))
+				}
 			} else {
 				throw ExtensionShareError.invalidData
 			}

@@ -72,6 +72,7 @@
 				Constants/Constants.swift,
 				"Extensions/Date+Extension.swift",
 				Extensions/RoundedCorner.swift,
+				"Extensions/URL+Extension.swift",
 				Helpers/AppFlag.swift,
 				Helpers/Cached.swift,
 				Helpers/ImageCache.swift,
