@@ -17,9 +17,8 @@ That’s Lynk.
 
 ### Code
 
-This Project will be open source and available to the public.
-
-> I'm still working on the refactoring to make sure it is good to share with everyone
+This Project is open source and available to the public. If you have something you want to add, please create a PR or add the description as an issue and I'll look into it ASAP.
+I'll be creating the guidelines on how to contribute later on.
 
 ### AppStore Screenshots
 | **App Launch** | **Saving a Link** | **Links List** | **Settings** |
