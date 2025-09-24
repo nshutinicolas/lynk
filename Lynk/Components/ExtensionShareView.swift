@@ -153,7 +153,10 @@ class ExtensionShareViewModel: ObservableObject {
 			}
 		case .webPage:
 			guard let sharedData = data as? NSDictionary, let jsonValue = sharedData[NSExtensionJavaScriptPreprocessingResultsKey] as? NSDictionary else { break }
-			guard let title = jsonValue["title"] as? String, let urlString = jsonValue["url"] as? String, let iconUrl = jsonValue["icon"] as? String else { break }
+			guard let title = jsonValue["title"] as? String,
+				  let urlString = jsonValue["url"] as? String,
+				  let iconUrl = jsonValue["icon"] as? String
+			else { break }
 			
 			model = BookmarkModel(id: UUID().uuidString, category: .webPage(title: title, url: urlString, imageUrl: iconUrl))
 		default:
