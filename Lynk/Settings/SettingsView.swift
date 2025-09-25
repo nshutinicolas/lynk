@@ -43,17 +43,18 @@ struct SettingsView: View {
 			}
 			.frame(maxWidth: .infinity)
 			.overlay(alignment: .trailing) {
-				Image(systemName: "xmark")
-					.font(.title3)
-					.padding(10)
-					.onTapGesture {
-						withAnimation {
-							dismiss()
-						}
-					}
-					.roundedBorder(color: .gray.opacity(0.8), lineWidth: 1)
+				Button {
+					dismiss()
+				} label: {
+					Image(systemName: "xmark")
+						.font(.title3)
+						.padding(10)
+						.roundedBorder(color: .gray.opacity(0.8), lineWidth: 1)
+				}
+				.buttonStyle(.plain)
+				.shadow(color: Color.gray.opacity(0.2), radius: 2)
 			}
-			.padding(.vertical, 12)
+			.padding(.top, 12)
 			.padding(.horizontal)
 			ScrollView {
 				VStack(spacing: 16) {
@@ -67,27 +68,33 @@ struct SettingsView: View {
 							}
 							.frame(maxWidth: .infinity, alignment: .leading)
 							HStack {
-								Image(systemName: "iphone.gen2")
-									.font(.title2)
-									.padding(12)
-									.roundedBorder(color: Color.gray, lineWidth: appTheme.colorScheme == .none ? 3 : 1)
-									.onTapGesture {
-										appTheme.colorScheme = .none
-									}
-								Image(systemName: "sun.max.fill")
-									.font(.title2)
-									.padding(12)
-									.roundedBorder(color: Color.gray, lineWidth: appTheme.colorScheme == .light ? 3 : 1)
-									.onTapGesture {
-										appTheme.colorScheme = .light
-									}
-								Image(systemName: "moon.fill")
-									.font(.title2)
-									.padding(12)
-									.roundedBorder(color: Color.gray, lineWidth: appTheme.colorScheme == .dark ? 3 : 1)
-									.onTapGesture {
-										appTheme.colorScheme = .dark
-									}
+								Button {
+									appTheme.colorScheme = .none
+								} label: {
+									Image(systemName: "iphone.gen2")
+										.font(.title2)
+										.padding(12)
+										.roundedBorder(color: Color.gray, lineWidth: appTheme.colorScheme == .none ? 3 : 1)
+								}
+								.buttonStyle(.plain)
+								Button {
+									appTheme.colorScheme = .light
+								} label: {
+									Image(systemName: "sun.max.fill")
+										.font(.title2)
+										.padding(12)
+										.roundedBorder(color: Color.gray, lineWidth: appTheme.colorScheme == .light ? 3 : 1)
+								}
+								.buttonStyle(.plain)
+								Button {
+									appTheme.colorScheme = .dark
+								} label: {
+									Image(systemName: "moon.fill")
+										.font(.title2)
+										.padding(12)
+										.roundedBorder(color: Color.gray, lineWidth: appTheme.colorScheme == .dark ? 3 : 1)
+								}
+								.buttonStyle(.plain)
 							}
 						}
 					}
@@ -109,7 +116,7 @@ struct SettingsView: View {
 							}
 							.frame(maxWidth: .infinity, alignment: .leading)
 							Toggle(isOn: .constant(true)) { }
-								.frame(maxWidth: 40)
+								.labelsHidden()
 								.disabled(true)
 						}
 						.frame(maxWidth: .infinity, alignment: .leading)
@@ -134,7 +141,6 @@ struct SettingsView: View {
 								.frame(maxWidth: .infinity, alignment: .leading)
 								Toggle(isOn: $appLockEnabledLocalValue) { }
 									.labelsHidden()
-//									.frame(maxWidth: 40)
 							}
 							.frame(maxWidth: .infinity, alignment: .leading)
 							.background()
@@ -184,11 +190,12 @@ struct SettingsView: View {
 							}
 							.frame(maxWidth: .infinity, alignment: .leading)
 							Toggle(isOn: $enableRemindersLocalValue) { }
-								.frame(maxWidth: 40)
+								.labelsHidden()
 						}
 						.frame(maxWidth: .infinity, alignment: .leading)
 						.background()
 						.padding(.vertical, 4)
+						.accessibilityAddTraits(.isButton)
 						separator()
 						HStack {
 							HStack(alignment: .top) {
@@ -206,11 +213,12 @@ struct SettingsView: View {
 							}
 							.frame(maxWidth: .infinity, alignment: .leading)
 							Toggle(isOn: $showSavePreviewLocalValue) { }
-								.frame(maxWidth: 40)
+								.labelsHidden()
 						}
 						.frame(maxWidth: .infinity, alignment: .leading)
 						.background()
 						.padding(.vertical, 4)
+						.accessibilityAddTraits(.isButton)
 						separator()
 						row(icon: "star", title: "Rate the app", description: "Are you enjoying the app? Share your experience with others", disclosure: false) {
 							AppReviewRequest.requestReviewManually()
@@ -395,7 +403,13 @@ struct SettingsView: View {
 	
 	// TODO: Pass in the foreground color for icon and text
 	@ViewBuilder
-	private func row(icon: String, title: String, description: String? = nil, disclosure: Bool = true, action: (() -> Void)? = nil) -> some View {
+	private func row(
+		icon: String,
+		title: String,
+		description: String? = nil,
+		disclosure: Bool = true,
+		action: (() -> Void)? = nil
+	) -> some View {
 		Button {
 			action?()
 		} label: {
