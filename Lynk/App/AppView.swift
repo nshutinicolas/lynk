@@ -146,15 +146,17 @@ struct AppView: View {
 											.autocorrectionDisabled()
 											.padding(.vertical, 10)
 											.padding(.horizontal, 8)
-										Image(systemName: "xmark")
-											.font(.footnote)
-											.padding(8)
-											.background(Color.gray.opacity(0.2))
-											.clipShape(.circle)
-											.padding(4)
-											.onTapGesture {
-												searchText = ""
-											}
+										Button {
+											searchText = ""
+										} label: {
+											Image(systemName: "xmark")
+												.font(.footnote)
+												.padding(8)
+												.background(Color.gray.opacity(0.2))
+												.clipShape(.circle)
+												.padding(4)
+										}
+										.buttonStyle(.plain)
 									}
 									.roundedBorder(color: .gray.opacity(0.8), lineWidth: 1)
 									Image(systemName: "xmark")
@@ -170,30 +172,27 @@ struct AppView: View {
 								.matchedGeometryEffect(id: "SEARCH_BAR", in: searchBarAnimation)
 							} else {
 								if bookmarksFetch.isEmpty == false {
-									navIcon("magnifyingglass")
-										.matchedGeometryEffect(id: "SEARCH_BAR", in: searchBarAnimation)
-										.onTapGesture {
-											withAnimation {
-												showSearchBar = true
-											}
+									navIcon("magnifyingglass") {
+										withAnimation {
+											showSearchBar = true
 										}
+									}
+									.matchedGeometryEffect(id: "SEARCH_BAR", in: searchBarAnimation)
 								}
 							}
 						}
 						if showSearchBar == false {
 							// TODO: Make it beautiful and appealing
 							#if DEBUG
-							navIcon(displayMode == .list ? "list.bullet" : "square.grid.2x2" )
-								.animation(.spring, value: displayMode)
-								.onTapGesture {
-									displayMode = displayMode.toggle
-								}
+							navIcon(displayMode == .list ? "list.bullet" : "square.grid.2x2") {
+								displayMode = displayMode.toggle
+							}
+							.animation(.spring, value: displayMode)
 							#endif
-							navIcon("gearshape")
-								.onTapGesture {
-									rotateSettingsIcon.toggle()
-									showSettings = true
-								}
+							navIcon("gearshape") {
+								rotateSettingsIcon.toggle()
+								showSettings = true
+							}
 						}
 					}
 				}
@@ -339,12 +338,18 @@ struct AppView: View {
 	}
 	
 	@ViewBuilder
-	private func navIcon(_ icon: String) -> some View {
-		Image(systemName: icon)
-			.resizable()
-			.frame(width: 20, height: 20)
-			.padding(12)
-			.roundedBorder(color: .gray.opacity(0.8))
+	private func navIcon(_ icon: String, action: @escaping () -> Void) -> some View {
+		Button {
+			action()
+		} label: {
+			Image(systemName: icon)
+				.resizable()
+				.frame(width: 20, height: 20)
+				.padding(12)
+				.roundedBorder(color: .gray.opacity(0.8))
+		}
+		.buttonStyle(.plain)
+		.shadow(color: Color.gray.opacity(0.2), radius: 4)
 	}
 	
 	@ViewBuilder
