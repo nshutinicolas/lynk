@@ -22,7 +22,7 @@ This Project is open source and available to the public. If you have something y
 I'll be creating the guidelines on how to contribute later on.
 
 ### AppStore Screenshots
-| **App Launch** | **Into** | **Links List** | **Settings** | **Reminder Notification** |
+| **App Launch** | **Links List** | **Dark mode** | **Settings** | **Reminder Notification** |
 | --- | --- | --- | --- | --- |
 | <img width="250" alt="App launcher" src="https://github.com/user-attachments/assets/f8d93ec9-7456-4349-ab97-fbd2b154af26" /> | <img src="https://github.com/user-attachments/assets/2ded8662-951b-46df-ab62-5c639e2cb803" width="250" /> | <img width="250" alt="list" src="https://github.com/user-attachments/assets/b50d585a-1b3a-4c64-8cda-61e7b3eb158c" /> | <img src="https://github.com/user-attachments/assets/f6a76272-a860-493b-9df6-6f98862c1228" width="250" /> | <img width="250" alt="reminder" src="https://github.com/user-attachments/assets/a5204370-bc44-444a-8e69-9b5daffde91a" /> |
 
