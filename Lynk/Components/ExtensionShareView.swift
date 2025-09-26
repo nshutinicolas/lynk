@@ -280,12 +280,13 @@ struct ExtensionShareView: View {
 				}
 				.padding([.horizontal, .top])
 				.background()
-				.clipShape(.rect(cornerRadii: RectangleCornerRadii(
-					topLeading: 12,
-					bottomLeading: 0,
-					bottomTrailing: 0,
-					topTrailing: 12
-				)))
+				// TODO: Find an alternative to adding top coners without affecting the safe area fill
+//				.clipShape(.rect(cornerRadii: RectangleCornerRadii(
+//					topLeading: 12,
+//					bottomLeading: 0,
+//					bottomTrailing: 0,
+//					topTrailing: 12
+//				)))
 			} else {
 				EmptyView()
 			}
