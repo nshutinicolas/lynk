@@ -29,4 +29,4 @@ I'll be creating the guidelines on how to contribute later on.
 
 **Note:** Generated the screenshots with [Screenshot Pro](https://screenshots.pro), still using the free version.
 
-
+[![Download from the App Store](https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg)](https://apps.apple.com/rw/app/lynk-your-smart-link-keeper/id6746718631) 
