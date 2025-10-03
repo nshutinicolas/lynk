@@ -14,11 +14,13 @@ typealias MailComposeViewCallback = (Result<MFMailComposeResult, Error>) -> Void
 enum MailComposeModel: Equatable {
 	case support
 	case feedback
+	case negativeReview
 	
 	var subject: String {
 		switch self {
 		case .support: return "Lynk Support Request"
 		case .feedback: return "Lynk App Feedback"
+		case .negativeReview: return "Lynk Negative Feedback"
 		}
 	}
 	var email: String {
