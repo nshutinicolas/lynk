@@ -5,6 +5,7 @@
 //  Created by Musoni nshuti Nicolas on 09/04/2025.
 //
 
+import StoreKit
 import SwiftUI
 
 enum SortingPill: Equatable, CaseIterable, Identifiable {
@@ -58,6 +59,9 @@ struct AppView: View {
 	@Namespace private var searchBarAnimation
 	@State private var showSettings = false
 	@FocusState private var searchFieldIsFocused: Bool
+	@Cached<Int>(.appVisits) private var appVisitCount
+	@State private var showAppReview = false
+	@State private var showEmailCompose = false
 	
 	@State private var displayMode: DisplayMode = .list
 	
@@ -275,6 +279,35 @@ struct AppView: View {
 			@Cached<String>(.layout) var layout
 			layout = newValue.rawValue
 		}
+		.onAppear {
+			// Increment app view count
+			if let visits = appVisitCount {
+				appVisitCount = visits + 1
+			} else {
+				appVisitCount = 1
+			}
+			// Check for Review alert eligibility
+			guard AppReviewRequest.requestAppReviewEligible() else { return }
+			Task {
+				try await Task.sleep(for: .seconds(2))
+				// Consider using defer incase the above throws an error
+				showAppReview = true
+			}
+		}
+		.alert("Feedback", isPresented: $showAppReview, actions: {
+			Button("Yes, I love it! 😍") {
+				requestReview()
+			}
+			Button("No, it sucks 😔") {
+				showEmailCompose = true
+			}
+			Button("Dismiss") { }
+		}, message: {
+			Text("Are you enjoying Lynk?")
+		})
+		.sheet(isPresented: $showEmailCompose) {
+			MailComposeView(.negativeReview) { _ in }
+		}
 	}
 	
 	private func deleteBookmark(_ bookmark: Bookmark) {
@@ -422,6 +455,13 @@ struct AppView: View {
 		let title: String
 		let icon: String?
 		let bookmarks: [Bookmark]
+	}
+	
+	private func requestReview() {
+		guard let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene else { return }
+		AppStore.requestReview(in: scene)
+		// Update review values
+		AppReviewRequest.updateReviewValues()
 	}
 }
 

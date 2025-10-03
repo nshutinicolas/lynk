@@ -5,26 +5,33 @@
 //  Created by Musoni nshuti Nicolas on 14/05/2025.
 //
 
-import Foundation
 import UIKit
 
 enum AppReviewRequest {
-	#warning("Implement the logic for requesting app review")
-	static func requestAppReview() -> Bool {
-//		let currentAppVersion = Bundle.main.appVersion
-//		let lastPromptedVersion: String? = LocalAppStorage.shared.getValue(for: .lastPromptedVersion)
-//		let appVisitCount: Int? = LocalAppStorage.shared.getValue(for: .appVisits)
+	static func requestAppReviewEligible() -> Bool {
+		let currentAppVersion = Bundle.main.appVersion
+		@Cached<String>(.lastPromptedVersion) var lastPromptedVersion
+		@Cached<Int>(.appVisits) var appVisitsCount
 		
-		// Logic
-//		if let appVisitCount, appVisitCount % 4 == 0 && currentAppVersion != lastPromptedVersion {
-//			LocalAppStorage.shared.set(currentAppVersion, for: .lastPromptedVersion)
-//			return true
-//		}
-		return false
+		// If app version is the same and visits ain't divisible by 3, then exit
+		guard currentAppVersion != lastPromptedVersion,
+			  let appVisitsCount,
+			  appVisitsCount.isMultiple(of: 3)
+		else {
+			return false
+		}
+		
+		return true
 	}
 	
 	static func requestReviewManually() {
 		guard let url = URL(string: AppConstants.appStoreReviewUrl) else { return }
 		UIApplication.shared.open(url)
+	}
+	
+	static func updateReviewValues() {
+		@Cached<String>(.lastPromptedVersion) var lastPromptedVersion
+		lastPromptedVersion = Bundle.main.appVersion
+		// Update last date reviewed
 	}
 }

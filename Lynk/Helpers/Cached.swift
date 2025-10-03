@@ -39,5 +39,7 @@ extension Cached {
 	enum Key: String {
 		case layout
 		case colorScheme
+		case lastPromptedVersion
+		case appVisits
 	}
 }
