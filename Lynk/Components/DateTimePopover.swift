@@ -14,8 +14,7 @@ extension View {
 		for displayedComponent: DatePickerComponents,
 		isPresented: Binding<Bool>,
 		selected: Binding<Date>,
-		/// Using `PartialRangeFrom` since I only need the users to set notification from now onward.
-		in dateRange: PartialRangeFrom<Date> = Date.now...,
+		in dateRange: DateTimePopover.DateRange = .none,
 		arrowDirection: UIPopoverArrowDirection = .any
 	) -> some View {
 		self.nativePopover(isPresented: isPresented, arrowDirection: arrowDirection) {
@@ -27,18 +26,43 @@ extension View {
 struct DateTimePopover: View {
 	let displayedComponent: DatePickerComponents
 	@Binding var selected: Date
-	let dateRange: PartialRangeFrom<Date>
+	let dateRange: DateRange
 	
-	init(display: DatePickerComponents, selected: Binding<Date>, in dateRange: PartialRangeFrom<Date>) {
+	init(display: DatePickerComponents, selected: Binding<Date>, in dateRange: DateRange) {
 		self.displayedComponent = display
 		self._selected = selected
 		self.dateRange = dateRange
 	}
 	
 	var body: some View {
-		DatePicker("", selection: $selected, in: dateRange, displayedComponents: displayedComponent)
-			.applyPickerStyle(for: displayedComponent)
-			.labelsHidden()
+		Group {
+			if let range = dateRange.range {
+				DatePicker("", selection: $selected, in: range, displayedComponents: displayedComponent)
+					.applyPickerStyle(for: displayedComponent)
+			} else {
+				DatePicker("", selection: $selected, displayedComponents: displayedComponent)
+					.applyPickerStyle(for: displayedComponent)
+			}
+		}
+		.labelsHidden()
+	}
+	
+	enum DateRange {
+		case partial(PartialRangeFrom<Date>)
+		case partialThrough(PartialRangeThrough<Date>)
+		case closed(ClosedRange<Date>)
+		case none
+		
+		var range: ClosedRange<Date>? {
+			switch self {
+			case .partial(let partialRangeFrom):
+				return partialRangeFrom.lowerBound...Date.distantFuture
+			case .partialThrough(let partialRangeThrough):
+				return Date.distantPast...partialRangeThrough.upperBound
+			case .closed(let closedRange): return closedRange
+			case .none: return nil
+			}
+		}
 	}
 }
 
@@ -59,7 +83,7 @@ private extension View {
 
 #Preview("Date Time Picker Popover") {
 	Group {
-		DateTimePopover(display: .date, selected: .constant(.now), in: Date.now...)
-		DateTimePopover(display: .hourAndMinute, selected: .constant(.now), in: Date.distantPast...)
+		DateTimePopover(display: .date, selected: .constant(.now), in: .partialThrough(...Date.now))
+		DateTimePopover(display: .hourAndMinute, selected: .constant(.now), in: .partial(Date.now...))
 	}
 }
