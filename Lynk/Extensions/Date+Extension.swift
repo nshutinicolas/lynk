@@ -27,4 +27,12 @@ extension Date {
 	var components: DateComponents {
 		Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: self)
 	}
+	
+	func isGreater(than date: Date, for components: Set<Calendar.Component>) -> Bool {
+		let calendar = Calendar.current
+		let selfComponents = calendar.dateComponents(components, from: self)
+		let dateComponents = calendar.dateComponents(components, from: date)
+		
+		return calendar.date(from: selfComponents) ?? Date.now > calendar.date(from: dateComponents) ?? Date.now
+	}
 }

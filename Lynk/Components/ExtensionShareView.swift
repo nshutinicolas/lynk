@@ -62,7 +62,7 @@ class ExtensionShareViewModel: ObservableObject {
 					try? context.save()
 				}
 			}
-			if let reminder {
+			if let reminder, isValidDate(for: reminder) {
 				notificationManager.scheduleNotification(
 					for: model,
 					date: reminder.date,
@@ -76,6 +76,15 @@ class ExtensionShareViewModel: ObservableObject {
 			completion()
 			saveTask = nil
 		}
+	}
+	
+	func isValidDate(for reminder: ReminderContent) -> Bool {
+		guard reminder.date >= .now else { return false }
+		
+		if reminder.date == .now {
+			return reminder.time.isGreater(than: reminder.date, for: [.hour, .minute])
+		}
+		return true
 	}
 	
 	@MainActor
@@ -228,29 +237,31 @@ struct ExtensionShareView: View {
 					.animation(.default, value: viewModel.model)
 					if enableReminders {
 						Group {
-							HStack {
-								Group {
-									if setReminder {
-										Image(systemName: "checkmark.square")
-											.resizable()
-											.frame(width: 20, height: 20)
-									} else {
-										Image(systemName: "square")
-											.resizable()
-											.frame(width: 20, height: 20)
-									}
-								}
-								.animation(.easeInOut, value: setReminder)
-								Text("Set Reminder")
-							}
-							.frame(maxWidth: .infinity, alignment: .leading)
-							.padding(12)
-							.roundedBorder()
-							.onTapGesture {
+							Button {
 								withAnimation {
 									setReminder.toggle()
 								}
+							} label: {
+								HStack {
+									Group {
+										if setReminder {
+											Image(systemName: "checkmark.square")
+												.resizable()
+												.frame(width: 20, height: 20)
+										} else {
+											Image(systemName: "square")
+												.resizable()
+												.frame(width: 20, height: 20)
+										}
+									}
+									.animation(.easeInOut, value: setReminder)
+									Text("Set Reminder")
+								}
+								.frame(maxWidth: .infinity, alignment: .leading)
+								.padding(12)
+								.roundedBorder()
 							}
+							.buttonStyle(.plain)
 							// Reminder View
 							if setReminder {
 								ReminderView(selectedDate: $selectedDate, selectedTime: $selectedTime)
@@ -312,11 +323,14 @@ struct ExtensionShareView: View {
 		.task {
 			await viewModel.getSharedContent(with: context)
 		}
+		.onChange(of: selectedDate) { value in
+			selectedTime = value
+		}
 	}
 }
 
 // TODO: Fix the preview to show mocked content
 #Preview("Extension") {
-	ExtensionShareView(context: nil, onClose: { })
+	ExtensionShareView(context: .init(), onClose: { })
 		.environmentObject(BookmarkStorage())
 }
