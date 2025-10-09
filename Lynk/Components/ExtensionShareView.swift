@@ -103,6 +103,11 @@ class ExtensionShareViewModel: ObservableObject {
 	}
 	
 	@MainActor
+	func updateTitle(_ string: String) {
+		model?.updateTitle(string)
+	}
+	
+	@MainActor
 	private func asyncGetSharedData(for context: NSExtensionContext?) async throws {
 		guard let extensionItems = context?.inputItems as? [NSExtensionItem] else {
 			saveStatus = .error(.invalidInputItems)
@@ -193,6 +198,8 @@ struct ExtensionShareView: View {
 	@State private var setReminder: Bool = false
 	@State private var selectedDate: Date = .now
 	@State private var selectedTime: Date = .now
+	@State private var edittedTitle: String = ""
+	@State private var startEditingTitle: Bool = false
 	
 	// Private
 	private let context: NSExtensionContext?
@@ -204,7 +211,18 @@ struct ExtensionShareView: View {
 	}
 	
 	var body: some View {
-		VStack {
+		VStack(spacing: .zero) {
+			// To have a top rounded corners without affecting the safeArea section
+			// I have to introduce this View to cover it up
+			Rectangle()
+				.fill(Color(uiColor: .systemBackground))
+				.frame(height: 24)
+				.clipShape(.rect(cornerRadii: RectangleCornerRadii(
+					topLeading: 16,
+					bottomLeading: 0,
+					bottomTrailing: 0,
+					topTrailing: 16
+				)))
 			if showSavePreview {
 				VStack(spacing: 16) {
 					HStack {
@@ -223,7 +241,7 @@ struct ExtensionShareView: View {
 						.buttonStyle(.plain)
 					}
 					.frame(maxWidth: .infinity, alignment: .trailing)
-					VStack {
+					ZStack {
 						if let model = viewModel.model {
 							ItemCellView(model: model)
 								.transition(.move(edge: .bottom).combined(with: .opacity))
@@ -234,7 +252,25 @@ struct ExtensionShareView: View {
 								.transition(.opacity)
 						}
 					}
+					.frame(maxWidth: .infinity)
 					.animation(.default, value: viewModel.model)
+					.overlay(alignment: .topTrailing) {
+						if viewModel.model != nil {
+							Button {
+								withAnimation {
+									startEditingTitle = true
+								}
+							} label: {
+								Image(systemName: "pencil")
+									.resizable()
+									.scaledToFit()
+									.frame(width: 16, height: 16)
+									.padding(8)
+									.roundedBorder()
+							}
+							.buttonStyle(.plain)
+						}
+					}
 					if enableReminders {
 						Group {
 							Button {
@@ -289,15 +325,8 @@ struct ExtensionShareView: View {
 					.roundedBorder()
 					.padding(.bottom, 12)
 				}
-				.padding([.horizontal, .top])
+				.padding([.horizontal])
 				.background()
-				// TODO: Find an alternative to adding top coners without affecting the safe area fill
-//				.clipShape(.rect(cornerRadii: RectangleCornerRadii(
-//					topLeading: 12,
-//					bottomLeading: 0,
-//					bottomTrailing: 0,
-//					topTrailing: 12
-//				)))
 			} else {
 				EmptyView()
 			}
@@ -314,6 +343,10 @@ struct ExtensionShareView: View {
 		}
 		.onChange(of: viewModel.model) { model in
 			guard let model else { return }
+			// Set Edittable text value
+			edittedTitle = model.title ?? ""
+			
+			// When showSavePreview is disabled, then just save the content and move on
 			if viewModel.showSavePreview == false {
 				viewModel.saveBookmark(model) {
 					onClose()
@@ -325,6 +358,59 @@ struct ExtensionShareView: View {
 		}
 		.onChange(of: selectedDate) { value in
 			selectedTime = value
+		}
+		// Text Editting section
+		.overlay(alignment: .center) {
+			// TODO: When presenting or showing, it shows that the view is from the foreground of the bottomsheet
+			// Figure out a better way to make look like it came from behind it.
+			if startEditingTitle {
+			VStack(spacing: 16) {
+					TextField("Enter new title", text: $edittedTitle, axis: .vertical)
+						.padding()
+						.roundedBorder(color: .gray, lineWidth: 2)
+					HStack {
+						Button {
+							withAnimation {
+								startEditingTitle = false
+							}
+						} label: {
+							Text("Cancel")
+								.padding(.vertical, 12)
+								.frame(maxWidth: .infinity)
+								.foregroundStyle(.blue)
+								.background(Color.white)
+								.roundedBorder()
+						}
+						.buttonStyle(.plain)
+						
+						Button {
+							guard viewModel.model?.title != edittedTitle, edittedTitle.isEmpty == false else { return }
+							viewModel.updateTitle(edittedTitle)
+							withAnimation {
+								startEditingTitle = false
+							}
+						} label: {
+							Text("Confirm")
+								.padding(.vertical, 12)
+								.frame(maxWidth: .infinity)
+								.foregroundStyle(Color.white)
+								.background(Color.blue)
+								.roundedBorder()
+						}
+						.buttonStyle(.plain)
+					}
+				}
+				.padding(.vertical, 12)
+				.padding(.horizontal)
+				.background()
+				.roundedBorder()
+				.padding(.horizontal)
+				.offset(y: -42)
+				.transition(.asymmetric(
+					insertion: .opacity.combined(with: .move(edge: .bottom)),
+					removal: .move(edge: .bottom).combined(with: .opacity)
+				))
+			}
 		}
 	}
 }
