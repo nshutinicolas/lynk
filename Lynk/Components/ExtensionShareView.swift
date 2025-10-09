@@ -204,7 +204,18 @@ struct ExtensionShareView: View {
 	}
 	
 	var body: some View {
-		VStack {
+		VStack(spacing: .zero) {
+			// To have a top rounded corners without affecting the safeArea section
+			// I have to introduce this View to cover it up
+			Rectangle()
+				.fill(Color(uiColor: .systemBackground))
+				.frame(height: 24)
+				.clipShape(.rect(cornerRadii: RectangleCornerRadii(
+					topLeading: 16,
+					bottomLeading: 0,
+					bottomTrailing: 0,
+					topTrailing: 16
+				)))
 			if showSavePreview {
 				VStack(spacing: 16) {
 					HStack {
@@ -223,7 +234,7 @@ struct ExtensionShareView: View {
 						.buttonStyle(.plain)
 					}
 					.frame(maxWidth: .infinity, alignment: .trailing)
-					VStack {
+					ZStack {
 						if let model = viewModel.model {
 							ItemCellView(model: model)
 								.transition(.move(edge: .bottom).combined(with: .opacity))
@@ -234,7 +245,23 @@ struct ExtensionShareView: View {
 								.transition(.opacity)
 						}
 					}
+					.frame(maxWidth: .infinity)
 					.animation(.default, value: viewModel.model)
+					.overlay(alignment: .topTrailing) {
+						if viewModel.model != nil {
+							Button {
+								
+							} label: {
+								Image(systemName: "pencil")
+									.resizable()
+									.scaledToFit()
+									.frame(width: 16, height: 16)
+									.padding(8)
+									.roundedBorder()
+							}
+							.buttonStyle(.plain)
+						}
+					}
 					if enableReminders {
 						Group {
 							Button {
@@ -289,15 +316,8 @@ struct ExtensionShareView: View {
 					.roundedBorder()
 					.padding(.bottom, 12)
 				}
-				.padding([.horizontal, .top])
+				.padding([.horizontal])
 				.background()
-				// TODO: Find an alternative to adding top coners without affecting the safe area fill
-//				.clipShape(.rect(cornerRadii: RectangleCornerRadii(
-//					topLeading: 12,
-//					bottomLeading: 0,
-//					bottomTrailing: 0,
-//					topTrailing: 12
-//				)))
 			} else {
 				EmptyView()
 			}
