@@ -10,10 +10,7 @@
           "fill-specializations" : [
             {
               "value" : {
-                "linear-gradient" : [
-                  "extended-gray:0.00000,1.00000",
-                  "extended-gray:1.00000,1.00000"
-                ]
+                "solid" : "extended-gray:0.00000,1.00000"
               }
             },
             {
@@ -24,12 +21,21 @@
                   "extended-gray:1.00000,1.00000"
                 ]
               }
+            },
+            {
+              "appearance" : "tinted",
+              "value" : {
+                "linear-gradient" : [
+                  "extended-srgb:0.00000,0.47843,1.00000,1.00000",
+                  "extended-srgb:0.00000,0.47843,1.00000,1.00000"
+                ]
+              }
             }
           ],
           "image-name" : "circle_lynk.png",
           "name" : "circle_lynk",
           "position" : {
-            "scale" : 1.05,
+            "scale" : 1.2,
             "translation-in-points" : [
               8.402182610861807,
               -0.8932049982717913
@@ -52,10 +58,7 @@
           "fill-specializations" : [
             {
               "value" : {
-                "linear-gradient" : [
-                  "extended-gray:0.00000,1.00000",
-                  "extended-gray:1.00000,1.00000"
-                ]
+                "solid" : "extended-gray:0.00000,1.00000"
               }
             },
             {
@@ -66,15 +69,21 @@
                   "extended-gray:1.00000,1.00000"
                 ]
               }
+            },
+            {
+              "appearance" : "tinted",
+              "value" : {
+                "automatic-gradient" : "extended-srgb:0.00000,0.47843,1.00000,1.00000"
+              }
             }
           ],
           "image-name" : "clip_lynk.png",
           "name" : "clip_lynk",
           "position" : {
-            "scale" : 0.6,
+            "scale" : 0.7,
             "translation-in-points" : [
-              10.80929438586546,
-              -57.08942455055832
+              3.52804438586546,
+              -70.22223705055832
             ]
           }
         }
@@ -94,10 +103,7 @@
           "fill-specializations" : [
             {
               "value" : {
-                "linear-gradient" : [
-                  "extended-gray:0.00000,1.00000",
-                  "extended-gray:1.00000,1.00000"
-                ]
+                "solid" : "extended-gray:0.00000,1.00000"
               }
             },
             {
@@ -108,15 +114,21 @@
                   "extended-gray:1.00000,1.00000"
                 ]
               }
+            },
+            {
+              "appearance" : "tinted",
+              "value" : {
+                "automatic-gradient" : "extended-srgb:0.00000,0.47843,1.00000,1.00000"
+              }
             }
           ],
           "image-name" : "text_lynk.png",
           "name" : "text_lynk",
           "position" : {
-            "scale" : 0.7,
+            "scale" : 0.8,
             "translation-in-points" : [
-              14.31747917747699,
-              166.13996149923818
+              13.19247917747699,
+              220.6555864992382
             ]
           }
         }
