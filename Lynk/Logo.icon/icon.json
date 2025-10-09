@@ -1,0 +1,140 @@
+{
+  "fill" : {
+    "solid" : "extended-gray:1.00000,1.00000"
+  },
+  "groups" : [
+    {
+      "blend-mode" : "normal",
+      "layers" : [
+        {
+          "fill-specializations" : [
+            {
+              "value" : {
+                "linear-gradient" : [
+                  "extended-gray:0.00000,1.00000",
+                  "extended-gray:1.00000,1.00000"
+                ]
+              }
+            },
+            {
+              "appearance" : "dark",
+              "value" : {
+                "linear-gradient" : [
+                  "extended-gray:1.00000,1.00000",
+                  "extended-gray:1.00000,1.00000"
+                ]
+              }
+            }
+          ],
+          "image-name" : "circle_lynk.png",
+          "name" : "circle_lynk",
+          "position" : {
+            "scale" : 1.05,
+            "translation-in-points" : [
+              8.402182610861807,
+              -0.8932049982717913
+            ]
+          }
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    },
+    {
+      "layers" : [
+        {
+          "fill-specializations" : [
+            {
+              "value" : {
+                "linear-gradient" : [
+                  "extended-gray:0.00000,1.00000",
+                  "extended-gray:1.00000,1.00000"
+                ]
+              }
+            },
+            {
+              "appearance" : "dark",
+              "value" : {
+                "linear-gradient" : [
+                  "extended-gray:1.00000,1.00000",
+                  "extended-gray:1.00000,1.00000"
+                ]
+              }
+            }
+          ],
+          "image-name" : "clip_lynk.png",
+          "name" : "clip_lynk",
+          "position" : {
+            "scale" : 0.6,
+            "translation-in-points" : [
+              10.80929438586546,
+              -57.08942455055832
+            ]
+          }
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    },
+    {
+      "layers" : [
+        {
+          "fill-specializations" : [
+            {
+              "value" : {
+                "linear-gradient" : [
+                  "extended-gray:0.00000,1.00000",
+                  "extended-gray:1.00000,1.00000"
+                ]
+              }
+            },
+            {
+              "appearance" : "dark",
+              "value" : {
+                "linear-gradient" : [
+                  "extended-gray:1.00000,1.00000",
+                  "extended-gray:1.00000,1.00000"
+                ]
+              }
+            }
+          ],
+          "image-name" : "text_lynk.png",
+          "name" : "text_lynk",
+          "position" : {
+            "scale" : 0.7,
+            "translation-in-points" : [
+              14.31747917747699,
+              166.13996149923818
+            ]
+          }
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "circles" : [
+      "watchOS"
+    ],
+    "squares" : "shared"
+  }
+}
