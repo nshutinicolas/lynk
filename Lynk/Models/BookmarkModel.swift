@@ -9,7 +9,7 @@ import Foundation
 
 struct BookmarkModel: Identifiable, Hashable {
 	let id: String
-	let category: Category
+	var category: Category
 	let date: Date
 	var opened: Bool
 	let showShareIcon: Bool
@@ -23,6 +23,30 @@ struct BookmarkModel: Identifiable, Hashable {
 	
 	mutating func updateOpenedState(to state: Bool) {
 		opened = state
+	}
+	
+	/// Update category title
+	mutating func updateTitle(_ title: String) {
+		switch self.category {
+		case .text(_):
+			category = .text(title)
+		case .url(let url, _):
+			category = .url(url: url, title: title)
+		case .webPage(_, let url, let imageUrl):
+			category = .webPage(title: title, url: url, imageUrl: imageUrl)
+		}
+	}
+	
+	/// Category Title - Optional
+	var title: String? {
+		switch self.category {
+		case .text(let string):
+			return string
+		case .url(_, let title):
+			return title
+		case .webPage(let title, _, _):
+			return title
+		}
 	}
 	
 	static func == (lhs: BookmarkModel, rhs: BookmarkModel) -> Bool {
