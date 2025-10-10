@@ -49,6 +49,7 @@ enum SortingPill: Equatable, CaseIterable, Identifiable {
 struct AppView: View {
 	@EnvironmentObject private var coordinator: AppCoordinator
 	@EnvironmentObject private var sharedStorage: BookmarkStorage
+	@EnvironmentObject private var notificationContainer: NotificationContainer
 	@Environment(\.managedObjectContext) private var localStorage
 	@Environment(\.openURL) private var openURL
 	
@@ -62,6 +63,8 @@ struct AppView: View {
 	@Cached<Int>(.appVisits) private var appVisitCount
 	@State private var showAppReview = false
 	@State private var showEmailCompose = false
+	
+	@State private var showDeepLinkAlert: Bool = false
 	
 	@State private var displayMode: DisplayMode = .list
 	
@@ -279,6 +282,13 @@ struct AppView: View {
 			@Cached<String>(.layout) var layout
 			layout = newValue.rawValue
 		}
+		.onChange(of: notificationContainer.pendingDeeplinkNotification) { value in
+			guard value != nil else { return }
+			Task {
+				try await Task.sleep(for: .seconds(1))
+				showDeepLinkAlert = true
+			}
+		}
 		.onAppear {
 			// Increment app view count
 			if let visits = appVisitCount {
@@ -286,14 +296,38 @@ struct AppView: View {
 			} else {
 				appVisitCount = 1
 			}
+			
 			// Check for Review alert eligibility
-			guard AppReviewRequest.requestAppReviewEligible() else { return }
-			Task {
-				try await Task.sleep(for: .seconds(2))
-				// Consider using defer incase the above throws an error
-				showAppReview = true
-			}
+			requestReviewEligible()
 		}
+		.alert(
+			"Reminding you to read this😎",
+			isPresented: $showDeepLinkAlert,
+			actions: {
+				Button("Open") {
+					guard let stringUrl = notificationContainer.pendingDeeplinkNotification,
+						  let url = URL(string: stringUrl.url) else {
+						return
+					}
+					openURL(url)
+					// Clear Notification
+					notificationContainer.clearPendingDeeplinkNotification()
+				}
+				Button("Not now", role: .cancel) {
+					// Try and see if user is eligible for the review
+					requestReviewEligible()
+					// Clear Notification
+					notificationContainer.clearPendingDeeplinkNotification()
+				}
+			}, message: {
+				if let stringUrl = notificationContainer.pendingDeeplinkNotification {
+					Text("\(stringUrl.title ?? "") \((stringUrl.title != nil) ? "-" : "") \(stringUrl.url)")
+						.lineLimit(4)
+				} else {
+					EmptyView()
+				}
+			}
+		)
 		.alert("Feedback", isPresented: $showAppReview, actions: {
 			Button("Yes, I love it! 😍") {
 				requestReview()
@@ -457,6 +491,17 @@ struct AppView: View {
 		let bookmarks: [Bookmark]
 	}
 	
+	/// Check if session is eligible for the app review and then set `showAppReview` to true
+	private func requestReviewEligible() {
+		guard AppReviewRequest.requestAppReviewEligible() else { return }
+		Task {
+			try await Task.sleep(for: .seconds(2))
+			// Consider using defer incase the above throws an error
+			showAppReview = true
+		}
+	}
+	
+	/// Send a request to show the app review alert and update review values
 	private func requestReview() {
 		guard let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene else { return }
 		AppStore.requestReview(in: scene)
@@ -484,6 +529,7 @@ extension AppView {
 	AppView()
 		.environmentObject(AppCoordinator())
 		.environment(\.managedObjectContext, context)
+		.environmentObject(NotificationContainer())
 }
 
 // TODO: Revisit this when implementing the share icon action

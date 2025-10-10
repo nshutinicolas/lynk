@@ -49,6 +49,24 @@ struct BookmarkModel: Identifiable, Hashable {
 		}
 	}
 	
+	/// For deeplink, create a url to pass in the userInfo
+	/// The format is `lynk://open?link=<string>&title=<string>` where title is optional for url option
+	var userInfo: [String: String] {
+		var url: String = "\(AppConstants.deeplinkUrl)open?"
+		switch self.category {
+		case .text(let string):
+			url.append("title=\(string)") // This will always fail the link check
+		case .url(let urlString, let title):
+			url.append("link=\(urlString)")
+			if let title {
+				url.append("&title=\(title)")
+			}
+		case .webPage(let title, let urlString, _):
+			url.append("link=\(urlString)&title=\(title)")
+		}
+		return ["url": url]
+	}
+	
 	static func == (lhs: BookmarkModel, rhs: BookmarkModel) -> Bool {
 		lhs.id == rhs.id &&
 		lhs.category == rhs.category &&

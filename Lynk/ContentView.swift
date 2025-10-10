@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ContentView: View {
 	@Environment(\.openURL) var openURL
+	@EnvironmentObject private var notificationContainer: NotificationContainer
 	private var authService = AuthService.shared
 	@State private var isAuthenticated: Bool = false
 	@Flag(.appLockEnabled) private var appLockEnabled
@@ -69,4 +70,5 @@ struct ContentView: View {
 #Preview {
     ContentView()
 		.environmentObject(AppCoordinator())
+		.environmentObject(NotificationContainer())
 }
