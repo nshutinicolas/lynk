@@ -29,7 +29,7 @@ final class NotificationManager {
 	
 	func scheduleNotification(for model: BookmarkModel, date: Date, time: Date) {
 		let content = UNMutableNotificationContent()
-		content.title = "Lynk Review Reminder" // Find a better title than this
+		content.title = "📖Reminding you to read this" // Find a better title than this
 		let notificationSubtitle: String
 		switch model.category {
 		case .text(let title):
