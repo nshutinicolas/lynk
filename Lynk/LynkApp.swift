@@ -88,7 +88,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 								withCompletionHandler completionHandler: @escaping () -> Void) {
 		let userInfo = response.notification.request.content.userInfo
 		
-		if let openString = userInfo["open"] as? String,
+		if let openString = userInfo["url"] as? String,
 		   let url = URL(string: openString) {
 			// Manually trigger the deeplink
 			DispatchQueue.main.async {

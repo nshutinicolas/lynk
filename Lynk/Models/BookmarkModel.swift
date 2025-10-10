@@ -64,7 +64,7 @@ struct BookmarkModel: Identifiable, Hashable {
 		case .webPage(let title, let urlString, _):
 			url.append("link=\(urlString)&title=\(title)")
 		}
-		return ["open": url]
+		return ["url": url]
 	}
 	
 	static func == (lhs: BookmarkModel, rhs: BookmarkModel) -> Bool {
