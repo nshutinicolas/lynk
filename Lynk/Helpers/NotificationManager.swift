@@ -39,7 +39,7 @@ final class NotificationManager {
 		case .webPage(let title, _, _):
 			notificationSubtitle = title
 		}
-		content.subtitle = notificationSubtitle
+		content.body = notificationSubtitle
 		content.sound = .default
 		
 		// Format the time properly

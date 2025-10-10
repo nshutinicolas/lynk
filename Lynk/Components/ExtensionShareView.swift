@@ -79,10 +79,10 @@ class ExtensionShareViewModel: ObservableObject {
 	}
 	
 	func isValidDate(for reminder: ReminderContent) -> Bool {
-		guard reminder.date >= .now else { return false }
+		guard reminder.date.is(.greaterOrEqual, to: Date.now, for: [.day, .month, .year]) else { return false }
 		
-		if reminder.date == .now {
-			return reminder.time.isGreater(than: reminder.date, for: [.hour, .minute])
+		if reminder.date.is(.equal, to: Date.now, for: [.day, .month, .year]) {
+			return reminder.time.is(.greaterThan, to: reminder.date, for: [.hour, .minute])
 		}
 		return true
 	}
