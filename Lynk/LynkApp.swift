@@ -13,6 +13,7 @@ struct LynkApp: App {
 	@StateObject private var coordinator = AppCoordinator()
 	@StateObject private var storage = BookmarkStorage.shared
 	@StateObject private var appTheme = AppTheme()
+	@StateObject private var notificationContainer = NotificationContainer()
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -20,6 +21,7 @@ struct LynkApp: App {
 				.environment(\.managedObjectContext, storage.container.viewContext)
 				.environmentObject(appTheme)
 				.environmentObject(storage)
+				.environmentObject(notificationContainer)
 				.onAppear {
 					appTheme.updateFromLocalStorage()
 				}

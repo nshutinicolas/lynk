@@ -18,4 +18,5 @@ enum AppConstants {
 	static let appStoreReviewUrl = "https://apps.apple.com/app/id6746718631?action=write-review"
 	static let icloudContainer = "iCloud.rw.lynk.app.ernest.ios"
 	static let howtoDoc = "https://github.com/nshutinicolas/lynk/blob/main/how_to.md"
+	static let deeplinkUrl = "lynk://"
 }

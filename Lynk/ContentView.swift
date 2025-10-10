@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ContentView: View {
 	@Environment(\.openURL) var openURL
+	@EnvironmentObject private var notificationContainer: NotificationContainer
 	private var authService = AuthService.shared
 	@State private var isAuthenticated: Bool = false
 	@Flag(.appLockEnabled) private var appLockEnabled
@@ -36,6 +37,14 @@ struct ContentView: View {
 			} else {
 				AuthView(action: authenticate)
 			}
+		}
+		.onOpenURL { url in
+			/**
+			 `Format of valid url:`
+			 - From PN to open a link`lynk://open?link=<url>&title=<text>`. title is optional
+			 - TODO: Look into using the item id from coredata instead of the url
+			 */
+			handleDeeplink(with: url)
 		}
 		.alert(
 			biometricAuthError?.userInfo["NSLocalizedDescription"] as? String ?? "Biometric Authentication Failed",
@@ -64,9 +73,30 @@ struct ContentView: View {
 			}
 		}
 	}
+	
+	private func handleDeeplink(with url: URL) {
+		// Validate the url first
+		guard url.scheme == "lynk" else { return }
+		guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true) else {
+			print("🚨Invalid components for url: \(url)🚨")
+			return
+		}
+		guard let host = components.host, host == "open" else {
+			print("🚨Invalid host name in url: \(url)🚨")
+			return
+		}
+		// Get the value of link from the url
+		guard let linkValue = components.queryItems?.first(where: { $0.name == "link" })?.value else {
+			print("🚨Invalid link value for url: \(url)🚨")
+			return
+		}
+		let titleValue = components.queryItems?.first(where: { $0.name == "title" })?.value
+		notificationContainer.setPendingDeeplinkNotification(.init(url: linkValue, title: titleValue))
+	}
 }
 
 #Preview {
     ContentView()
 		.environmentObject(AppCoordinator())
+		.environmentObject(NotificationContainer())
 }
