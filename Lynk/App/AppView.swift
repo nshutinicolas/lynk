@@ -322,6 +322,7 @@ struct AppView: View {
 			}, message: {
 				if let stringUrl = notificationContainer.pendingDeeplinkNotification {
 					Text("\(stringUrl.title ?? "") \((stringUrl.title != nil) ? "-" : "") \(stringUrl.url)")
+						.lineLimit(4)
 				} else {
 					EmptyView()
 				}

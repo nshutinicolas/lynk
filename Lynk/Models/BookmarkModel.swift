@@ -52,7 +52,7 @@ struct BookmarkModel: Identifiable, Hashable {
 	/// For deeplink, create a url to pass in the userInfo
 	/// The format is `lynk://open?link=<string>&title=<string>` where title is optional for url option
 	var userInfo: [String: String] {
-		var url: String = "\(AppConstants.deeplinkUrl)/open?"
+		var url: String = "\(AppConstants.deeplinkUrl)open?"
 		switch self.category {
 		case .text(let string):
 			url.append("title=\(string)") // This will always fail the link check
