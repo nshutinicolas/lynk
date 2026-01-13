@@ -29,9 +29,15 @@ struct SettingsView: View {
 	@State private var emailCompose: MailComposeModel?
 	@State private var presentDeleteAllAlert = false
 	@State private var showPushNotificationsAlert: Bool = false
+	@State private var showShareSheet = false
 	
 	private var authService = AuthService.shared
 	private var notificationManager = NotificationManager.shared
+	private var shareSheetModel = ShareSheetModel(
+		title: "Lynk App - Your bookmark companion",
+		message: "Join me on Lynk by downloading the app from App store",
+		url: URL(string: AppConstants.appStoreUrl)! // Force unwrapped this as it will never fail - Not a good idea at all
+	)
 	
     var body: some View {
 		VStack {
@@ -224,7 +230,9 @@ struct SettingsView: View {
 							AppReviewRequest.requestReviewManually()
 						}
 						separator()
-						ShareApp()
+						row(icon: "square.and.arrow.up", title: "Share the App", description: "Let your friends know about the beauty of this app!", disclosure: false) {
+							showShareSheet = true
+						}
 						separator()
 						row(icon: "captions.bubble", title: "Leave a feedback", description: "Do you have something to let us know about this app?", disclosure: false) {
 							emailCompose = .feedback
@@ -312,6 +320,7 @@ struct SettingsView: View {
 			.presentationDetents([.fraction(0.4)])
 			.presentationDragIndicator(.visible)
 		}
+		.shareSheet(isPresented: $showShareSheet, items: shareSheetModel)
 		.onChange(of: emailCompose) { value in
 			guard value != nil else { return }
 			openSupportEmail()
@@ -453,23 +462,6 @@ struct SettingsView: View {
 			presentEmailView = true
 		} else {
 			MailComposeModel.support.sendEmail(openURL: openURL)
-		}
-	}
-	
-	@ViewBuilder
-	private func ShareApp() -> some View {
-		if let appURL = URL(string: AppConstants.appStoreUrl) {
-			#warning("Fix the action related to this - And texts")
-			ShareLink(
-				item: appURL,
-				subject: Text("YegoB App - Your Rwandan Music companion"),
-				message: Text("Join me on YegoB by downloading the app from App store"),
-				preview: SharePreview("YegoB App", image: Image(.logo))) {
-					row(icon: "square.and.arrow.up", title: "Share the App", description: "Let your friends know about the beauty of this app!", disclosure: false)
-						.foregroundStyle(Color(uiColor: .label))
-				}
-		} else {
-			EmptyView()
 		}
 	}
 }

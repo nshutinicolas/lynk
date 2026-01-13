@@ -42,7 +42,7 @@ struct WelcomeView: View {
 						.font(.title)
 						.fontWeight(.bold)
 						.padding(.vertical)
-					Text("With reminders, \(Text("Lynk").fontWeight(.bold)) can send you a gentle nudge when it’s time to revisit something you saved.")
+					Text("With reminders, **Lynk** can send you a gentle nudge when it’s time to revisit something you saved.")
 						.multilineTextAlignment(.center)
 				}
 				.frame(maxWidth: .infinity, maxHeight: .infinity)
