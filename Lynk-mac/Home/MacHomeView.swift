@@ -90,17 +90,17 @@ struct MacHomeView: View {
 										Button {
 											
 										} label: {
-											Label("Copy", systemImage: "document.on.document")
+											Label(L10n.Button.copy, systemImage: "document.on.document")
 										}
 										Button {
 											
 										} label: {
-											Label("Edit", systemImage: "pencil.and.list.clipboard")
+											Label(L10n.Button.edit, systemImage: "pencil.and.list.clipboard")
 										}
 										Button {
 											deleteBookmark(bookmark)
 										} label: {
-											Label("Delete", systemImage: "trash")
+											Label(L10n.Button.delete, systemImage: "trash")
 												.tint(Color.red)
 										}
 									}

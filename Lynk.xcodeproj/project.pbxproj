@@ -84,6 +84,7 @@
 				Models/BookmarkModel.swift,
 				Network/ImageLoader.swift,
 				Network/WebPageMetadata.swift,
+				Resources/L10n.swift,
 			);
 			target = 6CF5BE292DA6E65100EFE633 /* LynkBookmark */;
 		};
@@ -110,6 +111,7 @@
 				Models/BookmarkModel.swift,
 				Modifiers/ColorTheme.swift,
 				Network/ImageLoader.swift,
+				Resources/L10n.swift,
 			);
 			target = 6CFC312E2DEB023D003BCCBF /* Lynk-mac */;
 		};
@@ -284,6 +286,9 @@
 			knownRegions = (
 				en,
 				Base,
+				fr,
+				es,
+				de,
 			);
 			mainGroup = 6CF5BDF32DA6CB4500EFE633;
 			minimizedProjectReferenceProxies = 1;
@@ -415,6 +420,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -471,6 +477,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

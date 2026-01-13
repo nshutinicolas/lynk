@@ -26,13 +26,13 @@ enum SortingPill: Equatable, CaseIterable, Identifiable {
 	var title: String {
 		switch self {
 		case .scheduled:
-			return "Scheduled"
+			return String(localized: L10n.AppView.Sorting.scheduled)
 		case .all:
-			return "All"
+			return String(localized: L10n.AppView.Sorting.all)
 		case .text:
-			return "Text"
+			return String(localized: L10n.AppView.Sorting.text)
 		case .web:
-			return "Websites"
+			return String(localized: L10n.AppView.Sorting.websites)
 		}
 	}
 	
@@ -135,7 +135,7 @@ struct AppView: View {
 			VStack {
 				// Header
 				HStack {
-					Text("Lynk")
+					Text(L10n.appTitle)
 						.font(.title2)
 						.fontDesign(.serif)
 						.fontWeight(.semibold)
@@ -147,7 +147,7 @@ struct AppView: View {
 							if showSearchBar {
 								HStack {
 									HStack {
-										TextField("Search bookmark", text: $searchText)
+										TextField(String(localized: L10n.AppView.SearchTextField.placeholder), text: $searchText)
 											.focused($searchFieldIsFocused)
 											.textInputAutocapitalization(.never)
 											.autocorrectionDisabled()
@@ -239,18 +239,18 @@ struct AppView: View {
 													Button {
 														
 													} label: {
-														Label("Copy", systemImage: "document.on.document")
+														Label(L10n.Button.copy, systemImage: "document.on.document")
 													}
 													Button {
 														
 													} label: {
-														Label("Edit", systemImage: "pencil.and.list.clipboard")
+														Label(L10n.Button.edit, systemImage: "pencil.and.list.clipboard")
 													}
 													#endif
 													Button {
 														deleteBookmark(bookmark)
 													} label: {
-														Label("Delete", systemImage: "trash")
+														Label(L10n.Button.delete, systemImage: "trash")
 															.tint(Color.red)
 													}
 												}
@@ -301,10 +301,10 @@ struct AppView: View {
 			requestReviewEligible()
 		}
 		.alert(
-			"Reminding you to read this😎",
+			L10n.AppView.Alert.Notification.title,
 			isPresented: $showDeepLinkAlert,
 			actions: {
-				Button("Open") {
+				Button(L10n.Button.open) {
 					guard let stringUrl = notificationContainer.pendingDeeplinkNotification,
 						  let url = URL(string: stringUrl.url) else {
 						return
@@ -313,7 +313,7 @@ struct AppView: View {
 					// Clear Notification
 					notificationContainer.clearPendingDeeplinkNotification()
 				}
-				Button("Not now", role: .cancel) {
+				Button(L10n.Button.notNow, role: .cancel) {
 					// Try and see if user is eligible for the review
 					requestReviewEligible()
 					// Clear Notification
@@ -328,16 +328,16 @@ struct AppView: View {
 				}
 			}
 		)
-		.alert("Feedback", isPresented: $showAppReview, actions: {
-			Button("Yes, I love it! 😍") {
+		.alert(L10n.AppView.Alert.Feedback.title, isPresented: $showAppReview, actions: {
+			Button(L10n.AppView.Alert.Feedback.Button.yesTitle) {
 				requestReview()
 			}
-			Button("No, it sucks 😔") {
+			Button(L10n.AppView.Alert.Feedback.Button.noTitle) {
 				showEmailCompose = true
 			}
-			Button("Dismiss") { }
+			Button(L10n.Button.dismiss) { }
 		}, message: {
-			Text("Are you enjoying Lynk?")
+			Text(L10n.AppView.Alert.Feedback.message)
 		})
 		.sheet(isPresented: $showEmailCompose) {
 			MailComposeView(.negativeReview) { _ in }
@@ -466,10 +466,10 @@ struct AppView: View {
 						.stroke(lineWidth: 2)
 						.fill(Color.blue.opacity(0.4).gradient)
 				}
-			Text("No Bookmarks Found")
+			Text(L10n.AppView.EmptyView.noFoundText)
 				.font(.title3)
 			
-			Button("Learn how to add a bookmark") {
+			Button(L10n.AppView.EmptyView.Button.leanHowText) {
 				guard let url = URL(string: AppConstants.howtoDoc) else { return }
 				openURL(url)
 			}

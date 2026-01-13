@@ -16,7 +16,7 @@ struct AuthView: View {
 	
 	var body: some View {
 		VStack {
-			Text("Welcome to Lynk")
+			Text(L10n.AuthView.welcomeTitle)
 				.font(.largeTitle)
 				.padding()
 			Image(systemName: "faceid")
@@ -26,7 +26,7 @@ struct AuthView: View {
 			Button {
 				action()
 			} label: {
-				Text("Authenticate")
+				Text(L10n.AuthView.Button.authenticateTitle)
 					.foregroundStyle(.white)
 					.padding(.vertical, 12)
 					.padding(.horizontal, 32)

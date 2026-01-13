@@ -42,7 +42,7 @@ struct SettingsView: View {
     var body: some View {
 		VStack {
 			HStack {
-				Text("Settings")
+				Text(L10n.SettingsView.title)
 					.font(.title2)
 					.fontWeight(.semibold)
 					.fontDesign(.serif)
@@ -65,12 +65,12 @@ struct SettingsView: View {
 			ScrollView {
 				VStack(spacing: 16) {
 					// Appearance
-					container(title: "APPEARANCE") {
+					container(title: String(localized: L10n.SettingsView.Section.Appearance.title)) {
 						HStack {
 							HStack {
 								Image(systemName: "moonphase.last.quarter.inverse")
 									.font(.title)
-								Text("Display\nMode")
+								Text(L10n.SettingsView.Section.Appearance.displayMode)
 							}
 							.frame(maxWidth: .infinity, alignment: .leading)
 							HStack {
@@ -105,15 +105,15 @@ struct SettingsView: View {
 						}
 					}
 					// Data
-					container(title: "DATA") {
+					container(title: String(localized: L10n.SettingsView.Section.Data.title)) {
 						HStack {
 							HStack(alignment: .top) {
 								Image(systemName: "icloud")
 									.padding(8)
 									.roundedBorder(color: .gray.opacity(0.3))
 								VStack(alignment: .leading, spacing: 4) {
-									Text("iCloud Sync")
-									Text("Sync with your icloud to access your data across devices.")
+									Text(L10n.SettingsView.Section.Data.icloudSync)
+									Text(L10n.SettingsView.Section.Data.icloudSyncDescription)
 										.font(.caption)
 										.foregroundStyle(.secondary)
 										.multilineTextAlignment(.leading)
@@ -136,8 +136,8 @@ struct SettingsView: View {
 										.padding(8)
 										.roundedBorder(color: .gray.opacity(0.3))
 									VStack(alignment: .leading, spacing: 4) {
-										Text("Biometric Authentication")
-										Text("Protect your data on this app")
+										Text(L10n.SettingsView.Section.Data.biometricLockout)
+										Text(L10n.SettingsView.Section.Data.biometricLockoutDescription)
 											.font(.caption)
 											.foregroundStyle(.secondary)
 											.multilineTextAlignment(.leading)
@@ -162,8 +162,8 @@ struct SettingsView: View {
 									.background(Color.red)
 									.roundedBorder(color: .gray.opacity(0.3))
 								VStack(alignment: .leading, spacing: 4) {
-									Text("Delete all your saved data")
-									Text("This action will delete all the data shared or saved by this App")
+									Text(L10n.SettingsView.Section.Data.deleteAllData)
+									Text(L10n.SettingsView.Section.Data.deleteAllDataDescription)
 										.font(.caption)
 										.foregroundStyle(.secondary)
 										.multilineTextAlignment(.leading)
@@ -179,15 +179,15 @@ struct SettingsView: View {
 						}
 					}
 					// App
-					container(title: "APP") {
+					container(title: String(localized: L10n.SettingsView.Section.App.title)) {
 						HStack {
 							HStack(alignment: .top) {
 								Image(systemName: "bell")
 									.padding(8)
 									.roundedBorder(color: .gray.opacity(0.3))
 								VStack(alignment: .leading, spacing: 4) {
-									Text("Reminder Notifications")
-									Text("Enable this option if you would like to get reminders for your bookmarks")
+									Text(L10n.SettingsView.Section.App.reminderNotifications)
+									Text(L10n.SettingsView.Section.App.reminderNotificationsDescription)
 										.font(.caption)
 										.foregroundStyle(.secondary)
 										.multilineTextAlignment(.leading)
@@ -209,8 +209,8 @@ struct SettingsView: View {
 									.padding(8)
 									.roundedBorder(color: .gray.opacity(0.3))
 								VStack(alignment: .leading, spacing: 4) {
-									Text("Show save preview")
-									Text("This will let you see a preview of the data you are about to save in the app")
+									Text(L10n.SettingsView.Section.App.showPreview)
+									Text(L10n.SettingsView.Section.App.showPreviewDescription)
 										.font(.caption)
 										.foregroundStyle(.secondary)
 										.multilineTextAlignment(.leading)
@@ -226,49 +226,49 @@ struct SettingsView: View {
 						.padding(.vertical, 4)
 						.accessibilityAddTraits(.isButton)
 						separator()
-						row(icon: "star", title: "Rate the app", description: "Are you enjoying the app? Share your experience with others", disclosure: false) {
+						row(icon: "star", title: String(localized: L10n.SettingsView.Section.App.rateApp), description: String(localized: L10n.SettingsView.Section.App.rateAppDescription), disclosure: false) {
 							AppReviewRequest.requestReviewManually()
 						}
 						separator()
-						row(icon: "square.and.arrow.up", title: "Share the App", description: "Let your friends know about the beauty of this app!", disclosure: false) {
+						row(icon: "square.and.arrow.up", title: String(localized: L10n.SettingsView.Section.App.shareApp), description: String(localized: L10n.SettingsView.Section.App.shareAppDescription), disclosure: false) {
 							showShareSheet = true
 						}
 						separator()
-						row(icon: "captions.bubble", title: "Leave a feedback", description: "Do you have something to let us know about this app?", disclosure: false) {
+						row(icon: "captions.bubble", title: String(localized: L10n.SettingsView.Section.App.leaveFeedback), description: String(localized: L10n.SettingsView.Section.App.leaveFeedbackDescription), disclosure: false) {
 							emailCompose = .feedback
 						}
 					}
 					
 					// Legal
-					container(title: "LEGAL") {
-						row(icon: "person.badge.key", title: "Privacy Policy", disclosure: false) {
+					container(title: String(localized: L10n.SettingsView.Section.Legal.title)) {
+						row(icon: "person.badge.key", title: String(localized: L10n.SettingsView.Section.Legal.privacyPolicy), disclosure: false) {
 							guard let url = URL(string: AppConstants.privacyPolicy) else { return }
 							openURL(url)
 						}
 						separator()
-						row(icon: "doc", title: "Terms And Conditions", disclosure: false) {
+						row(icon: "doc", title: String(localized: L10n.SettingsView.Section.Legal.termsAndConditions), disclosure: false) {
 							guard let url = URL(string: AppConstants.termsAndConditions) else { return }
 							openURL(url)
 						}
 					}
 					
 					// Help & Support
-					container(title: "HELP & ABOUT") {
-						row(icon: "info.circle", title: "About", description: "Know more about Lynk") {
+					container(title: String(localized: L10n.SettingsView.Section.HelpAndSupport.title)) {
+						row(icon: "info.circle", title: String(localized: L10n.SettingsView.Section.HelpAndSupport.about), description: String(localized: L10n.SettingsView.Section.HelpAndSupport.aboutDescription)) {
 							showAbout = true
 						}
 						separator()
-						row(icon: "envelope", title: "Contact Support", description: "Reach out to our support team for any assistance") {
+						row(icon: "envelope", title: String(localized: L10n.SettingsView.Section.HelpAndSupport.contactSupport), description: String(localized: L10n.SettingsView.Section.HelpAndSupport.contactSupportDescription)) {
 							emailCompose = .support
 						}
 						separator()
-						row(icon: "airplayvideo", title: "How to use the app", description: "Finding it difficult to get started, here are some tips") {
+						row(icon: "airplayvideo", title: String(localized: L10n.SettingsView.Section.HelpAndSupport.howToUse), description: String(localized: L10n.SettingsView.Section.HelpAndSupport.howToUseDescription)) {
 							guard let url = URL(string: AppConstants.howtoDoc) else { return }
 							openURL(url)
 						}
 					}
 					if let appVersion = Bundle.main.appVersion, let appBuild = Bundle.main.appBuild {
-						Text("Version \(appVersion)(\(appBuild))")
+						Text(L10n.SettingsView.appVersion(appVersion: appVersion, appBuild: appBuild))
 							.font(.callout)
 							.foregroundStyle(.secondary)
 					}
@@ -290,13 +290,11 @@ struct SettingsView: View {
 		}
 		.sheet(isPresented: $showAbout) {
 			VStack(spacing: 16) {
-				Text("Lynk")
+				Text(L10n.appTitle)
 					.font(.title)
 					.fontDesign(.serif)
 					.fontWeight(.semibold)
-				Text("""
-				Lynk is a minimal, privacy-focused app that makes it easy to save and share text and URLs. Whether you're collecting notes, saving important links, or quickly sharing something with a friend, we keep everything in your iCloud
-				""")
+				Text(L10n.SettingsView.Alert.About.bodyMessage)
 				.multilineTextAlignment(.leading)
 				.fixedSize(horizontal: false, vertical: true)
 				Spacer()
@@ -305,7 +303,7 @@ struct SettingsView: View {
 					showAbout = false
 					openURL(url)
 				} label: {
-					Text("View Project on Github")
+					Text(L10n.SettingsView.Alert.About.Button.viewOnGithub)
 						.fontWeight(.medium)
 				}
 				.foregroundStyle(Color(uiColor: .systemBackground))
@@ -325,13 +323,13 @@ struct SettingsView: View {
 			guard value != nil else { return }
 			openSupportEmail()
 		}
-		.alert("Delete All Data", isPresented: $presentDeleteAllAlert) {
-			Button("Delete", role: .destructive) {
+		.alert(L10n.SettingsView.Alert.DeleteAllData.title, isPresented: $presentDeleteAllAlert) {
+			Button(L10n.Button.delete, role: .destructive) {
 				storage.deleteAllStoredBookmarks()
 				presentDeleteAllAlert = false
 			}
 		} message: {
-			Text("Are you sure you want to delete all the stored data?\nThis action cannot be undone.")
+			Text(L10n.SettingsView.Alert.DeleteAllData.message)
 		}
 		// Migrate this to the view model
 		.onAppear {
@@ -383,15 +381,15 @@ struct SettingsView: View {
 			let status = await notificationManager.notificationPermissionStatus()
 			enableRemindersLocalValue = status == .authorized && enableReminders
 		}
-		.alert("Notification Permission Error", isPresented: $showPushNotificationsAlert) {
-			Button("Settings") {
+		.alert(L10n.SettingsView.Alert.NotificationError.title, isPresented: $showPushNotificationsAlert) {
+			Button(L10n.Button.settings) {
 				enableRemindersLocalValue = false
 				guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
 				openURL(settingsUrl)
 			}
-			Button("Cancel") { enableRemindersLocalValue = false }
+			Button(L10n.Button.cancel) { enableRemindersLocalValue = false }
 		} message: {
-			Text("Open the settings app to enable the notifications.")
+			Text(L10n.SettingsView.Alert.NotificationError.message)
 		}
     }
 	

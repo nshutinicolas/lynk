@@ -291,7 +291,7 @@ struct ExtensionShareView: View {
 										}
 									}
 									.animation(.easeInOut, value: setReminder)
-									Text("Set Reminder")
+									Text(L10n.ExtensionShareView.Button.setReminder)
 								}
 								.frame(maxWidth: .infinity, alignment: .leading)
 								.padding(12)
@@ -315,7 +315,7 @@ struct ExtensionShareView: View {
 							onClose()
 						}
 					} label: {
-						Label("Bookmark", systemImage: "square.and.arrow.down")
+						Label(L10n.ExtensionShareView.Button.bookMarkTitle, systemImage: "square.and.arrow.down")
 							.fontWeight(.medium)
 							.foregroundStyle(.white)
 							.frame(maxWidth: .infinity)
@@ -365,7 +365,7 @@ struct ExtensionShareView: View {
 			// Figure out a better way to make look like it came from behind it.
 			if startEditingTitle {
 			VStack(spacing: 16) {
-					TextField("Enter new title", text: $edittedTitle, axis: .vertical)
+				TextField(String(localized: L10n.ExtensionShareView.TextField.placeholder), text: $edittedTitle, axis: .vertical)
 						.padding()
 						.roundedBorder(color: .gray, lineWidth: 2)
 					HStack {
@@ -374,7 +374,7 @@ struct ExtensionShareView: View {
 								startEditingTitle = false
 							}
 						} label: {
-							Text("Cancel")
+							Text(L10n.Button.cancel)
 								.padding(.vertical, 12)
 								.frame(maxWidth: .infinity)
 								.foregroundStyle(.blue)
@@ -390,7 +390,7 @@ struct ExtensionShareView: View {
 								startEditingTitle = false
 							}
 						} label: {
-							Text("Confirm")
+							Text(L10n.Button.confirm)
 								.padding(.vertical, 12)
 								.frame(maxWidth: .infinity)
 								.foregroundStyle(Color.white)

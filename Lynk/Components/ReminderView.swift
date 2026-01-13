@@ -31,7 +31,7 @@ struct ReminderView: View {
 						.background(Color.gray.opacity(0.1))
 						.clipShape(.rect(cornerRadius: 4))
 					VStack(alignment: .leading, spacing: 0) {
-						Text("Date")
+						Text(L10n.ReminderView.Button.date)
 							.font(.caption)
 						Text(selectedDate.formatted(date: .abbreviated, time: .omitted))
 							.font(.body)
@@ -52,7 +52,7 @@ struct ReminderView: View {
 						.background(Color.gray.opacity(0.1))
 						.clipShape(.rect(cornerRadius: 4))
 					VStack(alignment: .leading, spacing: 0) {
-						Text("Time")
+						Text(L10n.ReminderView.Button.time)
 							.font(.caption)
 						Text(selectedTime.formatted(date: .omitted, time: .shortened))
 							.font(.body)

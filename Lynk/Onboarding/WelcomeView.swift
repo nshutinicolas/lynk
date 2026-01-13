@@ -23,11 +23,11 @@ struct WelcomeView: View {
 						.resizable()
 						.scaledToFit()
 						.frame(width: 80, height: 80)
-					Text("👋🏼 Welcome to Lynk")
+					Text(L10n.Welcome.Onboarding.Intro.title)
 						.font(.title)
 						.fontWeight(.bold)
 						.padding(.vertical)
-					Text("Save and organize the links that matter to you - articles, videos or anything you want to comeback to later.")
+					Text(L10n.Welcome.Onboarding.Intro.description)
 						.multilineTextAlignment(.center)
 				}
 				.frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -38,11 +38,11 @@ struct WelcomeView: View {
 						.resizable()
 						.scaledToFit()
 						.frame(width: 80, height: 80)
-					Text("⏰ Gentle reminders")
+					Text(L10n.Welcome.Onboarding.Notification.title)
 						.font(.title)
 						.fontWeight(.bold)
 						.padding(.vertical)
-					Text("With reminders, **Lynk** can send you a gentle nudge when it’s time to revisit something you saved.")
+					Text(L10n.Welcome.Onboarding.Notification.description)
 						.multilineTextAlignment(.center)
 				}
 				.frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -59,25 +59,25 @@ struct WelcomeView: View {
 			ZStack {
 				switch onboardingStage {
 				case .intro:
-					primaryButton(title: "Get Started") {
+					primaryButton(title: String(localized: L10n.Welcome.Onboarding.Intro.Button.title)) {
 						onboardingStage = .notification
 					}
 					.transition(.opacity)
 				case .notification:
 					VStack(spacing: 12) {
-						Text("We’ll only notify you when you set a reminder, nothing more.")
+						Text(L10n.Welcome.Onboarding.Notification.infoText)
 							.font(.footnote)
 							.foregroundStyle(.secondary)
 							.multilineTextAlignment(.center)
 						
-						primaryButton(title: "Enable Notifications") {
+						primaryButton(title: String(localized: L10n.Welcome.Onboarding.Notification.Button.enableTitle)) {
 							Task {
 								_ = try await notificationManager.requestNotificationPermission()
 								completeOnboarding()
 							}
 						}
 						
-						secondaryButton(title: "skip for now") {
+						secondaryButton(title: String(localized: L10n.Welcome.Onboarding.Notification.Button.skipTitle)) {
 							completeOnboarding()
 						}
 					}

@@ -18,9 +18,9 @@ enum MailComposeModel: Equatable {
 	
 	var subject: String {
 		switch self {
-		case .support: return "Lynk Support Request"
-		case .feedback: return "Lynk App Feedback"
-		case .negativeReview: return "Lynk Negative Feedback"
+		case .support: return String(localized: L10n.MailCompose.Model.Subject.support)
+		case .feedback: return String(localized: L10n.MailCompose.Model.Subject.feedback)
+		case .negativeReview: return String(localized: L10n.MailCompose.Model.Subject.negativeReview)
 		}
 	}
 	var email: String {
@@ -29,14 +29,21 @@ enum MailComposeModel: Equatable {
 		AppConstants.supportEmail
 	}
 	
+	private enum TemplateKeys {
+		static let appName = String(localized: L10n.MailCompose.Model.BodyTemplate.appName)
+		static let deviceModel = String(localized: L10n.MailCompose.Model.BodyTemplate.deviceModel)
+		static let appVersion = String(localized: L10n.MailCompose.Model.BodyTemplate.appVersion)
+		static let appBuild = String(localized: L10n.MailCompose.Model.BodyTemplate.appBuild)
+	}
+	
 	var bodyTemplate: String {
 		let body = """
 	\n\n\n\n
-	Application Name: Lynk
+	\(TemplateKeys.appName): Lynk
 	iOS: \(UIDevice.current.systemVersion)
-	Device Model: \(UIDevice.current.name)
-	Appp Version: \(Bundle.main.appVersion ?? "-")
-	App Build: \(Bundle.main.appBuild ?? "-")
+	\(TemplateKeys.deviceModel): \(UIDevice.current.name)
+	\(TemplateKeys.appVersion): \(Bundle.main.appVersion ?? "-")
+	\(TemplateKeys.appBuild): \(Bundle.main.appBuild ?? "-")
 	--------------------------------------
 	"""
 		return body

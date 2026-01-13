@@ -46,7 +46,7 @@ struct ContentView: View {
 					.lineLimit(2)
 				Text(biometricAuthError?.userInfo["NSDebugDescription"] as? String ?? "Failed to validate biometric authentication on this device. Please check your device settings and try again.")
 				VStack {
-					Button("Settings") {
+					Button(L10n.Button.settings) {
 						guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
 						openURL(settingsUrl)
 						showBiometricAuthErrorAlert = false
@@ -58,7 +58,7 @@ struct ContentView: View {
 					.roundedBorder(for: .capsule)
 					.foregroundStyle(Color.white)
 					
-					Button("Cancel") {
+					Button(L10n.Button.cancel) {
 						showBiometricAuthErrorAlert = false
 					}
 					.buttonStyle(.plain)
