@@ -21,6 +21,19 @@ extension View {
 			.background()
 			.clipShape(.rect(cornerRadius: radius))
 	}
+	
+	func roundedBorder<S>(
+		for shape: S,
+		color: Color = .gray.opacity(0.5),
+		lineWidth: CGFloat = 1
+	) -> some View where S: Shape {
+		self
+			.contentShape(shape)
+			.clipShape(shape)
+			.overlay {
+				shape.stroke(color, lineWidth: lineWidth)
+			}
+	}
 }
 
 #Preview {

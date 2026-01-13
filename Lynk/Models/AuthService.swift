@@ -21,7 +21,7 @@ final class AuthService {
 		let context = LAContext()
 		var error: NSError?
 		return context.canEvaluatePolicy(
-			.deviceOwnerAuthenticationWithBiometrics,
+			.deviceOwnerAuthentication,
 			error: &error
 		)
 	}
@@ -33,7 +33,7 @@ final class AuthService {
 			throw AuthError.biometricsNotAvailable
 		}
 		return try await context.evaluatePolicy(
-			.deviceOwnerAuthenticationWithBiometrics,
+			.deviceOwnerAuthentication,
 			localizedReason: reason
 		)
 	}
