@@ -38,18 +38,41 @@ struct ContentView: View {
 				AuthView(action: authenticate)
 			}
 		}
-		.alert(
-			biometricAuthError?.userInfo["NSLocalizedDescription"] as? String ?? "Biometric Authentication Failed",
-			isPresented: $showBiometricAuthErrorAlert,
-			presenting: biometricAuthError
-		) { _ in
-			Button("Settings") {
-				guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
-				openURL(settingsUrl)
+		.sheet(isPresented: $showBiometricAuthErrorAlert) {
+			VStack(alignment: .leading, spacing: 16) {
+				Text(biometricAuthError?.userInfo["NSLocalizedDescription"] as? String ?? "Biometric Authentication Failed")
+					.font(.title2)
+					.fontWeight(.semibold)
+					.lineLimit(2)
+				Text(biometricAuthError?.userInfo["NSDebugDescription"] as? String ?? "Failed to validate biometric authentication on this device. Please check your device settings and try again.")
+				VStack {
+					Button("Settings") {
+						guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
+						openURL(settingsUrl)
+						showBiometricAuthErrorAlert = false
+					}
+					.buttonStyle(.plain)
+					.padding()
+					.frame(maxWidth: .infinity)
+					.background(Color.blue)
+					.roundedBorder(for: .capsule)
+					.foregroundStyle(Color.white)
+					
+					Button("Cancel") {
+						showBiometricAuthErrorAlert = false
+					}
+					.buttonStyle(.plain)
+					.padding()
+					.frame(maxWidth: .infinity)
+					.background()
+					.roundedBorder(for: .capsule, color: .gray)
+					.foregroundStyle(Color.secondary)
+				}
 			}
-			Button("Cancel") { }
-		} message: { error in
-			Text(error?.userInfo["NSDebugDescription"] as? String ?? "Failed to validate biometric authentication on this device. Please check your device settings and try again.")
+			.frame(maxWidth: .infinity, alignment: .leading)
+			.padding()
+			.background()
+			.presentationDetents([.fraction(0.4)])
 		}
     }
 	
