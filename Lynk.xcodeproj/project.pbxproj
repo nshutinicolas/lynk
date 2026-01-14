@@ -85,6 +85,7 @@
 				Network/ImageLoader.swift,
 				Network/WebPageMetadata.swift,
 				Resources/L10n.swift,
+				Resources/Localization/Localizable.xcstrings,
 			);
 			target = 6CF5BE292DA6E65100EFE633 /* LynkBookmark */;
 		};
@@ -112,6 +113,7 @@
 				Modifiers/ColorTheme.swift,
 				Network/ImageLoader.swift,
 				Resources/L10n.swift,
+				Resources/Localization/Localizable.xcstrings,
 			);
 			target = 6CFC312E2DEB023D003BCCBF /* Lynk-mac */;
 		};

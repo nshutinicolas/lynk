@@ -320,6 +320,7 @@ struct ExtensionShareView: View {
 							.foregroundStyle(.white)
 							.frame(maxWidth: .infinity)
 					}
+					.buttonStyle(.plain)
 					.padding(.vertical, 12)
 					.background(Color.blue)
 					.roundedBorder()
