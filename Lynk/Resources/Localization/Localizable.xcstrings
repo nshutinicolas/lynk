@@ -17,6 +17,12 @@
     "APP_TITLE" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lynk"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -28,12 +34,24 @@
             "state" : "translated",
             "value" : "Lynk"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lynk"
+          }
         }
       }
     },
     "APP_VIEW.ALERT.FEEDBACK.BUTTON.NO_TITLE" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nein, es ist echt blöd 😔"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -45,12 +63,24 @@
             "state" : "translated",
             "value" : "No, es mala 😔"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non, c'est nul 😔"
+          }
         }
       }
     },
     "APP_VIEW.ALERT.FEEDBACK.BUTTON.YES_TITLE" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ja, ich liebe es! 😍"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -62,12 +92,24 @@
             "state" : "translated",
             "value" : "¡Sí, me encanta! 😍"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oui, J’adore! 😍"
+          }
         }
       }
     },
     "APP_VIEW.ALERT.FEEDBACK.MESSAGE" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gefällt dir Lynk?"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -79,12 +121,24 @@
             "state" : "translated",
             "value" : "¿Estás disfrutando de Lynk?"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appréciez vous Lynk?"
+          }
         }
       }
     },
     "APP_VIEW.ALERT.FEEDBACK.TITLE" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rückmeldung"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -96,12 +150,24 @@
             "state" : "translated",
             "value" : "Comentario"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commentaire"
+          }
         }
       }
     },
     "APP_VIEW.ALERT.NOTIFICATION.TITLE" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zur Erinnerung: Lies das hier 😎"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -113,12 +179,24 @@
             "state" : "translated",
             "value" : "Recordándote que leas esto😎"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je vous rappelle de lire ceci 😎"
+          }
         }
       }
     },
     "APP_VIEW.EMPTY_VIEW.BUTTON.LEAN_HOW_TEXT" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erfahren Sie, wie Sie ein Lesezeichen hinzufügen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -130,12 +208,24 @@
             "state" : "translated",
             "value" : "Aprenda cómo agregar un marcador"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apprenez comment ajouter un signet"
+          }
         }
       }
     },
     "APP_VIEW.EMPTY_VIEW.NO_FOUND_TEXT" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Lesezeichen gefunden"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -147,12 +237,24 @@
             "state" : "translated",
             "value" : "No se encontraron marcadores"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun signet trouvé"
+          }
         }
       }
     },
     "APP_VIEW.SEARCH_TEXT_FIELD.PLACEHOLDER" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lesezeichen suchen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -164,12 +266,24 @@
             "state" : "translated",
             "value" : "Buscar marcador"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechercher un signet"
+          }
         }
       }
     },
     "APP_VIEW.SORTING.ALL" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -181,12 +295,24 @@
             "state" : "translated",
             "value" : "Toda"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout"
+          }
         }
       }
     },
     "APP_VIEW.SORTING.SCHEDULED" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geplant"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -198,12 +324,24 @@
             "state" : "translated",
             "value" : "Programada"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Programmé"
+          }
         }
       }
     },
     "APP_VIEW.SORTING.TEXT" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Text"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -215,12 +353,24 @@
             "state" : "translated",
             "value" : "Texto"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Texte"
+          }
         }
       }
     },
     "APP_VIEW.SORTING.WEBSITES" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Websites"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -232,12 +382,24 @@
             "state" : "translated",
             "value" : "Sitios web"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Websites"
+          }
         }
       }
     },
     "AUTH_VIEW.BUTTON.AUTHENTICATE_TITLE" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Authentifizieren"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -249,12 +411,24 @@
             "state" : "translated",
             "value" : "Autenticar"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Authentifier"
+          }
         }
       }
     },
     "AUTH_VIEW.WELCOME_TITLE" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Willkommen bei Lynk"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -266,12 +440,24 @@
             "state" : "translated",
             "value" : "Bienvenido a Lynk"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bienvenue sur Lynk"
+          }
         }
       }
     },
     "BUTTON.CANCEL" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stornieren"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -283,12 +469,24 @@
             "state" : "translated",
             "value" : "Cancelar"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annuler"
+          }
         }
       }
     },
     "BUTTON.CONFIRM" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bestätigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -300,12 +498,24 @@
             "state" : "translated",
             "value" : "Confirmar"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirmer"
+          }
         }
       }
     },
     "BUTTON.COPY" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopie"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -317,12 +527,24 @@
             "state" : "translated",
             "value" : "Copiar"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copier"
+          }
         }
       }
     },
     "BUTTON.DELETE" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Löschen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -334,12 +556,24 @@
             "state" : "translated",
             "value" : "Borrar"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer"
+          }
         }
       }
     },
     "BUTTON.DISMISS" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zurückweisen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -351,12 +585,24 @@
             "state" : "translated",
             "value" : "Despedir"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rejeter"
+          }
         }
       }
     },
     "BUTTON.EDIT" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bearbeiten"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -368,12 +614,24 @@
             "state" : "translated",
             "value" : "Editar"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifier"
+          }
         }
       }
     },
     "BUTTON.NOT_NOW" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht jetzt"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -385,12 +643,24 @@
             "state" : "translated",
             "value" : "Ahora no"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pas maintenant"
+          }
         }
       }
     },
     "BUTTON.OPEN" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Offen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -402,12 +672,24 @@
             "state" : "translated",
             "value" : "Abierto"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir"
+          }
         }
       }
     },
     "BUTTON.SETTINGS" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einstellungen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -419,12 +701,24 @@
             "state" : "translated",
             "value" : "Ajustes"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paramètres"
+          }
         }
       }
     },
     "EXTENSION_SHARE_VIEW.BUTTON.BOOKMARK_TITLE" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lesezeichen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -436,12 +730,24 @@
             "state" : "translated",
             "value" : "Marcador"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Signet"
+          }
         }
       }
     },
     "EXTENSION_SHARE_VIEW.BUTTON.SET_REMINDER" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erinnerung einstellen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -453,12 +759,24 @@
             "state" : "translated",
             "value" : "Establecer Recordatorio"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Définir un rappel"
+          }
         }
       }
     },
     "EXTENSION_SHARE_VIEW.TEXT_FIELD.PLACEHOLDER" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neuen Titel eingeben"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -470,11 +788,23 @@
             "state" : "translated",
             "value" : "Introduzca un nuevo título"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saisir le nouveau titre"
+          }
         }
       }
     },
     "MAIL_COMPOSE.MODEL.BODY_TEMPLATE.APP_BUILD" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App-Erstellung"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -486,12 +816,24 @@
             "state" : "translated",
             "value" : "Creación de aplicaciones"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Création d'applications"
+          }
         }
       }
     },
     "MAIL_COMPOSE.MODEL.BODY_TEMPLATE.APP_NAME" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App-Name"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -503,12 +845,24 @@
             "state" : "translated",
             "value" : "Nombre de la aplicación"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nom de l'application"
+          }
         }
       }
     },
     "MAIL_COMPOSE.MODEL.BODY_TEMPLATE.APP_VERSION" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App-Version"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -520,12 +874,24 @@
             "state" : "translated",
             "value" : "Versión de la aplicación"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version de l'application"
+          }
         }
       }
     },
     "MAIL_COMPOSE.MODEL.BODY_TEMPLATE.DEVICE_MODEL" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gerätemodell"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -537,12 +903,24 @@
             "state" : "translated",
             "value" : "Modelo del dispositivo"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modèle d'appareil"
+          }
         }
       }
     },
     "MAIL_COMPOSE.MODEL.SUBJECT.FEEDBACK" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rückmeldung"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -554,12 +932,24 @@
             "state" : "translated",
             "value" : "Comentarios sobre la aplicación Lynk"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commentaires sur l'application Lynk"
+          }
         }
       }
     },
     "MAIL_COMPOSE.MODEL.SUBJECT.NEGATIVE_REVIEW" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Negativ Rückmeldung"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -571,12 +961,24 @@
             "state" : "translated",
             "value" : "Comentarios negativos de Lynk"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commentaires négatifs de Lynk"
+          }
         }
       }
     },
     "MAIL_COMPOSE.MODEL.SUBJECT.SUPPORT" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lynk-Unterstützungsanfrage"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -588,12 +990,24 @@
             "state" : "translated",
             "value" : "Solicitud de soporte de Lynk"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Demande d'assistance Lynk"
+          }
         }
       }
     },
     "REMINDER_VIEW.BUTTON.DATE" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Datum"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -605,12 +1019,24 @@
             "state" : "translated",
             "value" : "Fecha"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Date"
+          }
         }
       }
     },
     "REMINDER_VIEW.BUTTON.TIME" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zeit"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -622,12 +1048,24 @@
             "state" : "translated",
             "value" : "Tiempo"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temps"
+          }
         }
       }
     },
     "SETTINGS.ALERT.ABOUT.BODY_MESSAGE" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lynk ist eine minimalistische, datenschutzorientierte App, mit der du Texte und URLs einfach speichern und teilen kannst. Egal, ob du Notizen sammelst, wichtige Links speicherst oder schnell etwas mit Freunden teilst – wir speichern alles in deiner iCloud."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -639,12 +1077,24 @@
             "state" : "translated",
             "value" : "Lynk es una app minimalista y centrada en la privacidad que facilita guardar y compartir texto y URL. Ya sea que estés recopilando notas, guardando enlaces importantes o compartiendo algo rápidamente con un amigo, lo guardamos todo en tu iCloud."
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lynk est une application minimaliste axée sur la confidentialité qui simplifie l'enregistrement et le partage de textes et d'URL. Que vous preniez des notes, sauvegardiez des liens importants ou partagiez rapidement un contenu avec un ami, tout est conservé dans votre iCloud."
+          }
         }
       }
     },
     "SETTINGS.ALERT.ABOUT.BUTTON.VIEW_ON_GITHUB" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Projekt auf GitHub ansehen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -656,12 +1106,24 @@
             "state" : "translated",
             "value" : "Ver proyecto en Github"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voir le projet sur Github"
+          }
         }
       }
     },
     "SETTINGS.ALERT.DELETE_ALL_DATA.MESSAGE" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sind Sie sicher, dass Sie alle gespeicherten Daten löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -670,8 +1132,14 @@
         },
         "es" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "¿Está seguro de que desea eliminar todos los datos almacenados?Esta acción no se puede deshacer."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Êtes-vous sûr de vouloir supprimer toutes les données enregistrées ? Cette action est irréversible."
           }
         }
       }
@@ -679,6 +1147,12 @@
     "SETTINGS.ALERT.DELETE_ALL_DATA.TITLE" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle Daten löschen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -690,12 +1164,24 @@
             "state" : "translated",
             "value" : "Eliminar todos los datos"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer toutes les données"
+          }
         }
       }
     },
     "SETTINGS.ALERT.NOTIFICATION_ERROR.MESSAGE" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öffne die Einstellungen-App, um die Benachrichtigungen zu aktivieren."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -707,12 +1193,24 @@
             "state" : "translated",
             "value" : "Abra la aplicación de configuración para habilitar las notificaciones."
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrez l'application Paramètres pour activer les notifications."
+          }
         }
       }
     },
     "SETTINGS.ALERT.NOTIFICATION_ERROR.TITLE" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Benachrichtigungsberechtigungsfehler"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -724,12 +1222,24 @@
             "state" : "translated",
             "value" : "Error de permiso de notificación"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erreur d'autorisation de notification"
+          }
         }
       }
     },
     "SETTINGS.SECTION.APP.LEAVE_FEEDBACK" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hinterlassen Sie Feedback"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -741,12 +1251,24 @@
             "state" : "translated",
             "value" : "Deja un comentario"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laissez un commentaire"
+          }
         }
       }
     },
     "SETTINGS.SECTION.APP.LEAVE_FEEDBACK_DESCRIPTION" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haben Sie etwas, das Sie uns über diese App mitteilen möchten?"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -758,12 +1280,24 @@
             "state" : "translated",
             "value" : "¿Tienes algo que contarnos sobre esta aplicación?"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avez-vous des informations à nous communiquer concernant cette application ?"
+          }
         }
       }
     },
     "SETTINGS.SECTION.APP.RATE_APP" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bewerte die App"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -775,12 +1309,24 @@
             "state" : "translated",
             "value" : "Califica la aplicación"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Évaluez l'application"
+          }
         }
       }
     },
     "SETTINGS.SECTION.APP.RATE_APP_DESCRIPTION" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Are you enjoying the app? Share your experience with others"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -792,12 +1338,24 @@
             "state" : "translated",
             "value" : "¿Te gusta la app? Comparte tu experiencia."
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'application vous plaît? Partagez votre expérience avec les autres."
+          }
         }
       }
     },
     "SETTINGS.SECTION.APP.REMINDER_NOTIFICATIONS" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erinnerungsbenachrichtigungen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -809,12 +1367,24 @@
             "state" : "translated",
             "value" : "Notificaciones de recordatorio"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications de rappel"
+          }
         }
       }
     },
     "SETTINGS.SECTION.APP.REMINDER_NOTIFICATIONS_DESCRIPTION" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktivieren Sie diese Option, wenn Sie Erinnerungen für Ihre Lesezeichen erhalten möchten."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -826,12 +1396,24 @@
             "state" : "translated",
             "value" : "Habilite esta opción si desea recibir recordatorios para sus marcadores"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activez cette option si vous souhaitez recevoir des rappels pour vos favoris."
+          }
         }
       }
     },
     "SETTINGS.SECTION.APP.SHARE_APP" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teile die App"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -843,12 +1425,24 @@
             "state" : "translated",
             "value" : "Comparte la aplicación"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partagez l'application"
+          }
         }
       }
     },
     "SETTINGS.SECTION.APP.SHARE_APP_DESCRIPTION" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teile die Vorzüge dieser App mit deinen Freunden!"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -860,12 +1454,24 @@
             "state" : "translated",
             "value" : "¡Deja que tus amigos sepan sobre la belleza de esta aplicación!"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Faites découvrir cette application à vos amis!"
+          }
         }
       }
     },
     "SETTINGS.SECTION.APP.SHOW_PREVIEW" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vorschau anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -877,12 +1483,24 @@
             "state" : "translated",
             "value" : "Mostrar vista previa"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher l'aperçu"
+          }
         }
       }
     },
     "SETTINGS.SECTION.APP.SHOW_PREVIEW_DESCRIPTION" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dadurch können Sie eine Vorschau der Daten sehen, die Sie in der App speichern werden."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -894,12 +1512,24 @@
             "state" : "translated",
             "value" : "Esto le permitirá ver una vista previa de los datos que está a punto de guardar en la aplicación."
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cela vous permettra de voir un aperçu des données que vous vous apprêtez à enregistrer dans l'application."
+          }
         }
       }
     },
     "SETTINGS.SECTION.APP.TITLE" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "APP"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -911,12 +1541,24 @@
             "state" : "translated",
             "value" : "APLICACIÓN"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "APP"
+          }
         }
       }
     },
     "SETTINGS.SECTION.APPEARANCE.DISPLAY_MODE" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anzeigemodus"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -925,8 +1567,14 @@
         },
         "es" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Modo de visualización"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mode d'affichage"
           }
         }
       }
@@ -934,6 +1582,12 @@
     "SETTINGS.SECTION.APPEARANCE.TITLE" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AUSSEHEN"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -945,12 +1599,24 @@
             "state" : "translated",
             "value" : "APARIENCIA"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "APPARENCE"
+          }
         }
       }
     },
     "SETTINGS.SECTION.DATA.BIOMETRIC_LOCKOUT" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Biometrische Authentifizierung"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -962,12 +1628,24 @@
             "state" : "translated",
             "value" : "Autenticación biométrica"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Authentification biométrique"
+          }
         }
       }
     },
     "SETTINGS.SECTION.DATA.BIOMETRIC_LOCKOUT_DESCRIPTION" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schützen Sie Ihre Daten in dieser App"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -979,12 +1657,24 @@
             "state" : "translated",
             "value" : "Protege tus datos en esta aplicación"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Protégez vos données sur cette application"
+          }
         }
       }
     },
     "SETTINGS.SECTION.DATA.DELETE_ALL_DATA" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Löschen Sie alle Ihre gespeicherten Daten"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -996,12 +1686,24 @@
             "state" : "translated",
             "value" : "Eliminar todos los datos guardados"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimez toutes vos données enregistrées"
+          }
         }
       }
     },
     "SETTINGS.SECTION.DATA.DELETE_ALL_DATA_DESCRIPTION" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Aktion löscht alle von dieser App geteilten oder gespeicherten Daten."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1013,12 +1715,24 @@
             "state" : "translated",
             "value" : "Esta acción eliminará todos los datos compartidos o guardados por esta aplicación."
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cette action supprimera toutes les données partagées ou enregistrées par cette application."
+          }
         }
       }
     },
     "SETTINGS.SECTION.DATA.ICLOUD_SYNC" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud-Synchronisierung"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1030,12 +1744,24 @@
             "state" : "translated",
             "value" : "Sincronización de iCloud"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Synchronisation iCloud"
+          }
         }
       }
     },
     "SETTINGS.SECTION.DATA.ICLOUD_SYNC_DESCRIPTION" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Synchronisieren Sie Ihr iCloud-Konto, um geräteübergreifend auf Ihre Daten zuzugreifen."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1047,12 +1773,24 @@
             "state" : "translated",
             "value" : "Sincroniza con tu iCloud para acceder a tus datos en todos los dispositivos."
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Synchronisez-vous avec votre compte iCloud pour accéder à vos données sur tous vos appareils."
+          }
         }
       }
     },
     "SETTINGS.SECTION.DATA.TITLE" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DATEN"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1064,12 +1802,24 @@
             "state" : "translated",
             "value" : "DATOS"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DONNÉS"
+          }
         }
       }
     },
     "SETTINGS.SECTION.HELP_AND_SUPPORT.ABOUT" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Über Lynk"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1081,12 +1831,24 @@
             "state" : "translated",
             "value" : "Acerca de lynk"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À propos de Lynk"
+          }
         }
       }
     },
     "SETTINGS.SECTION.HELP_AND_SUPPORT.ABOUT_DESCRIPTION" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erfahren Sie mehr über Lynk"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1098,12 +1860,24 @@
             "state" : "translated",
             "value" : "Conozca más sobre Lynk"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En savoir plus sur Lynk"
+          }
         }
       }
     },
     "SETTINGS.SECTION.HELP_AND_SUPPORT.CONTACT_SUPPORT" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kontaktieren Sie den Support."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1115,12 +1889,24 @@
             "state" : "translated",
             "value" : "Contactar con soporte técnico"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contacter l'assistance"
+          }
         }
       }
     },
     "SETTINGS.SECTION.HELP_AND_SUPPORT.CONTACT_SUPPORT_DESCRIPTION" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wenden Sie sich bei Fragen oder Problemen an unser Support-Team."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1132,12 +1918,24 @@
             "state" : "translated",
             "value" : "Comuníquese con nuestro equipo de soporte para obtener ayuda."
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "N'hésitez pas à contacter notre équipe d'assistance pour toute aide."
+          }
         }
       }
     },
     "SETTINGS.SECTION.HELP_AND_SUPPORT.HOW_TO_USE" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "So verwenden Sie die App"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1149,12 +1947,24 @@
             "state" : "translated",
             "value" : "Cómo utilizar la aplicación"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comment utiliser l'application"
+          }
         }
       }
     },
     "SETTINGS.SECTION.HELP_AND_SUPPORT.HOW_TO_USE_DESCRIPTION" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wenn Ihnen der Einstieg schwerfällt, hier einige Tipps."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1166,12 +1976,24 @@
             "state" : "translated",
             "value" : "Si le resulta difícil comenzar, aquí le ofrecemos algunos consejos"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous avez du mal à vous lancer ? Voici quelques conseils."
+          }
         }
       }
     },
     "SETTINGS.SECTION.HELP_AND_SUPPORT.TITLE" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "HILFE & UNTERSTÜTZUNG"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1183,12 +2005,24 @@
             "state" : "translated",
             "value" : "AYUDA & SOPORTE"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AIDE & ASSISTANCE"
+          }
         }
       }
     },
     "SETTINGS.SECTION.LEGAL.PRIVACY_POLICY" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Datenschutzrichtlinie"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1200,12 +2034,24 @@
             "state" : "translated",
             "value" : "Política de Privacidad"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Politique de confidentialité"
+          }
         }
       }
     },
     "SETTINGS.SECTION.LEGAL.TERMS_AND_CONDITIONS" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geschäftsbedingungen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1217,12 +2063,24 @@
             "state" : "translated",
             "value" : "Términos y Condiciones"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Termes et conditions"
+          }
         }
       }
     },
     "SETTINGS.SECTION.LEGAL.TITLE" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "RECHTLICH"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1234,12 +2092,24 @@
             "state" : "translated",
             "value" : "LEGAL"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "LÉGAL"
+          }
         }
       }
     },
     "SETTINGS.SECTION.VERSION.APP_VERSION" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version %1$@(%2$@)"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1251,6 +2121,12 @@
             "state" : "translated",
             "value" : "Versión %1$@(%2$@)"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version %1$@(%2$@)"
+          }
         }
       }
     },
@@ -1258,6 +2134,12 @@
       "comment" : "Title of the settings screen.",
       "isCommentAutoGenerated" : true,
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einstellungen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1269,12 +2151,24 @@
             "state" : "translated",
             "value" : "Ajustes"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paramètres"
+          }
         }
       }
     },
     "WELCOME.ONBOARDING.INTRO.BUTTON.TITLE" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los geht's"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1286,12 +2180,24 @@
             "state" : "translated",
             "value" : "Empezar"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commencer"
+          }
         }
       }
     },
     "WELCOME.ONBOARDING.INTRO.DESCRIPTION" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speichern und organisieren Sie die Links, die Ihnen wichtig sind – Artikel, Videos oder alles, worauf Sie später zurückgreifen möchten."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1303,12 +2209,24 @@
             "state" : "translated",
             "value" : "Guarde y organice los enlaces que le interesan: artículos, vídeos o cualquier cosa a la que quiera volver más tarde."
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sauvegardez et organisez les liens qui vous intéressent : articles, vidéos ou tout autre élément auquel vous souhaitez revenir plus tard."
+          }
         }
       }
     },
     "WELCOME.ONBOARDING.INTRO.TITLE" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "👋🏼 Willkommen bei Lynk"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1320,12 +2238,24 @@
             "state" : "translated",
             "value" : "👋🏼 Bienvenido a Lynk"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "👋🏼 Bienvenue sur Lynk"
+          }
         }
       }
     },
     "WELCOME.ONBOARDING.NOTIFICATION.BUTTON.ENABLE_TITLE" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Benachrichtigungen aktivieren"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1337,12 +2267,24 @@
             "state" : "translated",
             "value" : "Habilitar notificaciones"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activer les notifications"
+          }
         }
       }
     },
     "WELCOME.ONBOARDING.NOTIFICATION.BUTTON.SKIP_TITLE" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Überspringen Sie vorerst"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1354,12 +2296,24 @@
             "state" : "translated",
             "value" : "Saltar por ahora"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passons à autre chose pour le moment."
+          }
         }
       }
     },
     "WELCOME.ONBOARDING.NOTIFICATION.DESCRIPTION" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mit Erinnerungsfunktionen kann **Lynk** Sie sanft daran erinnern, wenn es Zeit ist, etwas, das Sie gespeichert haben, wieder aufzurufen."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1371,12 +2325,24 @@
             "state" : "translated",
             "value" : "Con recordatorios, **Lynk** puede enviarte un suave aviso cuando sea momento de volver a revisar algo que hayas guardado."
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grâce aux rappels, **Lynk** peut vous envoyer un petit coup de pouce lorsqu'il est temps de consulter à nouveau un élément que vous avez enregistré."
+          }
         }
       }
     },
     "WELCOME.ONBOARDING.NOTIFICATION.INFO_TEXT" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wir benachrichtigen Sie nur, wenn Sie eine Erinnerung einstellen, sonst nichts."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1388,12 +2354,24 @@
             "state" : "translated",
             "value" : "Solo te notificaremos cuando configures un recordatorio, nada más."
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nous vous enverrons une notification uniquement lorsque vous programmerez un rappel, rien de plus."
+          }
         }
       }
     },
     "WELCOME.ONBOARDING.NOTIFICATION.TITLE" : {
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⏰ Freundliche Erinnerungen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1404,6 +2382,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "⏰ Recordatorios amables"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⏰ Petits rappels"
           }
         }
       }
