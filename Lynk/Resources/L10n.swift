@@ -198,4 +198,15 @@ extension L10n {
 	}
 	
 	static let appTitle = LocalizedStringResource(stringLiteral: "APP_TITLE")
+	
+	// Mac
+	enum MacHomeView {
+		enum SearchTextField {
+			static let placeholder = LocalizedStringResource(stringLiteral: "MAC_HOME_VIEW.SEARCH_TEXT_FIELD.PLACEHOLDER")
+		}
+		
+		enum ArticleViewer {
+			static let whatArticleToReadTitle = LocalizedStringResource(stringLiteral: "MAC_HOME_VIEW.ARTICLE_VIEWER.WHAT_ARTICLE_TO_READ_TITLE")
+		}
+	}
 }

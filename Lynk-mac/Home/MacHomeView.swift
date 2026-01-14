@@ -60,7 +60,7 @@ struct MacHomeView: View {
 				#endif
 				HStack {
 					Image(systemName: "magnifyingglass")
-					TextField("Search", text: $searchText)
+					TextField(String(localized: L10n.MacHomeView.SearchTextField.placeholder), text: $searchText)
 						.textFieldStyle(.plain)
 					Image(systemName: "xmark")
 						.font(.caption2)
@@ -129,7 +129,7 @@ struct MacHomeView: View {
 					VStack(spacing: 16) {
 						Image(systemName: "contextualmenu.and.cursorarrow")
 							.font(.title)
-						Text("What article would you like to read?")
+						Text(L10n.MacHomeView.ArticleViewer.whatArticleToReadTitle)
 					}
 				}
 			}
@@ -141,7 +141,7 @@ struct MacHomeView: View {
 					}
 			}
 		}
-		.onReceive(NotificationCenter.default.publisher(for: .NSPersistentStoreRemoteChange)) { _ in
+		.onReceive(NotificationCenter.default.publisher(for: .NSPersistentStoreRemoteChange).receive(on: DispatchQueue.main)) { _ in
 			localStorage.refreshAllObjects()
 		}
     }
