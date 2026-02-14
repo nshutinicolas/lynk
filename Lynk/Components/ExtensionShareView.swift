@@ -24,7 +24,7 @@ enum ExtensionShareError: Error {
 class ExtensionShareViewModel: ObservableObject {
 	@Flag(.showSavePreview) private(set) var showSavePreview
 	
-	@Published var saveStatus: SaveStatus = .loading
+	@Published var saveStatus: SaveStatus = .idle
 	@Published var showSavePreviewOverlay: Bool = false
 	@Published var model: BookmarkModel?
 	

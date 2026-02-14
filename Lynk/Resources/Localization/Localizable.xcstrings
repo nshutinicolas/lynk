@@ -14,6 +14,12 @@
         }
       }
     },
+    "Add Link" : {
+
+    },
+    "Add title for the link" : {
+
+    },
     "APP_TITLE" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -449,6 +455,9 @@
         }
       }
     },
+    "Bookmark" : {
+
+    },
     "BUTTON.CANCEL" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -710,6 +719,9 @@
         }
       }
     },
+    "eg: https://" : {
+
+    },
     "EXTENSION_SHARE_VIEW.BUTTON.BOOKMARK_TITLE" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -796,6 +808,9 @@
           }
         }
       }
+    },
+    "Link" : {
+
     },
     "MAC_HOME_VIEW.ARTICLE_VIEWER.WHAT_ARTICLE_TO_READ_TITLE" : {
       "comment" : "Title of a section in the Mac Home View that instructs the user to select an article to read.",
@@ -1116,6 +1131,9 @@
           }
         }
       }
+    },
+    "Set Reminder" : {
+
     },
     "SETTINGS.ALERT.ABOUT.BODY_MESSAGE" : {
       "extractionState" : "manual",
@@ -2219,6 +2237,9 @@
           }
         }
       }
+    },
+    "Title" : {
+
     },
     "WELCOME.ONBOARDING.INTRO.BUTTON.TITLE" : {
       "extractionState" : "manual",
