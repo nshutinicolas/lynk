@@ -283,8 +283,7 @@ struct AppView: View {
 			.padding()
 		}
 		.addLinkManually($addLinkManually) {
-			// Refresh the view
-			
+			// Do something on dismissing this flow
 		}
 		.fullScreenCover(isPresented: $showSettings) {
 			SettingsView()

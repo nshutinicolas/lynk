@@ -12,10 +12,10 @@ struct AddLinkManuallyView: View {
 	@Flag(.enableReminders) private var enableReminders
 	@Environment(\.dismiss) private var dismiss
 	@Environment(\.isPresented) private var isPresented
+	@EnvironmentObject private var bookmark: BookmarkStorage
 	
 	init() { }
 	
-	@ObservedObject private var viewModel = ExtensionShareViewModel()
 	@State private var addedLink = ""
 	@State private var addedLinkSubject = PassthroughSubject<URL, Never>()
 	@State private var cancellable = Set<AnyCancellable>()
@@ -25,6 +25,7 @@ struct AddLinkManuallyView: View {
 	@State private var selectedTime = Date()
 	@State private var linkFavicon: String?
 	@State private var loading = false
+	@State private var saveStatus: SaveStatus = .idle
 	
     var body: some View {
 		VStack(spacing: .zero) {
@@ -96,16 +97,15 @@ struct AddLinkManuallyView: View {
 					}
 					#endif
 					Button {
-						guard let model = viewModel.model else { return }
-						var reminder: ExtensionShareViewModel.ReminderContent? {
-							enableReminders && setReminder ? ExtensionShareViewModel.ReminderContent(date: selectedDate, time: selectedTime) : nil
+						guard addedLink.isEmpty == false else { return }
+						var category: BookmarkModel.Category
+						if let linkFavicon {
+							category = .webPage(title: linkTitle, url: addedLink, imageUrl: linkFavicon)
+						} else {
+							category = .url(url: addedLink, title: linkTitle.isEmpty ? nil : linkTitle)
 						}
-						viewModel.saveBookmark(model, reminder: reminder) {
-							Task {
-								try? await Task.sleep(for: .seconds(2))
-								dismiss()
-							}
-						}
+						let model = BookmarkModel(id: UUID().uuidString, category: category)
+						saveBookmark(model)
 					} label: {
 						Label(L10n.AddLinkManuallyView.Button.title, systemImage: "square.and.arrow.down")
 							.foregroundStyle(Color.white)
@@ -123,7 +123,7 @@ struct AddLinkManuallyView: View {
 		.padding()
 		.background()
 		.overlay {
-			SaveStatusView(status: viewModel.saveStatus)
+			SaveStatusView(status: saveStatus)
 		}
 		.onChange(of: addedLink) { link in
 			guard let url = URL(string: link), url.isValid else { return }
@@ -179,6 +179,21 @@ extension AddLinkManuallyView {
 				// Handle failure to get the data
 			}
 			loading = false
+		}
+	}
+	
+	func saveBookmark(_ model: BookmarkModel) {
+		Task {
+			do {
+				saveStatus = .loading
+				try bookmark.save(model: model)
+				try? await Task.sleep(for: .seconds(2))
+				saveStatus = .success
+				try? await Task.sleep(for: .seconds(1))
+				dismiss()
+			} catch {
+				// Handle coredata failure
+			}
 		}
 	}
 }
