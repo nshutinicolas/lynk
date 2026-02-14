@@ -39,10 +39,10 @@ struct AddLinkManuallyView: View {
 							.roundedBorder()
 					}
 					VStack(alignment: .leading, spacing: 4) {
-						Text("Link")
+						Text(L10n.AddLinkManuallyView.TextField.linkTitle)
 							.fontWeight(.medium)
 						TextField(text: $addedLink, axis: .vertical) {
-							Text("eg: https://")
+							Text(L10n.AddLinkManuallyView.TextField.linkPlaceholder)
 						}
 						.font(.body)
 						.keyboardType(.URL)
@@ -56,10 +56,10 @@ struct AddLinkManuallyView: View {
 						ProgressView()
 					}
 					VStack(alignment: .leading, spacing: 4) {
-						Text("Title")
+						Text(L10n.AddLinkManuallyView.TextField.titleText)
 							.fontWeight(.medium)
 						TextField(text: $linkTitle, axis: .vertical) {
-							Text("Add title for the link")
+							Text(L10n.AddLinkManuallyView.TextField.titleTextPlaceholder)
 						}
 						.font(.body)
 						.keyboardType(.default)
@@ -69,7 +69,9 @@ struct AddLinkManuallyView: View {
 						.padding(.horizontal, 8)
 						.roundedBorder()
 					}
-					
+					#if DEBUG
+					// Reminder has an issue where dismissing the calendar picker dismisses the view too
+					// Fix that issue and remove the DEBUB flag
 					// Reminder
 					Button {
 						setReminder.toggle()
@@ -79,7 +81,7 @@ struct AddLinkManuallyView: View {
 								.resizable()
 								.scaledToFit()
 								.frame(width: 20, height: 20)
-							Text("Set Reminder")
+							Text(L10n.AddLinkManuallyView.setReminderText)
 								.font(.title3)
 						}
 						.frame(maxWidth: .infinity, alignment: .leading)
@@ -92,7 +94,7 @@ struct AddLinkManuallyView: View {
 					if setReminder {
 						ReminderView(selectedDate: $selectedDate, selectedTime: $selectedTime)
 					}
-					
+					#endif
 					Button {
 						guard let model = viewModel.model else { return }
 						var reminder: ExtensionShareViewModel.ReminderContent? {
@@ -105,7 +107,7 @@ struct AddLinkManuallyView: View {
 							}
 						}
 					} label: {
-						Label("Bookmark", systemImage: "square.and.arrow.down")
+						Label(L10n.AddLinkManuallyView.Button.title, systemImage: "square.and.arrow.down")
 							.foregroundStyle(Color.white)
 							.padding(12)
 							.frame(maxWidth: .infinity)
@@ -139,7 +141,7 @@ struct AddLinkManuallyView: View {
 	
 	var headerView: some View {
 		HStack {
-			Text("Add Link")
+			Text(L10n.AddLinkManuallyView.title)
 				.font(.title2)
 				.fontWeight(.semibold)
 				.frame(maxWidth: .infinity)
@@ -178,10 +180,6 @@ extension AddLinkManuallyView {
 			}
 			loading = false
 		}
-	}
-	
-	func subscribe() {
-//		addedLink
 	}
 }
 
