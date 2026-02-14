@@ -185,6 +185,23 @@ extension L10n {
 		}
 	}
 	
+	enum AddLinkManuallyView {
+		static let title = LocalizedStringResource(stringLiteral: "ADD_LINK_MANUALLY_VIEW.TITLE")
+		
+		enum TextField {
+			static let linkTitle = LocalizedStringResource(stringLiteral: "ADD_LINK_MANUALLY_VIEW.TEXT_FIELD.LYNK_TITLE")
+			static let linkPlaceholder = LocalizedStringResource(stringLiteral: "ADD_LINK_MANUALLY_VIEW.TEXT_FIELD.LINK_PLACEHOLDER")
+			static let titleText = LocalizedStringResource(stringLiteral: "ADD_LINK_MANUALLY_VIEW.TEXT_FIELD.TITLE_TEXT")
+			static let titleTextPlaceholder = LocalizedStringResource(stringLiteral: "ADD_LINK_MANUALLY_VIEW.TEXT_FIELD.TITLE_TEXT_PLACEHOLDER")
+		}
+		
+		static let setReminderText = LocalizedStringResource(stringLiteral: "ADD_LINK_MANUALLY_VIEW.SET_REMINDER_TEXT")
+		
+		enum Button {
+			static let title = LocalizedStringResource(stringLiteral: "ADD_LINK_MANUALLY_VIEW.BUTTON.TITLE")
+		}
+	}
+	
 	enum Button {
 		static let edit = LocalizedStringResource(stringLiteral: "BUTTON.EDIT")
 		static let delete = LocalizedStringResource(stringLiteral: "BUTTON.DELETE")
@@ -195,6 +212,7 @@ extension L10n {
 		static let confirm = LocalizedStringResource(stringLiteral: "BUTTON.CONFIRM")
 		static let open = LocalizedStringResource(stringLiteral: "BUTTON.OPEN")
 		static let notNow = LocalizedStringResource(stringLiteral: "BUTTON.NOT_NOW")
+		static let save = LocalizedStringResource(stringLiteral: "BUTTON.SAVE")
 	}
 	
 	static let appTitle = LocalizedStringResource(stringLiteral: "APP_TITLE")

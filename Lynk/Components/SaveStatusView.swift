@@ -8,6 +8,7 @@
 import SwiftUI
 
 enum SaveStatus: Equatable {
+	case idle
 	case loading
 	case success
 	case error(SaveError)
@@ -44,6 +45,8 @@ struct SaveStatusView: View {
 	var body: some View {
 		ZStack {
 			switch status {
+			case .idle:
+				EmptyView()
 			case .loading:
 				VStack {
 					ProgressView()

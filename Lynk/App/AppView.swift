@@ -63,6 +63,7 @@ struct AppView: View {
 	@Cached<Int>(.appVisits) private var appVisitCount
 	@State private var showAppReview = false
 	@State private var showEmailCompose = false
+	@State private var addLinkManually = false
 	
 	@State private var showDeepLinkAlert: Bool = false
 	
@@ -266,6 +267,23 @@ struct AppView: View {
 					}
 				}
 			}
+		}
+		.overlay(alignment: .bottomTrailing) {
+			Button {
+				addLinkManually = true
+			} label: {
+				Image(systemName: "plus")
+					.font(.title2)
+					.fontWeight(.semibold)
+					.padding()
+					.background()
+					.roundedBorder(for: .circle, color: .gray.opacity(0.5))
+					.shadow(color: .gray.opacity(0.2), radius: 10)
+			}
+			.padding()
+		}
+		.addLinkManually($addLinkManually) {
+			// Do something on dismissing this flow
 		}
 		.fullScreenCover(isPresented: $showSettings) {
 			SettingsView()

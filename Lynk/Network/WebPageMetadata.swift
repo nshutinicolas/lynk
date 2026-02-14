@@ -50,7 +50,7 @@ class WebPageMetadata {
 	}
 	
 	// ChatGPT code 😎
-	// When this route to take care of scenarios where title has multiline text
+	// Went this route to take care of scenarios where title has multiline text
 	// The alternative is to use SwiftSoup<https://github.com/scinfu/SwiftSoup>
 	func extractTitleWithRegex(from html: String) -> String? {
 		// Use dotMatchesLineSeparators so `.` matches newlines, and non-greedy capture (.*?) for the title content.
