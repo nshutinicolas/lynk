@@ -97,7 +97,7 @@ struct AddLinkManuallyView: View {
 					}
 					#endif
 					Button {
-						guard addedLink.isEmpty == false else { return }
+						guard addedLink.isEmpty == false, let url = URL(string: addedLink), url.isValid else { return }
 						var category: BookmarkModel.Category
 						if let linkFavicon {
 							category = .webPage(title: linkTitle, url: addedLink, imageUrl: linkFavicon)
