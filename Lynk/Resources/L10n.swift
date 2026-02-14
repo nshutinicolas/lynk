@@ -191,8 +191,10 @@ extension L10n {
 		enum TextField {
 			static let linkTitle = LocalizedStringResource(stringLiteral: "ADD_LINK_MANUALLY_VIEW.TEXT_FIELD.LYNK_TITLE")
 			static let linkPlaceholder = LocalizedStringResource(stringLiteral: "ADD_LINK_MANUALLY_VIEW.TEXT_FIELD.LINK_PLACEHOLDER")
+			static let linkFieldError = LocalizedStringResource(stringLiteral: "ADD_LINK_MANUALLY_VIEW.TEXT_FIELD.LINK_FIELD_ERROR")
 			static let titleText = LocalizedStringResource(stringLiteral: "ADD_LINK_MANUALLY_VIEW.TEXT_FIELD.TITLE_TEXT")
 			static let titleTextPlaceholder = LocalizedStringResource(stringLiteral: "ADD_LINK_MANUALLY_VIEW.TEXT_FIELD.TITLE_TEXT_PLACEHOLDER")
+			static let titleTextError = LocalizedStringResource(stringLiteral: "ADD_LINK_MANUALLY_VIEW.TEXT_FIELD.TITLE_TEXT_ERROR")
 		}
 		
 		static let setReminderText = LocalizedStringResource(stringLiteral: "ADD_LINK_MANUALLY_VIEW.SET_REMINDER_TEXT")

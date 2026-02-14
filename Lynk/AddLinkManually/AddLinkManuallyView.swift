@@ -17,9 +17,11 @@ struct AddLinkManuallyView: View {
 	init() { }
 	
 	@State private var addedLink = ""
+	@State private var addLinkFieldHasError = false
 	@State private var addedLinkSubject = PassthroughSubject<URL, Never>()
 	@State private var cancellable = Set<AnyCancellable>()
 	@State private var linkTitle = ""
+	@State private var linkTitleHasError = false
 	@State private var setReminder = false
 	@State private var selectedDate = Date()
 	@State private var selectedTime = Date()
@@ -51,7 +53,12 @@ struct AddLinkManuallyView: View {
 						.textInputAutocapitalization(.never)
 						.padding(.vertical, 12)
 						.padding(.horizontal, 8)
-						.roundedBorder()
+						.roundedBorder(color: addLinkFieldHasError ? .red : .gray.opacity(0.5))
+						if addLinkFieldHasError {
+							Text(L10n.AddLinkManuallyView.TextField.linkFieldError)
+								.font(.footnote)
+								.foregroundStyle(Color.red)
+						}
 					}
 					if loading {
 						ProgressView()
@@ -68,7 +75,12 @@ struct AddLinkManuallyView: View {
 						.textInputAutocapitalization(.never)
 						.padding(.vertical, 12)
 						.padding(.horizontal, 8)
-						.roundedBorder()
+						.roundedBorder(color: linkTitleHasError ? .red : .gray.opacity(0.5))
+						if linkTitleHasError {
+							Text(L10n.AddLinkManuallyView.TextField.titleTextError)
+								.font(.footnote)
+								.foregroundStyle(Color.red)
+						}
 					}
 					#if DEBUG
 					// Reminder has an issue where dismissing the calendar picker dismisses the view too
@@ -97,7 +109,21 @@ struct AddLinkManuallyView: View {
 					}
 					#endif
 					Button {
-						guard addedLink.isEmpty == false, let url = URL(string: addedLink), url.isValid else { return }
+						var hasError = false
+						if addedLink.isEmpty {
+							addLinkFieldHasError = true
+							hasError = true
+						}
+						let url = URL(string: addedLink)
+						if url == nil || url?.isValid == false {
+							addLinkFieldHasError = true
+							hasError = true
+						}
+						if linkTitle.count <= 4 {
+							linkTitleHasError = true
+							hasError = true
+						}
+						guard hasError == false else { return }
 						var category: BookmarkModel.Category
 						if let linkFavicon {
 							category = .webPage(title: linkTitle, url: addedLink, imageUrl: linkFavicon)
@@ -125,7 +151,11 @@ struct AddLinkManuallyView: View {
 		.overlay {
 			SaveStatusView(status: saveStatus)
 		}
+		.onChange(of: linkTitle) { _ in
+			linkTitleHasError = false
+		}
 		.onChange(of: addedLink) { link in
+			addLinkFieldHasError = false
 			guard let url = URL(string: link), url.isValid else { return }
 			addedLinkSubject.send(url)
 		}
@@ -200,6 +230,7 @@ extension AddLinkManuallyView {
 
 #Preview {
 	AddLinkManuallyView()
+		.environmentObject(BookmarkStorage.shared)
 }
 
 extension View {

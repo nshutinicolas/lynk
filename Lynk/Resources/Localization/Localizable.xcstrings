@@ -72,6 +72,35 @@
         }
       }
     },
+    "ADD_LINK_MANUALLY_VIEW.TEXT_FIELD.LINK_FIELD_ERROR" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bitte verwenden Sie einen gültigen URL-Link."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please use a valid URL link"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utilice un enlace URL válido"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Veuillez utiliser un lien URL valide"
+          }
+        }
+      }
+    },
     "ADD_LINK_MANUALLY_VIEW.TEXT_FIELD.LINK_PLACEHOLDER" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -155,6 +184,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Title du lien"
+          }
+        }
+      }
+    },
+    "ADD_LINK_MANUALLY_VIEW.TEXT_FIELD.TITLE_TEXT_ERROR" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Titel muss mindestens 5 Zeichen lang sein."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Title must have at least 5 characters"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El título debe tener al menos 5 caracteres."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le titre doit comporter au moins 5 caractères."
           }
         }
       }
