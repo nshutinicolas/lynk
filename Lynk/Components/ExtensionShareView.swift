@@ -318,13 +318,13 @@ struct ExtensionShareView: View {
 						Label(L10n.ExtensionShareView.Button.bookMarkTitle, systemImage: "square.and.arrow.down")
 							.fontWeight(.medium)
 							.foregroundStyle(.white)
+							.padding(.vertical, 12)
 							.frame(maxWidth: .infinity)
+							.background(Color.blue)
+							.roundedBorder()
+							.padding(.bottom, 12)
 					}
 					.buttonStyle(.plain)
-					.padding(.vertical, 12)
-					.background(Color.blue)
-					.roundedBorder()
-					.padding(.bottom, 12)
 				}
 				.padding([.horizontal])
 				.background()
