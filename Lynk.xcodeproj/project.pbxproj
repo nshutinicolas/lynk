@@ -95,12 +95,14 @@
 				Components/IconView.swift,
 				Components/ItemCellView.swift,
 				Components/RemoteImage.swift,
+				Components/SaveStatusView.swift,
 				Components/TextBookmarkView.swift,
 				Components/URLBookmark.swift,
 				Components/WebPageBookmark.swift,
 				Constants/Constants.swift,
 				"Extensions/Date+Extension.swift",
 				Extensions/RoundedCorner.swift,
+				"Extensions/URL+Extension.swift",
 				Helpers/AppFlag.swift,
 				Helpers/Cached.swift,
 				Helpers/ImageCache.swift,
@@ -111,6 +113,7 @@
 				Models/BookmarkModel.swift,
 				Modifiers/ColorTheme.swift,
 				Network/ImageLoader.swift,
+				Network/WebPageMetadata.swift,
 				Resources/L10n.swift,
 				Resources/Localization/Localizable.xcstrings,
 			);
@@ -648,6 +651,7 @@
 				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = rw.lynk.app.ernest.macos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
 				SDKROOT = macosx;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -679,6 +683,7 @@
 				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = rw.lynk.app.ernest.macos;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
 				SDKROOT = macosx;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

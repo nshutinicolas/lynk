@@ -10,6 +10,7 @@ import SwiftUI
 struct MacHomeView: View {
 	@State private var searchText: String = ""
 	@State private var selectedBookmark: BookmarkModel?
+	@State private var presentAddLink = false
 	@Environment(\.managedObjectContext) private var localStorage
 	
 	private var filteredBookmarks: [Bookmark] {
@@ -40,24 +41,50 @@ struct MacHomeView: View {
     var body: some View {
 		NavigationSplitView {
 			VStack(spacing: 16) {
-				#if DEBUG
 				HStack {
-					Image(systemName: "gear")
-						.font(.title3)
-						.padding(4)
-						.background(Color.gray.opacity(0.3))
-						.clipShape(.rect(cornerRadius: 8))
+					#if DEBUG
+					Button {
+						
+					} label: {
+						Image(systemName: "gear")
+							.font(.title3)
+							.padding(4)
+							.background(Color.gray.opacity(0.3))
+							.clipShape(.rect(cornerRadius: 8))
+					}
+					.buttonStyle(.plain)
+					#endif
 					Spacer()
 					HStack(spacing: 16) {
-						Image(systemName: "line.3.horizontal.decrease")
-							.font(.title3)
-							.padding(4)
-						Image(systemName: "plus")
-							.font(.title3)
-							.padding(4)
+						Button {
+							presentAddLink = true
+						} label: {
+							Image(systemName: "plus")
+								.font(.title3)
+								.padding(4)
+							
+						}
+						.buttonStyle(.plain)
+						#if DEBUG
+						// TODO: Remove the flag after implementing these options
+						Button { } label: {
+							Image(systemName: "line.3.horizontal.decrease")
+								.font(.title3)
+								.padding(4)
+						}
+						.buttonStyle(.plain)
+						
+						Button {
+							localStorage.refreshAllObjects()
+						} label: {
+							Image(systemName: "arrow.clockwise")
+								.font(.title3)
+								.padding(4)
+						}
+						.buttonStyle(.plain)
+						#endif
 					}
 				}
-				#endif
 				HStack {
 					Image(systemName: "magnifyingglass")
 					TextField(String(localized: L10n.MacHomeView.SearchTextField.placeholder), text: $searchText)
@@ -134,16 +161,41 @@ struct MacHomeView: View {
 				}
 			}
 			.toolbar {
-				Image(systemName: "arrow.up.forward.app")
-					.font(.title2)
-					.onTapGesture {
-						openExternalBookmarkLink()
+				if let selectedBookmark {
+					Button {
+						let pasteBoard = NSPasteboard.general
+						pasteBoard.clearContents()
+						switch selectedBookmark.category {
+						case .text:
+							break
+						case .url(let url, _):
+							pasteBoard.setString(url, forType: .string)
+						case .webPage(_, let url, _):
+							pasteBoard.setString(url, forType: .string)
+						}
+					} label: {
+						Image(systemName: "paperclip")
+							.font(.title2)
+							.padding(8)
 					}
+					.buttonStyle(.plain)
+					
+					Button {
+						openExternalBookmarkLink()
+					} label: {
+						Image(systemName: "arrow.up.forward.app")
+							.font(.title2)
+							.padding(8)
+					}
+					.buttonStyle(.plain)
+				}
 			}
 		}
 		.onReceive(NotificationCenter.default.publisher(for: .NSPersistentStoreRemoteChange).receive(on: DispatchQueue.main)) { _ in
 			localStorage.refreshAllObjects()
 		}
+		.addLinkManuallyMac($presentAddLink)
+		.navigationTitle(selectedBookmark?.title ?? "Lynk")
     }
 	
 	private func openExternalBookmarkLink() {

@@ -1,14 +1,18 @@
 //
-//  AddLinkManuallyView.swift
-//  Lynk
+//  AddLinkManuallyMac.swift
+//  Lynk-mac
 //
-//  Created by Musoni nshuti Nicolas on 14/02/2026.
+//  Created by Musoni nshuti Nicolas on 16/02/2026.
 //
 
-import SwiftUI
 import Combine
+import SwiftUI
 
-struct AddLinkManuallyView: View {
+// This is a copy/paste of AddLinkManually
+// Was a bit lazy to refactor but will look into it with this TODO
+// TODO: Make this view generic to be able to work on both platforms
+// Remove the duplication
+struct AddLinkManuallyMac: View {
 	@Flag(.enableReminders) private var enableReminders
 	@Environment(\.dismiss) private var dismiss
 	@Environment(\.isPresented) private var isPresented
@@ -22,9 +26,7 @@ struct AddLinkManuallyView: View {
 	@State private var cancellable = Set<AnyCancellable>()
 	@State private var linkTitle = ""
 	@State private var linkTitleHasError = false
-	@State private var setReminder = false
-	@State private var selectedDate = Date()
-	@State private var selectedTime = Date()
+	
 	@State private var linkFavicon: String?
 	@State private var loading = false
 	@State private var saveStatus: SaveStatus = .idle
@@ -47,10 +49,10 @@ struct AddLinkManuallyView: View {
 						TextField(text: $addedLink, axis: .vertical) {
 							Text(L10n.AddLinkManuallyView.TextField.linkPlaceholder)
 						}
+						// To remove the default background color, use plain field style
+						.textFieldStyle(.plain)
 						.font(.body)
-						.keyboardType(.URL)
 						.autocorrectionDisabled()
-						.textInputAutocapitalization(.never)
 						.padding(.vertical, 12)
 						.padding(.horizontal, 8)
 						.roundedBorder(color: addLinkFieldHasError ? .red : .gray.opacity(0.5))
@@ -69,10 +71,9 @@ struct AddLinkManuallyView: View {
 						TextField(text: $linkTitle, axis: .vertical) {
 							Text(L10n.AddLinkManuallyView.TextField.titleTextPlaceholder)
 						}
+						.textFieldStyle(.plain)
 						.font(.body)
-						.keyboardType(.default)
 						.autocorrectionDisabled()
-						.textInputAutocapitalization(.never)
 						.padding(.vertical, 12)
 						.padding(.horizontal, 8)
 						.roundedBorder(color: linkTitleHasError ? .red : .gray.opacity(0.5))
@@ -82,32 +83,7 @@ struct AddLinkManuallyView: View {
 								.foregroundStyle(Color.red)
 						}
 					}
-					#if DEBUG
-					// Reminder has an issue where dismissing the calendar picker dismisses the view too
-					// Fix that issue and remove the DEBUB flag
-					// Reminder
-					Button {
-						setReminder.toggle()
-					} label: {
-						HStack {
-							Image(systemName: setReminder ? "checkmark.square" : "square")
-								.resizable()
-								.scaledToFit()
-								.frame(width: 20, height: 20)
-							Text(L10n.AddLinkManuallyView.setReminderText)
-								.font(.title3)
-						}
-						.frame(maxWidth: .infinity, alignment: .leading)
-						.background()
-					}
-					.buttonStyle(.plain)
-					.padding()
-					.roundedBorder()
 					
-					if setReminder {
-						ReminderView(selectedDate: $selectedDate, selectedTime: $selectedTime)
-					}
-					#endif
 					Button {
 						var hasError = false
 						if addedLink.isEmpty {
@@ -194,7 +170,7 @@ struct AddLinkManuallyView: View {
 	}
 }
 
-extension AddLinkManuallyView {
+extension AddLinkManuallyMac {
 	func updateLinkInfo(url: URL) {
 		Task {
 			do {
@@ -217,7 +193,7 @@ extension AddLinkManuallyView {
 			do {
 				saveStatus = .loading
 				try bookmark.save(model: model)
-				try? await Task.sleep(for: .seconds(2))
+				try? await Task.sleep(for: .seconds(1))
 				saveStatus = .success
 				try? await Task.sleep(for: .seconds(1))
 				dismiss()
@@ -229,18 +205,17 @@ extension AddLinkManuallyView {
 }
 
 #Preview {
-	AddLinkManuallyView()
-		.environmentObject(BookmarkStorage.shared)
+    AddLinkManuallyMac()
 }
 
 // MARK: - View+Extension
 
 extension View {
-	func addLinkManually(_ isPresented: Binding<Bool>, onDismiss: (() -> Void)? = nil) -> some View {
+	func addLinkManuallyMac(_ isPresented: Binding<Bool>, onDismiss: (() -> Void)? = nil) -> some View {
 		self.sheet(isPresented: isPresented) {
 			onDismiss?()
 		} content: {
-			AddLinkManuallyView()
+			AddLinkManuallyMac()
 		}
 	}
 }

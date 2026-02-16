@@ -102,8 +102,14 @@ struct SaveStatusView: View {
 	}
 }
 
+#if os(iOS)
 @available(iOS 17.0, *)
 #Preview {
 	@Previewable @State var status: SaveStatus = .loading
 	return SaveStatusView(status: status)
 }
+#elseif os(macOS)
+#Preview {
+	SaveStatusView(status: .loading)
+}
+#endif
