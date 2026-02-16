@@ -50,7 +50,8 @@ struct MacHomeView: View {
 							.font(.title3)
 							.padding(4)
 							.background(Color.gray.opacity(0.3))
-							.clipShape(.rect(cornerRadius: 8))
+							.roundedBorder()
+							.hoverPopover(enabled: true, text: "Manage your settings")
 					}
 					.buttonStyle(.plain)
 					#endif
@@ -62,7 +63,7 @@ struct MacHomeView: View {
 							Image(systemName: "plus")
 								.font(.title3)
 								.padding(4)
-							
+								.hoverPopover(enabled: true, text: "Add link manually")
 						}
 						.buttonStyle(.plain)
 						#if DEBUG
@@ -80,6 +81,7 @@ struct MacHomeView: View {
 							Image(systemName: "arrow.clockwise")
 								.font(.title3)
 								.padding(4)
+								.hoverPopover(enabled: true, text: "Refresh content")
 						}
 						.buttonStyle(.plain)
 						#endif
@@ -115,7 +117,7 @@ struct MacHomeView: View {
 									}
 									.contextMenu {
 										Button {
-											
+											copyToClipboard(model.category)
 										} label: {
 											Label(L10n.Button.copy, systemImage: "document.on.document")
 										}
@@ -163,20 +165,12 @@ struct MacHomeView: View {
 			.toolbar {
 				if let selectedBookmark {
 					Button {
-						let pasteBoard = NSPasteboard.general
-						pasteBoard.clearContents()
-						switch selectedBookmark.category {
-						case .text:
-							break
-						case .url(let url, _):
-							pasteBoard.setString(url, forType: .string)
-						case .webPage(_, let url, _):
-							pasteBoard.setString(url, forType: .string)
-						}
+						copyToClipboard(selectedBookmark.category)
 					} label: {
 						Image(systemName: "paperclip")
 							.font(.title2)
 							.padding(8)
+							.hoverPopover(enabled: true, text: "Copy to link to clipboard")
 					}
 					.buttonStyle(.plain)
 					
@@ -186,6 +180,7 @@ struct MacHomeView: View {
 						Image(systemName: "arrow.up.forward.app")
 							.font(.title2)
 							.padding(8)
+							.hoverPopover(enabled: true, text: "Open in an external browser")
 					}
 					.buttonStyle(.plain)
 				}
@@ -230,6 +225,19 @@ struct MacHomeView: View {
 			try localStorage.save()
 		} catch {
 			print("Failed to delete bookmarks: \(error.localizedDescription)")
+		}
+	}
+	
+	private func copyToClipboard(_ item: BookmarkModel.Category) {
+		let pasteboard = NSPasteboard.general
+		pasteboard.clearContents()
+		switch item {
+		case .text(let text):
+			pasteboard.setString(text, forType: .string)
+		case .url(let url, _):
+			pasteboard.setString(url, forType: .string)
+		case .webPage(_, let url, _):
+			pasteboard.setString(url, forType: .string)
 		}
 	}
 }
