@@ -51,7 +51,7 @@ struct MacHomeView: View {
 							.padding(4)
 							.background(Color.gray.opacity(0.3))
 							.roundedBorder()
-							.hoverPopover(enabled: true, text: "Manage your settings")
+							.hoverPopover(enabled: true, text: L10n.MacHomeView.Header.settingsHoverText)
 					}
 					.buttonStyle(.plain)
 					#endif
@@ -63,7 +63,7 @@ struct MacHomeView: View {
 							Image(systemName: "plus")
 								.font(.title3)
 								.padding(4)
-								.hoverPopover(enabled: true, text: "Add link manually")
+								.hoverPopover(enabled: true, text: L10n.MacHomeView.Header.addLinkManuallyHoverText)
 						}
 						.buttonStyle(.plain)
 						#if DEBUG
@@ -81,7 +81,7 @@ struct MacHomeView: View {
 							Image(systemName: "arrow.clockwise")
 								.font(.title3)
 								.padding(4)
-								.hoverPopover(enabled: true, text: "Refresh content")
+								.hoverPopover(enabled: true, text: L10n.MacHomeView.Header.refreshContentHoverText)
 						}
 						.buttonStyle(.plain)
 						#endif
@@ -170,7 +170,7 @@ struct MacHomeView: View {
 						Image(systemName: "paperclip")
 							.font(.title2)
 							.padding(8)
-							.hoverPopover(enabled: true, text: "Copy to link to clipboard")
+							.hoverPopover(enabled: true, text: L10n.MacHomeView.Toolbar.copyToClipboardHoverText)
 					}
 					.buttonStyle(.plain)
 					
@@ -180,7 +180,7 @@ struct MacHomeView: View {
 						Image(systemName: "arrow.up.forward.app")
 							.font(.title2)
 							.padding(8)
-							.hoverPopover(enabled: true, text: "Open in an external browser")
+							.hoverPopover(enabled: true, text: L10n.MacHomeView.Toolbar.openInExternalBrowserHoverText)
 					}
 					.buttonStyle(.plain)
 				}

@@ -20,7 +20,7 @@ struct HoverableButton<PopoverContent: View>: ViewModifier {
 		self.popoverContent = popoverContent
 	}
 	
-	init(hoverable: Bool, text: String) where PopoverContent == Text {
+	init(hoverable: Bool, text: LocalizedStringResource) where PopoverContent == Text {
 		self.hoverable = hoverable
 		self.popoverContent = { Text(text) }
 	}
@@ -46,7 +46,7 @@ extension View {
 		modifier(HoverableButton(hoverable: enabled, popoverContent: content))
 	}
 	
-	func hoverPopover(enabled: Bool, text: String) -> some View {
+	func hoverPopover(enabled: Bool, text: LocalizedStringResource) -> some View {
 		modifier(HoverableButton(hoverable: enabled, text: text))
 	}
 }

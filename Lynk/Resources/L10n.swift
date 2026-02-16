@@ -228,5 +228,16 @@ extension L10n {
 		enum ArticleViewer {
 			static let whatArticleToReadTitle = LocalizedStringResource(stringLiteral: "MAC_HOME_VIEW.ARTICLE_VIEWER.WHAT_ARTICLE_TO_READ_TITLE")
 		}
+		
+		enum Header {
+			static let settingsHoverText = LocalizedStringResource(stringLiteral: "MAC_HOME_VIEW.HEADER.SETTINGS_HOVER_TEXT")
+			static let addLinkManuallyHoverText = LocalizedStringResource(stringLiteral: "MAC_HOME_VIEW.HEADER.ADD_LINK_MANUALLY_HOVER_TEXT")
+			static let refreshContentHoverText = LocalizedStringResource(stringLiteral: "MAC_HOME_VIEW.HEADER.REFRESH_CONTENT_HOVER_TEXT")
+		}
+		
+		enum Toolbar {
+			static let copyToClipboardHoverText = LocalizedStringResource(stringLiteral: "MAC_HOME_VIEW.TOOLBAR.COPY_TO_CLIPBOARD_HOVER_TEXT")
+			static let openInExternalBrowserHoverText = LocalizedStringResource(stringLiteral: "MAC_HOME_VIEW.TOOLBAR.OPEN_IN_EXTERNAL_BROWSER_HOVER_TEXT")
+		}
 	}
 }
