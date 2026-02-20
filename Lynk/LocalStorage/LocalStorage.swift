@@ -67,11 +67,16 @@ class BookmarkStorage: ObservableObject {
 			self?.container.viewContext.automaticallyMergesChangesFromParent = true
 			self?.container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
 			
-			self?.addObservers()
+			// Commenting out for now to observe the side effects
+//			self?.addObservers()
 		}
 		#if DEBUG
 		checkCloudKitAvailability()
 		#endif
+	}
+	
+	deinit {
+		NotificationCenter.default.removeObserver(container.persistentStoreCoordinator)
 	}
 	
 	// CoreData observer to notify iCloud that there has been a change so that it can sync

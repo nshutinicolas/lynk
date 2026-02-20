@@ -60,14 +60,27 @@ struct AppView: View {
 	@Namespace private var searchBarAnimation
 	@State private var showSettings = false
 	@FocusState private var searchFieldIsFocused: Bool
-	@Cached<Int>(.appVisits) private var appVisitCount
 	@State private var showAppReview = false
 	@State private var showEmailCompose = false
 	@State private var addLinkManually = false
-	
 	@State private var showDeepLinkAlert: Bool = false
 	
 	@State private var displayMode: DisplayMode = .list
+	@State private var deviceOrientation: DeviceOrientation = .portrait
+	@State private var showCollectionContent = false
+	
+	@Cached<Int>(.appVisits) private var appVisitCount
+	
+	private var isPad: Bool {
+		UIDevice.current.userInterfaceIdiom == .pad
+	}
+	private var columnLayout: [GridItem] {
+		let phoneCount = deviceOrientation == .landscape ? 4 : 3
+		return Array(
+			repeating: GridItem(.flexible()),
+			count: isPad ? 6 : phoneCount
+		)
+	}
 	
 	private var filteredBookmarks: [Bookmark] {
 		guard !searchText.isEmpty else {
@@ -214,7 +227,7 @@ struct AppView: View {
 							Section {
 								switch displayMode {
 								case .grid:
-									LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]) {
+									LazyVGrid(columns: columnLayout) {
 										ForEach(bookmarkCollection) { collection in
 											bookmarkCollectionView(collection)
 										}
@@ -268,6 +281,17 @@ struct AppView: View {
 				}
 			}
 		}
+		.onAppear {
+			// Increment app view count
+			if let visits = appVisitCount {
+				appVisitCount = visits + 1
+			} else {
+				appVisitCount = 1
+			}
+			
+			// Check for Review alert eligibility
+			requestReviewEligible()
+		}
 		.overlay(alignment: .bottomTrailing) {
 			Button {
 				addLinkManually = true
@@ -307,16 +331,15 @@ struct AppView: View {
 				showDeepLinkAlert = true
 			}
 		}
-		.onAppear {
-			// Increment app view count
-			if let visits = appVisitCount {
-				appVisitCount = visits + 1
-			} else {
-				appVisitCount = 1
+		// Determine device orientation
+		.onReceive(NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)) { _ in
+			let orientation = UIDevice.current.orientation
+			switch orientation {
+			case .landscapeLeft, .landscapeRight:
+				deviceOrientation = .landscape
+			default:
+				deviceOrientation = .portrait
 			}
-			
-			// Check for Review alert eligibility
-			requestReviewEligible()
 		}
 		.alert(
 			L10n.AppView.Alert.Notification.title,
@@ -448,14 +471,14 @@ struct AppView: View {
 								.resizable()
 						}
 						.scaledToFit()
-						.frame(width: 80, height: 80)
 				} else {
 					Image(systemName: "globe")
 						.resizable()
 						.scaledToFit()
-						.frame(width: 80, height: 80)
 				}
 			}
+			.frame(maxWidth: .infinity)
+			.frame(height: isPad ? 120 : 80)
 			.padding(8)
 			.background()
 			.clipShape(.rect(cornerRadius: 8))
@@ -539,6 +562,10 @@ extension AppView {
 			case .grid: return .list
 			}
 		}
+	}
+	
+	enum DeviceOrientation {
+		case portrait, landscape
 	}
 }
 
