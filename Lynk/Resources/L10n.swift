@@ -91,6 +91,24 @@ extension L10n {
 					static let skipTitle = LocalizedStringResource(stringLiteral: "WELCOME.ONBOARDING.NOTIFICATION.BUTTON.SKIP_TITLE")
 				}
 			}
+			
+			enum TwoWaysToSave {
+				static let title = LocalizedStringResource(stringLiteral: "WELCOME.ONBOARDING.TWO_WAYS_TO_SAVE.TITLE")
+				static let description = LocalizedStringResource(stringLiteral: "WELCOME.ONBOARDING.TWO_WAYS_TO_SAVE.DESCRIPTION")
+				
+				enum SaveMethod {
+					static let shareSheetTitle = LocalizedStringResource(stringLiteral: "WELCOME.ONBOARDING.TWO_WAYS_TO_SAVE.SAVE_METHOD.SHARE_SHEET_TITLE")
+					static let shareSheetDecription = LocalizedStringResource(stringLiteral: "WELCOME.ONBOARDING.TWO_WAYS_TO_SAVE.SAVE_METHOD.SHARE_SHEET_DECRIPTION")
+					static let manualTitle = LocalizedStringResource(stringLiteral: "WELCOME.ONBOARDING.TWO_WAYS_TO_SAVE.SAVE_METHOD.MANUAL_TITLE")
+					static let manualDescription = LocalizedStringResource(stringLiteral: "WELCOME.ONBOARDING.TWO_WAYS_TO_SAVE.SAVE_METHOD.MANUAL_DECRIPTION")
+				}
+				static let icloudSync = LocalizedStringResource(stringLiteral: "WELCOME.ONBOARDING.TWO_WAYS_TO_SAVE.ICLOUD_SYNC")
+			}
+			
+			enum CompleteOnboarding {
+				static let title = LocalizedStringResource(stringLiteral: "WELCOME.ONBOARDING.COMPLETE_ONBOARDING.TITLE")
+				static let description = LocalizedStringResource(stringLiteral: "WELCOME.ONBOARDING.COMPLETE_ONBOARDING.DESCRIPTION")
+			}
 		}
 	}
 	
@@ -215,6 +233,7 @@ extension L10n {
 		static let open = LocalizedStringResource(stringLiteral: "BUTTON.OPEN")
 		static let notNow = LocalizedStringResource(stringLiteral: "BUTTON.NOT_NOW")
 		static let save = LocalizedStringResource(stringLiteral: "BUTTON.SAVE")
+		static let continueButton = LocalizedStringResource(stringLiteral: "BUTTON.CONTINUE")
 	}
 	
 	static let appTitle = LocalizedStringResource(stringLiteral: "APP_TITLE")

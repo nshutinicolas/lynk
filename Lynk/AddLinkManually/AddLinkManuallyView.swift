@@ -9,12 +9,13 @@ import SwiftUI
 import Combine
 
 struct AddLinkManuallyView: View {
+	private let notificationManager = NotificationManager.shared
 	@Flag(.enableReminders) private var enableReminders
-	@Environment(\.dismiss) private var dismiss
-	@Environment(\.isPresented) private var isPresented
 	@EnvironmentObject private var bookmark: BookmarkStorage
-	
-	init() { }
+	let onDismiss: () -> Void
+	init(_ onDismiss: @escaping () -> Void) {
+		self.onDismiss = onDismiss
+	}
 	
 	@State private var addedLink = ""
 	@State private var addLinkFieldHasError = false
@@ -82,10 +83,6 @@ struct AddLinkManuallyView: View {
 								.foregroundStyle(Color.red)
 						}
 					}
-					#if DEBUG
-					// Reminder has an issue where dismissing the calendar picker dismisses the view too
-					// Fix that issue and remove the DEBUB flag
-					// Reminder
 					Button {
 						setReminder.toggle()
 					} label: {
@@ -107,7 +104,6 @@ struct AddLinkManuallyView: View {
 					if setReminder {
 						ReminderView(selectedDate: $selectedDate, selectedTime: $selectedTime)
 					}
-					#endif
 					Button {
 						var hasError = false
 						if addedLink.isEmpty {
@@ -147,6 +143,7 @@ struct AddLinkManuallyView: View {
 			}
 		}
 		.padding()
+		.frame(maxWidth: .infinity, maxHeight: .infinity)
 		.background()
 		.overlay {
 			SaveStatusView(status: saveStatus)
@@ -175,22 +172,28 @@ struct AddLinkManuallyView: View {
 				.font(.title2)
 				.fontWeight(.semibold)
 				.frame(maxWidth: .infinity)
-			if isPresented {
 				Button {
-					dismiss()
+					onDismiss()
 				} label: {
 					Image(systemName: "xmark")
 						.resizable()
 						.scaledToFit()
 						.frame(width: 16, height: 16)
 						.padding(12)
-						.background(Color.gray.opacity(0.2))
 						.roundedBorder(for: .circle)
 				}
 				.buttonStyle(.plain)
-			}
 		}
 		.frame(maxWidth: .infinity)
+	}
+	
+	private var isDateValid: Bool {
+		guard selectedDate.is(.greaterOrEqual, to: Date.now, for: [.day, .month, .year]) else { return false }
+		
+		if selectedDate.is(.equal, to: Date.now, for: [.day, .month, .year]) {
+			return selectedTime.is(.greaterThan, to: selectedDate, for: [.hour, .minute])
+		}
+		return true
 	}
 }
 
@@ -219,28 +222,71 @@ extension AddLinkManuallyView {
 				try bookmark.save(model: model)
 				try? await Task.sleep(for: .seconds(2))
 				saveStatus = .success
+				if isDateValid {
+					self.setReminder(
+						for: model,
+						date: selectedDate,
+						time: selectedTime
+					)
+				}
 				try? await Task.sleep(for: .seconds(1))
-				dismiss()
+				onDismiss()
 			} catch {
 				// Handle coredata failure
 			}
 		}
 	}
+	
+	// Set Reminder
+	func setReminder(for model: BookmarkModel, date: Date, time: Date) {
+		notificationManager.scheduleNotification(
+			for: model,
+			date: date,
+			time: time
+		)
+	}
 }
 
+#if DEBUG
 #Preview {
-	AddLinkManuallyView()
+	AddLinkManuallyView { }
 		.environmentObject(BookmarkStorage.shared)
 }
+#endif
 
 // MARK: - View+Extension
 
 extension View {
 	func addLinkManually(_ isPresented: Binding<Bool>, onDismiss: (() -> Void)? = nil) -> some View {
-		self.sheet(isPresented: isPresented) {
-			onDismiss?()
-		} content: {
-			AddLinkManuallyView()
+		self.overlay(alignment: .bottom) {
+			ZStack {
+				if isPresented.wrappedValue {
+					AddLinkManuallyView {
+						onDismiss?()
+					}
+					.transition(.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .bottom)))
+				}
+			}
+			.animation(.linear.delay(-0.1), value: isPresented.wrappedValue)
 		}
 	}
 }
+
+#if DEBUG
+struct DemoUsage: View {
+	@State private var showSheet = false
+	var body: some View {
+		VStack {
+			Button("Show sheet") {
+				showSheet.toggle()
+			}
+			Rectangle()
+				.fill(Color.clear)
+				.addLinkManually($showSheet)
+		}
+	}
+}
+#Preview("Overlay") {
+	DemoUsage()
+}
+#endif
