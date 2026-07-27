@@ -64,10 +64,14 @@ struct AppView: View {
 	@State private var showEmailCompose = false
 	@State private var addLinkManually = false
 	@State private var showDeepLinkAlert: Bool = false
+	// Learning
+	@State private var showLearningView: Bool = false
 	
 	@State private var displayMode: DisplayMode = .list
 	@State private var deviceOrientation: DeviceOrientation = .portrait
 	@State private var showCollectionContent = false
+	@State private var isCopiedToClipboard = false
+	@State private var isReminderSet = false
 	
 	@Cached<Int>(.appVisits) private var appVisitCount
 	
@@ -138,6 +142,13 @@ struct AppView: View {
 			return newestDate1 > newestDate2
 		}
 	}
+	// Reminder
+	private let notificationManager = NotificationManager.shared
+	@State private var selectedDate = Date()
+	@State private var selectedTime = Date()
+	@State private var selectedBookmarkForReminder: BookmarkModel?
+	@State private var showReminderSelector = false
+	@State private var showEnableNotificationsAlert = false
 	
 	@FetchRequest(
 		entity: Bookmark.entity(),
@@ -248,13 +259,18 @@ struct AppView: View {
 													bookmarkTapped(model)
 												}
 												.contextMenu {
-													// TODO: Implement these actions
-													#if DEBUG
 													Button {
-														
+														copyToClipboard(model.category)
 													} label: {
 														Label(L10n.Button.copy, systemImage: "document.on.document")
 													}
+													Button {
+														selectedBookmarkForReminder = model
+													} label: {
+														Label("Schedule a reminder", systemImage: "calendar.badge.clock")
+													}
+													// TODO: Implement these actions
+													#if DEBUG
 													Button {
 														
 													} label: {
@@ -306,11 +322,143 @@ struct AppView: View {
 			}
 			.padding()
 		}
+		// Toast like indicator for copy to clipboard
+		// Create a component out of this view
+		.overlay(alignment: .bottom) {
+			Group {
+				if isCopiedToClipboard {
+					HStack {
+						Group {
+							Image(systemName: "document.on.document")
+								.font(.caption)
+							Text(L10n.AppView.Alert.CopyToClipboard.text)
+						}
+						.foregroundStyle(Color(uiColor: .systemBackground))
+					}
+					.padding()
+					.padding(.horizontal, 24)
+					.background(Color(uiColor: .label))
+					.clipShape(.capsule)
+					.frame(maxWidth: .infinity, alignment: .center)
+					.padding(.bottom, 24)
+					.transition(
+						.asymmetric(
+							insertion: .move(edge: .bottom),
+							removal: .move(edge: .bottom)
+						)
+					)
+				}
+			}
+		}
+		// Toast like indicator for set reminder done
+		.overlay(alignment: .bottom) {
+			Group {
+				if isReminderSet {
+					HStack {
+						Group {
+							Image(systemName: "calendar.badge.clock")
+								.font(.caption)
+							Text(L10n.AppView.Alert.SetReminder.text)
+						}
+						.foregroundStyle(Color(uiColor: .systemBackground))
+					}
+					.padding()
+					.padding(.horizontal, 24)
+					.background(Color(uiColor: .label))
+					.clipShape(.capsule)
+					.frame(maxWidth: .infinity, alignment: .center)
+					.padding(.bottom, 24)
+					.transition(
+						.asymmetric(
+							insertion: .move(edge: .bottom),
+							removal: .move(edge: .bottom)
+						)
+					)
+				}
+			}
+		}
 		.addLinkManually($addLinkManually) {
-			// Do something on dismissing this flow
+			addLinkManually = false
 		}
 		.fullScreenCover(isPresented: $showSettings) {
 			SettingsView()
+		}
+		.sheet(isPresented: $showReminderSelector) {
+			VStack {
+				HStack {
+					Button {
+						showReminderSelector = false
+					} label: {
+						Image(systemName: "xmark")
+							.resizable()
+							.scaledToFit()
+							.frame(width: 16, height: 16)
+							.padding(12)
+							.background(Color.gray.opacity(0.2))
+							.roundedBorder(for: .circle)
+					}
+					.buttonStyle(.plain)
+				}
+				.frame(maxWidth: .infinity, alignment: .trailing)
+				.padding()
+				ScrollView(showsIndicators: false) {
+					VStack {
+						if let selectedBookmarkForReminder {
+							ItemCellView(model: selectedBookmarkForReminder)
+							Group {
+								VStack(alignment: .leading) {
+									Text("\(String(localized: L10n.ReminderView.Button.date)):")
+										.font(.caption)
+									DateTimePopover(
+										display: .date,
+										selected: $selectedDate,
+										in: .partial(Date.now...)
+									)
+								}
+								VStack(alignment: .leading) {
+									Text("\(String(localized: L10n.ReminderView.Button.time)):")
+										.font(.caption)
+									DateTimePopover(
+										display: .hourAndMinute,
+										selected: $selectedTime,
+										in: .partial(Date.now...)
+									)
+								}
+							}
+						} else {
+							VStack(alignment: .center) {
+								Image(systemName: "xmark.shield.fill")
+									.font(.largeTitle)
+								Text(L10n.AppView.ReminderSelector.emptySelectionText)
+							}
+							.frame(maxWidth: .infinity, alignment: .center)
+						}
+					}
+					.padding()
+				}
+				if isReminderDateValid, let selectedBookmarkForReminder {
+					PrimaryButton(String(localized: L10n.AppView.ReminderSelector.setReminderButtonText)) {
+						setReminder(
+							for: selectedBookmarkForReminder,
+							date: selectedDate,
+							time: selectedTime
+						)
+						showReminderSelector = false
+						// When the reminder is set, show a toast that lasts 3 secs
+						withAnimation(.easeInOut(duration: 0.25)) {
+							isReminderSet = true
+							Task {
+								try? await Task.sleep(for: .seconds(3))
+								isReminderSet = false
+							}
+						}
+					}
+					.padding(.horizontal)
+				}
+			}
+			.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+			.background()
+			.presentationDetents([.large])
 		}
 		.onChange(of: showSearchBar) { value in
 			searchFieldIsFocused = value
@@ -329,6 +477,20 @@ struct AppView: View {
 			Task {
 				try await Task.sleep(for: .seconds(1))
 				showDeepLinkAlert = true
+			}
+		}
+		.onChange(of: selectedBookmarkForReminder) { bookmark in
+			guard bookmark != nil else { return }
+			Task {
+				let notificationStatus = await notificationManager.notificationPermissionStatus()
+				switch notificationStatus {
+				case .authorized:
+					// Show the reminder selector
+					showReminderSelector = true
+				default:
+					// Show an alert to request for notification
+					break
+				}
 			}
 		}
 		// Determine device orientation
@@ -382,6 +544,37 @@ struct AppView: View {
 		})
 		.sheet(isPresented: $showEmailCompose) {
 			MailComposeView(.negativeReview) { _ in }
+		}
+		.alert(L10n.AppView.Alert.Notification.EnableNotification.title, isPresented: $showEnableNotificationsAlert) {
+			Button(L10n.Button.enable) {
+				Task {
+					let status = await notificationManager.notificationPermissionStatus()
+					switch status {
+					case .denied:
+						guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
+						openURL(settingsUrl)
+					case .authorized:
+						// No check is needed for this state
+						break
+					default:
+						_ = try? await notificationManager.requestNotificationPermission()
+					}
+					showEnableNotificationsAlert = false
+				}
+			}
+			Button(L10n.Button.dismiss) {
+				showEnableNotificationsAlert = false
+			}
+		} message: {
+			Text(L10n.AppView.Alert.Notification.EnableNotification.message)
+		}
+		.sheet(isPresented: $showLearningView) {
+			ShareSheetHelpView {
+				showLearningView = false
+			}
+			.frame(maxWidth: .infinity, maxHeight: .infinity)
+			.background()
+			.presentationDetents([.large])
 		}
 	}
 	
@@ -511,8 +704,7 @@ struct AppView: View {
 				.font(.title3)
 			
 			Button(L10n.AppView.EmptyView.Button.leanHowText) {
-				guard let url = URL(string: AppConstants.howtoDoc) else { return }
-				openURL(url)
+				showLearningView = true
 			}
 			.padding()
 		}
@@ -548,6 +740,43 @@ struct AppView: View {
 		AppStore.requestReview(in: scene)
 		// Update review values
 		AppReviewRequest.updateReviewValues()
+	}
+	
+	private func copyToClipboard(_ item: BookmarkModel.Category) {
+		switch item {
+		case .text(let text):
+			UIPasteboard.general.string = text
+		case .url(url: let url, _):
+			UIPasteboard.general.string = url
+		case .webPage(_, let url, _):
+			UIPasteboard.general.string = url
+		}
+		// Present the toast and dismiss
+		withAnimation(.easeInOut(duration: 0.25)) {
+			isCopiedToClipboard = true
+			Task {
+				try? await Task.sleep(for: .seconds(3))
+				isCopiedToClipboard = false
+			}
+		}
+	}
+	// TODO: Centralize this logic
+	// I've used this logic in 3 places and need a refactor. Find the best common location
+	private var isReminderDateValid: Bool {
+		guard selectedDate.is(.greaterOrEqual, to: Date.now, for: [.day, .month, .year]) else { return false }
+		
+		if selectedDate.is(.equal, to: Date.now, for: [.day, .month, .year]) {
+			return selectedTime.is(.greaterThan, to: selectedDate, for: [.hour, .minute])
+		}
+		return true
+	}
+	
+	private func setReminder(for model: BookmarkModel, date: Date, time: Date) {
+		notificationManager.scheduleNotification(
+			for: model,
+			date: date,
+			time: time
+		)
 	}
 }
 

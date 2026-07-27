@@ -58,6 +58,7 @@
 		6CF5BE3F2DA6EDA500EFE633 /* Exceptions for "Lynk" folder in "LynkBookmark" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Components/Buttons.swift,
 				Components/DateTimePopover.swift,
 				Components/ExtensionShareView.swift,
 				Components/IconView.swift,
@@ -92,6 +93,7 @@
 		6CFC31452DEB070F003BCCBF /* Exceptions for "Lynk" folder in "Lynk-mac" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Components/Buttons.swift,
 				Components/IconView.swift,
 				Components/ItemCellView.swift,
 				Components/RemoteImage.swift,

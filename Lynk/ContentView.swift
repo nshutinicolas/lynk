@@ -28,7 +28,7 @@ struct ContentView: View {
     var body: some View {
 		Group {
 			if isFirstLaunch && isOnboardingFlowCompleted == false {
-				WelcomeView()
+				OnboardingView()
 					.onboardingComplete { status in
 						isOnboardingFlowCompleted = status
 					}

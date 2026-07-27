@@ -30,6 +30,7 @@ struct SettingsView: View {
 	@State private var presentDeleteAllAlert = false
 	@State private var showPushNotificationsAlert: Bool = false
 	@State private var showShareSheet = false
+	@State private var showHowToSheet = false
 	
 	private var authService = AuthService.shared
 	private var notificationManager = NotificationManager.shared
@@ -263,8 +264,7 @@ struct SettingsView: View {
 						}
 						separator()
 						row(icon: "airplayvideo", title: String(localized: L10n.SettingsView.Section.HelpAndSupport.howToUse), description: String(localized: L10n.SettingsView.Section.HelpAndSupport.howToUseDescription)) {
-							guard let url = URL(string: AppConstants.howtoDoc) else { return }
-							openURL(url)
+							showHowToSheet = true
 						}
 					}
 					if let appVersion = Bundle.main.appVersion, let appBuild = Bundle.main.appBuild {
@@ -317,6 +317,11 @@ struct SettingsView: View {
 			.padding(.horizontal)
 			.presentationDetents([.fraction(0.4)])
 			.presentationDragIndicator(.visible)
+		}
+		.sheet(isPresented: $showHowToSheet) {
+			ShareSheetHelpView {
+				showHowToSheet = false
+			}
 		}
 		.shareSheet(isPresented: $showShareSheet, items: shareSheetModel)
 		.onChange(of: emailCompose) { value in

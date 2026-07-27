@@ -27,6 +27,10 @@ extension L10n {
 		enum Alert {
 			enum Notification {
 				static let title = LocalizedStringResource(stringLiteral: "APP_VIEW.ALERT.NOTIFICATION.TITLE")
+				enum EnableNotification {
+					static let title = LocalizedStringResource(stringLiteral: "APP_VIEW.ALERT.NOTIFICATION.ENABLE_NOTIFICATION.TITLE")
+					static let message = LocalizedStringResource(stringLiteral: "APP_VIEW.ALERT.NOTIFICATION.ENABLE_NOTIFICATION.MESSAGE")
+				}
 			}
 			
 			enum Feedback {
@@ -36,6 +40,14 @@ extension L10n {
 					static let noTitle = LocalizedStringResource(stringLiteral: "APP_VIEW.ALERT.FEEDBACK.BUTTON.NO_TITLE")
 				}
 				static let message = LocalizedStringResource(stringLiteral: "APP_VIEW.ALERT.FEEDBACK.MESSAGE")
+			}
+			
+			enum CopyToClipboard {
+				static let text = LocalizedStringResource(stringLiteral: "APP_VIEW.ALERT.COPY_TO_CLIPBOARD.TEXT")
+			}
+			
+			enum SetReminder {
+				static let text = LocalizedStringResource(stringLiteral: "APP_VIEW.ALERT.SET_REMINDER.TEXT")
 			}
 		}
 		
@@ -51,6 +63,11 @@ extension L10n {
 			static let all = LocalizedStringResource(stringLiteral: "APP_VIEW.SORTING.ALL")
 			static let text = LocalizedStringResource(stringLiteral: "APP_VIEW.SORTING.TEXT")
 			static let websites = LocalizedStringResource(stringLiteral: "APP_VIEW.SORTING.WEBSITES")
+		}
+		
+		enum ReminderSelector {
+			static let emptySelectionText = LocalizedStringResource(stringLiteral: "APP_VIEW.REMINDER_SELECTOR.EMPTY_SELECTION_TEXT")
+			static let setReminderButtonText = LocalizedStringResource(stringLiteral: "APP_VIEW.REMINDER_SELECTOR.SET_REMINDER_BUTTON_TEXT")
 		}
 	}
 	
@@ -90,6 +107,24 @@ extension L10n {
 					static let enableTitle = LocalizedStringResource(stringLiteral: "WELCOME.ONBOARDING.NOTIFICATION.BUTTON.ENABLE_TITLE")
 					static let skipTitle = LocalizedStringResource(stringLiteral: "WELCOME.ONBOARDING.NOTIFICATION.BUTTON.SKIP_TITLE")
 				}
+			}
+			
+			enum TwoWaysToSave {
+				static let title = LocalizedStringResource(stringLiteral: "WELCOME.ONBOARDING.TWO_WAYS_TO_SAVE.TITLE")
+				static let description = LocalizedStringResource(stringLiteral: "WELCOME.ONBOARDING.TWO_WAYS_TO_SAVE.DESCRIPTION")
+				
+				enum SaveMethod {
+					static let shareSheetTitle = LocalizedStringResource(stringLiteral: "WELCOME.ONBOARDING.TWO_WAYS_TO_SAVE.SAVE_METHOD.SHARE_SHEET_TITLE")
+					static let shareSheetDecription = LocalizedStringResource(stringLiteral: "WELCOME.ONBOARDING.TWO_WAYS_TO_SAVE.SAVE_METHOD.SHARE_SHEET_DECRIPTION")
+					static let manualTitle = LocalizedStringResource(stringLiteral: "WELCOME.ONBOARDING.TWO_WAYS_TO_SAVE.SAVE_METHOD.MANUAL_TITLE")
+					static let manualDescription = LocalizedStringResource(stringLiteral: "WELCOME.ONBOARDING.TWO_WAYS_TO_SAVE.SAVE_METHOD.MANUAL_DECRIPTION")
+				}
+				static let icloudSync = LocalizedStringResource(stringLiteral: "WELCOME.ONBOARDING.TWO_WAYS_TO_SAVE.ICLOUD_SYNC")
+			}
+			
+			enum CompleteOnboarding {
+				static let title = LocalizedStringResource(stringLiteral: "WELCOME.ONBOARDING.COMPLETE_ONBOARDING.TITLE")
+				static let description = LocalizedStringResource(stringLiteral: "WELCOME.ONBOARDING.COMPLETE_ONBOARDING.DESCRIPTION")
 			}
 		}
 	}
@@ -215,6 +250,8 @@ extension L10n {
 		static let open = LocalizedStringResource(stringLiteral: "BUTTON.OPEN")
 		static let notNow = LocalizedStringResource(stringLiteral: "BUTTON.NOT_NOW")
 		static let save = LocalizedStringResource(stringLiteral: "BUTTON.SAVE")
+		static let continueButton = LocalizedStringResource(stringLiteral: "BUTTON.CONTINUE")
+		static let enable = LocalizedStringResource(stringLiteral: "BUTTON.ENABLE")
 	}
 	
 	static let appTitle = LocalizedStringResource(stringLiteral: "APP_TITLE")
@@ -238,6 +275,36 @@ extension L10n {
 		enum Toolbar {
 			static let copyToClipboardHoverText = LocalizedStringResource(stringLiteral: "MAC_HOME_VIEW.TOOLBAR.COPY_TO_CLIPBOARD_HOVER_TEXT")
 			static let openInExternalBrowserHoverText = LocalizedStringResource(stringLiteral: "MAC_HOME_VIEW.TOOLBAR.OPEN_IN_EXTERNAL_BROWSER_HOVER_TEXT")
+		}
+	}
+	
+	enum ShareSheetHelpView {
+		static let title = LocalizedStringResource(stringLiteral: "SHARE_SHEET_HELP_VIEW.TITLE")
+		static let message = LocalizedStringResource(stringLiteral: "SHARE_SHEET_HELP_VIEW.MESSAGE")
+		
+		enum Explainer {
+			enum Step1 {
+				static let title = LocalizedStringResource(stringLiteral: "SHARE_SHEET_HELP_VIEW.EXPLANER.STEP_1.TITLE")
+				static let description = LocalizedStringResource(stringLiteral: "SHARE_SHEET_HELP_VIEW.EXPLANER.STEP_1.DESCRIPTION")
+				static let safariRef = LocalizedStringResource(stringLiteral: "SHARE_SHEET_HELP_VIEW.EXPLANER.STEP_1.SAFARI_REF")
+			}
+			
+			enum Step2 {
+				static let title = LocalizedStringResource(stringLiteral: "SHARE_SHEET_HELP_VIEW.EXPLANER.STEP_2.TITLE")
+				static let description = LocalizedStringResource(stringLiteral: "SHARE_SHEET_HELP_VIEW.EXPLANER.STEP_2.DESCRIPTION")
+				static let expectation = LocalizedStringResource(stringLiteral: "SHARE_SHEET_HELP_VIEW.EXPLANER.STEP_2.EXPECTATION")
+				static let setReminderText = LocalizedStringResource(stringLiteral: "SHARE_SHEET_HELP_VIEW.EXPLANER.STEP_2.SET_REMINDER_TEXT")
+				static let enableNotificationButton = LocalizedStringResource(stringLiteral: "SHARE_SHEET_HELP_VIEW.EXPLANER.STEP_2.ENABLE_NOTIFICATION_BUTTON")
+			}
+			
+			enum Step3 {
+				static let title = LocalizedStringResource(stringLiteral: "SHARE_SHEET_HELP_VIEW.EXPLANER.STEP_3.TITLE")
+				static let description = LocalizedStringResource(stringLiteral: "SHARE_SHEET_HELP_VIEW.EXPLANER.STEP_3.DESCRIPTION")
+				static let tapMoreText = LocalizedStringResource(stringLiteral: "SHARE_SHEET_HELP_VIEW.EXPLANER.STEP_3.TAP_MORE_TEXT")
+				static let tapEditText = LocalizedStringResource(stringLiteral: "SHARE_SHEET_HELP_VIEW.EXPLANER.STEP_3.TAP_EDIT_TEXT")
+				static let enableLynkText = LocalizedStringResource(stringLiteral: "SHARE_SHEET_HELP_VIEW.EXPLANER.STEP_3.ENABLE_LYNK_TEXT")
+				static let goodToGoText = LocalizedStringResource(stringLiteral: "SHARE_SHEET_HELP_VIEW.EXPLANER.STEP_3.GOOD_TO_GO_TEXT")
+			}
 		}
 	}
 }
