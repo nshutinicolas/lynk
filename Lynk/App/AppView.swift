@@ -331,7 +331,7 @@ struct AppView: View {
 						Group {
 							Image(systemName: "document.on.document")
 								.font(.caption)
-							Text("Copied to clipboard")
+							Text(L10n.AppView.Alert.CopyToClipboard.text)
 						}
 						.foregroundStyle(Color(uiColor: .systemBackground))
 					}
@@ -358,7 +358,7 @@ struct AppView: View {
 						Group {
 							Image(systemName: "calendar.badge.clock")
 								.font(.caption)
-							Text("Reminder set")
+							Text(L10n.AppView.Alert.SetReminder.text)
 						}
 						.foregroundStyle(Color(uiColor: .systemBackground))
 					}
@@ -407,7 +407,7 @@ struct AppView: View {
 							ItemCellView(model: selectedBookmarkForReminder)
 							Group {
 								VStack(alignment: .leading) {
-									Text("Date:")
+									Text("\(String(localized: L10n.ReminderView.Button.date)):")
 										.font(.caption)
 									DateTimePopover(
 										display: .date,
@@ -416,7 +416,7 @@ struct AppView: View {
 									)
 								}
 								VStack(alignment: .leading) {
-									Text("Time:")
+									Text("\(String(localized: L10n.ReminderView.Button.time)):")
 										.font(.caption)
 									DateTimePopover(
 										display: .hourAndMinute,
@@ -429,7 +429,7 @@ struct AppView: View {
 							VStack(alignment: .center) {
 								Image(systemName: "xmark.shield.fill")
 									.font(.largeTitle)
-								Text("No Book mark was selected")
+								Text(L10n.AppView.ReminderSelector.emptySelectionText)
 							}
 							.frame(maxWidth: .infinity, alignment: .center)
 						}
@@ -437,7 +437,7 @@ struct AppView: View {
 					.padding()
 				}
 				if isReminderDateValid, let selectedBookmarkForReminder {
-					PrimaryButton("Set Reminder") {
+					PrimaryButton(String(localized: L10n.AppView.ReminderSelector.setReminderButtonText)) {
 						setReminder(
 							for: selectedBookmarkForReminder,
 							date: selectedDate,
@@ -545,8 +545,8 @@ struct AppView: View {
 		.sheet(isPresented: $showEmailCompose) {
 			MailComposeView(.negativeReview) { _ in }
 		}
-		.alert("Enable Notification", isPresented: $showEnableNotificationsAlert) {
-			Button("Enable") {
+		.alert(L10n.AppView.Alert.Notification.EnableNotification.title, isPresented: $showEnableNotificationsAlert) {
+			Button(L10n.Button.enable) {
 				Task {
 					let status = await notificationManager.notificationPermissionStatus()
 					switch status {
@@ -566,7 +566,7 @@ struct AppView: View {
 				showEnableNotificationsAlert = false
 			}
 		} message: {
-			Text("To set a reminder, you need to enable notifications in your device settings first.")
+			Text(L10n.AppView.Alert.Notification.EnableNotification.message)
 		}
 		.sheet(isPresented: $showLearningView) {
 			ShareSheetHelpView {

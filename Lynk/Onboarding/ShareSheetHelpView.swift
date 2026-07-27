@@ -17,10 +17,10 @@ struct ShareSheetHelpView: View {
 	var body: some View {
 		VStack(spacing: .zero) {
 			VStack(spacing: 4) {
-				Text("How To!")
+				Text(L10n.ShareSheetHelpView.title)
 					.font(.title3)
 					.fontWeight(.medium)
-				Text("Works from Safari or any app")
+				Text(L10n.ShareSheetHelpView.message)
 					.font(.caption)
 					.foregroundStyle(.secondary)
 			}
@@ -107,15 +107,15 @@ private struct AppUsageExplainer: View {
 			VStack(spacing: 24) {
 				StepRow(
 					number: 1,
-					title: "Tap the share action",
-					description: "Every app has an option to share content",
+					title: String(localized: L10n.ShareSheetHelpView.Explainer.Step1.title),
+					description: String(localized: L10n.ShareSheetHelpView.Explainer.Step1.description),
 					additionalView: {
 						VStack(alignment: .leading) {
 							Image(.onboardingSharesheetLaunchSafari)
 								.resizable()
 								.scaledToFit()
 								.roundedBorder(lineWidth: 2)
-							Text("Ref: Safari")
+							Text(L10n.ShareSheetHelpView.Explainer.Step1.safariRef)
 								.font(.caption)
 								.foregroundStyle(.secondary)
 						}
@@ -124,23 +124,23 @@ private struct AppUsageExplainer: View {
 				)
 				StepRow(
 					number: 2,
-					title: "After tapping Lynk",
-					description: "You are presented with a bookmark sheet that lets you save the link to Lynk",
+					title: String(localized: L10n.ShareSheetHelpView.Explainer.Step2.title),
+					description: String(localized: L10n.ShareSheetHelpView.Explainer.Step2.description),
 					additionalView: {
 						VStack(alignment: .leading) {
 							Image(.onboardingLynkEditTitle)
 								.resizable()
 								.scaledToFit()
 								.roundedBorder(lineWidth: 2)
-							Text("On this flow, you are able to edit the link's title and set a reminder.")
+							Text(L10n.ShareSheetHelpView.Explainer.Step2.expectation)
 								.font(.caption)
 								.foregroundStyle(.secondary)
 							// Wheck if user has notification enabled and show them the
 							if notificationEnabled == false {
 								VStack(alignment: .leading) {
-									Text("To set a reminder, you need to enable notifications")
+									Text(L10n.ShareSheetHelpView.Explainer.Step2.setReminderText)
 										.fontWeight(.semibold)
-									PrimaryButton("Enable notifications") {
+									PrimaryButton(String(localized:  L10n.ShareSheetHelpView.Explainer.Step2.enableNotificationButton)) {
 										Task {
 											// When user has disabled system notification,
 											// prompt them to open the system settings
@@ -168,12 +168,12 @@ private struct AppUsageExplainer: View {
 				)
 				StepRow(
 					number: 3,
-					title: "Can't find Lynk in the share sheet?",
-					description: "When you can't find lynk in the enabled apps list, you can add it from here.",
+					title: String(localized: L10n.ShareSheetHelpView.Explainer.Step3.title),
+					description: String(localized: L10n.ShareSheetHelpView.Explainer.Step3.description),
 					additionalView: {
 						VStack(alignment: .leading) {
 							VStack(alignment: .leading, spacing: 2) {
-								Text("Tap More button")
+								Text(L10n.ShareSheetHelpView.Explainer.Step3.tapMoreText)
 									.font(.subheadline.weight(.medium))
 								Image(.onboardingSharesheetApps)
 									.resizable()
@@ -181,7 +181,7 @@ private struct AppUsageExplainer: View {
 									.roundedBorder(lineWidth: 2)
 							}
 							VStack(alignment: .leading, spacing: 2) {
-								Text("Tap Edit")
+								Text(L10n.ShareSheetHelpView.Explainer.Step3.tapEditText)
 									.font(.subheadline.weight(.medium))
 								Image(.onboardingEditSelection)
 									.resizable()
@@ -189,7 +189,7 @@ private struct AppUsageExplainer: View {
 									.roundedBorder(lineWidth: 2)
 							}
 							VStack(alignment: .leading, spacing: 2) {
-								Text("Enable Lynk")
+								Text(L10n.ShareSheetHelpView.Explainer.Step3.enableLynkText)
 									.font(.subheadline.weight(.medium))
 								Image(.onboardingEnableApp)
 									.resizable()
@@ -197,7 +197,7 @@ private struct AppUsageExplainer: View {
 									.roundedBorder(lineWidth: 2)
 							}
 							
-							Label("Now you good to Go", systemImage: "hand.thumbsup")
+							Label(L10n.ShareSheetHelpView.Explainer.Step3.goodToGoText, systemImage: "hand.thumbsup")
 								.font(.title3)
 								.fontWeight(.medium)
 								.foregroundStyle(.blue)
