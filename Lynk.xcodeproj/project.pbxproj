@@ -102,6 +102,7 @@
 				Components/URLBookmark.swift,
 				Components/WebPageBookmark.swift,
 				Constants/Constants.swift,
+				"Extensions/Bundle+Extension.swift",
 				"Extensions/Date+Extension.swift",
 				Extensions/RoundedCorner.swift,
 				"Extensions/URL+Extension.swift",

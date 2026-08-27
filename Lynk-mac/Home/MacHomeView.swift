@@ -11,6 +11,7 @@ struct MacHomeView: View {
 	@State private var searchText: String = ""
 	@State private var selectedBookmark: BookmarkModel?
 	@State private var presentAddLink = false
+	@State private var presentSettings = false
 	@Environment(\.managedObjectContext) private var localStorage
 	
 	private var filteredBookmarks: [Bookmark] {
@@ -45,9 +46,8 @@ struct MacHomeView: View {
 		NavigationSplitView {
 			VStack(spacing: 16) {
 				HStack {
-					#if DEBUG
 					Button {
-						
+						presentSettings = true
 					} label: {
 						Image(systemName: "gear")
 							.font(.title3)
@@ -57,7 +57,6 @@ struct MacHomeView: View {
 							.hoverPopover(enabled: true, text: L10n.MacHomeView.Header.settingsHoverText)
 					}
 					.buttonStyle(.plain)
-					#endif
 					Spacer()
 					HStack(spacing: 16) {
 						Button {
@@ -196,6 +195,9 @@ struct MacHomeView: View {
 			localStorage.refreshAllObjects()
 		}
 		.addLinkManuallyMac($presentAddLink)
+		.sheet(isPresented: $presentSettings) {
+			MacSettingsView()
+		}
 		.navigationTitle(selectedBookmark?.title ?? "Lynk")
     }
 
