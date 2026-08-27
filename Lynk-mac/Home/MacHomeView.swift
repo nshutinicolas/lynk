@@ -14,7 +14,8 @@ struct MacHomeView: View {
 	@Environment(\.managedObjectContext) private var localStorage
 	
 	private var filteredBookmarks: [Bookmark] {
-		guard searchText.isEmpty == false else {
+		let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+		guard query.isEmpty == false else {
 			return Array(bookmarksFetch)
 		}
 		
@@ -22,11 +23,13 @@ struct MacHomeView: View {
 			let model = bookmark.createItemCellViewModel()
 			switch model?.category {
 			case .text(let text):
-				return text.lowercased().contains(searchText.lowercased())
+				return text.localizedCaseInsensitiveContains(query)
 			case .url(let url, let title):
-				return url.lowercased().contains(searchText.lowercased()) || ((title?.lowercased().contains(searchText.lowercased())) != nil)
+				return url.localizedCaseInsensitiveContains(query)
+					|| title?.localizedCaseInsensitiveContains(query) == true
 			case .webPage(let title, let url , _):
-				return title.lowercased().contains(searchText.lowercased()) || url.lowercased().contains(searchText.lowercased())
+				return title.localizedCaseInsensitiveContains(query)
+					|| url.localizedCaseInsensitiveContains(query)
 			default:
 				return false
 			}
