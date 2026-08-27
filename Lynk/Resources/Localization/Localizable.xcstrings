@@ -1413,6 +1413,62 @@
         }
       }
     },
+    "MAC_HOME_VIEW.EMPTY_STATE.MESSAGE" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Setzen Sie mit Lynk auf Ihrem iPhone oder iPad Lesezeichen für Links, um sie hier zu sehen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bookmark links with Lynk on your iPhone or iPad to see them here."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guarda enlaces con Lynk en tu iPhone o iPad para verlos aquí."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrez des liens avec Lynk sur votre iPhone ou votre iPad pour les voir ici."
+          }
+        }
+      }
+    },
+    "MAC_HOME_VIEW.EMPTY_STATE.TITLE" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noch keine Lesezeichen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No bookmarks found"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aún no hay marcadores"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun signet pour le moment"
+          }
+        }
+      }
+    },
     "MAC_HOME_VIEW.HEADER.ADD_LINK_MANUALLY_HOVER_TEXT" : {
       "extractionState" : "manual",
       "localizations" : {

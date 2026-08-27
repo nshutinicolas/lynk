@@ -258,6 +258,11 @@ extension L10n {
 	
 	// Mac
 	enum MacHomeView {
+		enum EmptyState {
+			static let title = LocalizedStringResource(stringLiteral: "MAC_HOME_VIEW.EMPTY_STATE.TITLE")
+			static let message = LocalizedStringResource(stringLiteral: "MAC_HOME_VIEW.EMPTY_STATE.MESSAGE")
+		}
+
 		enum SearchTextField {
 			static let placeholder = LocalizedStringResource(stringLiteral: "MAC_HOME_VIEW.SEARCH_TEXT_FIELD.PLACEHOLDER")
 		}

@@ -110,39 +110,42 @@ struct MacHomeView: View {
 					RoundedRectangle(cornerRadius: 8)
 						.stroke(lineWidth: 0.5)
 				)
-				List {
-					Section {
-						ForEach(filteredBookmarks) { bookmark in
-							if let model = bookmark.createItemCellViewModel() {
-								ItemCellView(model: model)
-									.onTapGesture {
-										selectedBookmark = model
-									}
-									.contextMenu {
-										Button {
-											copyToClipboard(model.category)
-										} label: {
-											Label(L10n.Button.copy, systemImage: "document.on.document")
+				if filteredBookmarks.isEmpty {
+					emptyBookmarksView
+				} else {
+					List {
+						Section {
+							ForEach(filteredBookmarks) { bookmark in
+								if let model = bookmark.createItemCellViewModel() {
+									ItemCellView(model: model)
+										.onTapGesture {
+											selectedBookmark = model
 										}
-										Button {
-											
-										} label: {
-											Label(L10n.Button.edit, systemImage: "pencil.and.list.clipboard")
+										.contextMenu {
+											Button {
+												copyToClipboard(model.category)
+											} label: {
+												Label(L10n.Button.copy, systemImage: "document.on.document")
+											}
+											Button {
+											} label: {
+												Label(L10n.Button.edit, systemImage: "pencil.and.list.clipboard")
+											}
+											Button {
+												deleteBookmark(bookmark)
+											} label: {
+												Label(L10n.Button.delete, systemImage: "trash")
+													.tint(Color.red)
+											}
 										}
-										Button {
-											deleteBookmark(bookmark)
-										} label: {
-											Label(L10n.Button.delete, systemImage: "trash")
-												.tint(Color.red)
-										}
-									}
+								}
 							}
 						}
+						.listRowSeparator(.hidden)
+						.listRowInsets(EdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8))
 					}
-					.listRowSeparator(.hidden)
-					.listRowInsets(EdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8))
+					.listStyle(.plain)
 				}
-				.listStyle(.plain)
 			}
 			.padding(.horizontal, 8)
 			.frame(minWidth: 320)
@@ -195,6 +198,22 @@ struct MacHomeView: View {
 		.addLinkManuallyMac($presentAddLink)
 		.navigationTitle(selectedBookmark?.title ?? "Lynk")
     }
+
+	private var emptyBookmarksView: some View {
+		VStack(spacing: 12) {
+			Image(systemName: "iphone.and.arrow.forward")
+				.font(.system(size: 34, weight: .medium))
+				.foregroundStyle(.secondary)
+			Text(L10n.MacHomeView.EmptyState.title)
+				.font(.headline)
+			Text(L10n.MacHomeView.EmptyState.message)
+				.font(.subheadline)
+				.foregroundStyle(.secondary)
+				.multilineTextAlignment(.center)
+		}
+		.frame(maxWidth: .infinity, maxHeight: .infinity)
+		.padding(.horizontal, 24)
+	}
 	
 	private func openExternalBookmarkLink() {
 		guard let selectedBookmark else { return }
