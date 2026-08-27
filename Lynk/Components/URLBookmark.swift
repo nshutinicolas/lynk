@@ -32,58 +32,11 @@ struct URLBookmark: View {
 				.clipShape(.rect(cornerRadius: 8))
 			VStack(alignment: .leading) {
 				if let text = model.text {
-					ZStack {
-						if editTitle == false {
-							HStack {
-								Text(text)
-									.lineLimit(3)
-							}
-							.frame(maxWidth: .infinity, alignment: .leading)
-							.overlay(alignment: .trailing) {
-								Button {
-									editTitle = true
-								} label: {
-									Image(systemName: "pencil")
-										.resizable()
-										.scaledToFit()
-										.frame(width: 12, height: 12)
-										.padding(8)
-										.roundedBorder()
-								}
-							}
-						} else {
-							HStack {
-								TextField(model.text ?? "", text: $edittedTitle)
-									.padding(8)
-									.roundedBorder()
-									.overlay(alignment: .trailing) {
-										Button {
-											edittedTitle = ""
-										} label: {
-											Image(systemName: "xmark")
-												.resizable()
-												.scaledToFit()
-												.frame(width: 8, height: 8)
-												.padding(6)
-												.background(Color.gray.opacity(0.5))
-												.clipShape(.circle)
-										}
-										.buttonStyle(.plain)
-										.padding(.trailing, 4)
-									}
-								Button {
-									
-								} label: {
-									Image(systemName: "checkmark")
-										.resizable()
-										.scaledToFit()
-										.frame(width: 20, height: 20)
-										.padding(8)
-										.roundedBorder()
-								}
-							}
-						}
+					HStack {
+						Text(text)
+							.lineLimit(3)
 					}
+					.frame(maxWidth: .infinity, alignment: .leading)
 				}
 				Text(model.url)
 					.lineLimit(2)
@@ -99,9 +52,11 @@ struct URLBookmark: View {
 	}
 }
 
+#if DEBUG
 #Preview {
 	VStack {
 		URLBookmark(model: .init(url: "https://ibirori.rw/events/go-over-here", text: "Ibirori event"))
 	}
 	.padding()
 }
+#endif

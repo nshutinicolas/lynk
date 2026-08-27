@@ -28,8 +28,7 @@ struct HoverableButton<PopoverContent: View>: ViewModifier {
 	func body(content: Content) -> some View {
 		content
 			.onHover { value in
-				guard self.hoverable else { return }
-				self.isHovered.toggle()
+				self.isHovered = value
 			}
 			.popover(isPresented: $isHovered) {
 				popoverContent()

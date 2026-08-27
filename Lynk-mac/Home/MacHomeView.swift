@@ -74,6 +74,7 @@ struct MacHomeView: View {
 								.padding(4)
 						}
 						.buttonStyle(.plain)
+						#endif
 						
 						Button {
 							localStorage.refreshAllObjects()
@@ -84,7 +85,6 @@ struct MacHomeView: View {
 								.hoverPopover(enabled: true, text: L10n.MacHomeView.Header.refreshContentHoverText)
 						}
 						.buttonStyle(.plain)
-						#endif
 					}
 				}
 				HStack {
