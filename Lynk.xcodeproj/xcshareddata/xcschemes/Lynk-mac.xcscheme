@@ -16,8 +16,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6CFC312E2DEB023D003BCCBF"
-               BuildableName = "Lynk-mac.app"
-               BlueprintName = "Lynk-mac"
+               BuildableName = "Lynk-large.app"
+               BlueprintName = "Lynk-large"
                ReferencedContainer = "container:Lynk.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,8 +45,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6CFC312E2DEB023D003BCCBF"
-            BuildableName = "Lynk-mac.app"
-            BlueprintName = "Lynk-mac"
+            BuildableName = "Lynk-large.app"
+            BlueprintName = "Lynk-large"
             ReferencedContainer = "container:Lynk.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -62,8 +62,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6CFC312E2DEB023D003BCCBF"
-            BuildableName = "Lynk-mac.app"
-            BlueprintName = "Lynk-mac"
+            BuildableName = "Lynk-large.app"
+            BlueprintName = "Lynk-large"
             ReferencedContainer = "container:Lynk.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

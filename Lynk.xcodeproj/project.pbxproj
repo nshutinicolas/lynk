@@ -37,7 +37,7 @@
 /* Begin PBXFileReference section */
 		6CF5BDFC2DA6CB4500EFE633 /* Lynk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lynk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CF5BE2A2DA6E65100EFE633 /* LynkBookmark.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LynkBookmark.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		6CFC312F2DEB023D003BCCBF /* Lynk-mac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lynk-mac.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6CFC312F2DEB023D003BCCBF /* Lynk-large.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lynk-large.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -90,7 +90,7 @@
 			);
 			target = 6CF5BE292DA6E65100EFE633 /* LynkBookmark */;
 		};
-		6CFC31452DEB070F003BCCBF /* Exceptions for "Lynk" folder in "Lynk-mac" target */ = {
+		6CFC31452DEB070F003BCCBF /* Exceptions for "Lynk" folder in "Lynk-large" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Components/Buttons.swift,
@@ -120,7 +120,7 @@
 				Resources/L10n.swift,
 				Resources/Localization/Localizable.xcstrings,
 			);
-			target = 6CFC312E2DEB023D003BCCBF /* Lynk-mac */;
+			target = 6CFC312E2DEB023D003BCCBF /* Lynk-large */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -130,7 +130,7 @@
 			exceptions = (
 				6C3118102DD34D560066119B /* Exceptions for "Lynk" folder in "Lynk" target */,
 				6CF5BE3F2DA6EDA500EFE633 /* Exceptions for "Lynk" folder in "LynkBookmark" target */,
-				6CFC31452DEB070F003BCCBF /* Exceptions for "Lynk" folder in "Lynk-mac" target */,
+				6CFC31452DEB070F003BCCBF /* Exceptions for "Lynk" folder in "Lynk-large" target */,
 			);
 			path = Lynk;
 			sourceTree = "<group>";
@@ -143,9 +143,9 @@
 			path = LynkBookmark;
 			sourceTree = "<group>";
 		};
-		6CFC31302DEB023D003BCCBF /* Lynk-mac */ = {
+		6CFC31302DEB023D003BCCBF /* Lynk-large */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Lynk-mac";
+			path = "Lynk-large";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -180,7 +180,7 @@
 			children = (
 				6CF5BDFE2DA6CB4500EFE633 /* Lynk */,
 				6CF5BE2B2DA6E65100EFE633 /* LynkBookmark */,
-				6CFC31302DEB023D003BCCBF /* Lynk-mac */,
+				6CFC31302DEB023D003BCCBF /* Lynk-large */,
 				6CF5BDFD2DA6CB4500EFE633 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -190,7 +190,7 @@
 			children = (
 				6CF5BDFC2DA6CB4500EFE633 /* Lynk.app */,
 				6CF5BE2A2DA6E65100EFE633 /* LynkBookmark.appex */,
-				6CFC312F2DEB023D003BCCBF /* Lynk-mac.app */,
+				6CFC312F2DEB023D003BCCBF /* Lynk-large.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -244,9 +244,9 @@
 			productReference = 6CF5BE2A2DA6E65100EFE633 /* LynkBookmark.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		6CFC312E2DEB023D003BCCBF /* Lynk-mac */ = {
+		6CFC312E2DEB023D003BCCBF /* Lynk-large */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6CFC313B2DEB023E003BCCBF /* Build configuration list for PBXNativeTarget "Lynk-mac" */;
+			buildConfigurationList = 6CFC313B2DEB023E003BCCBF /* Build configuration list for PBXNativeTarget "Lynk-large" */;
 			buildPhases = (
 				6CFC312B2DEB023D003BCCBF /* Sources */,
 				6CFC312C2DEB023D003BCCBF /* Frameworks */,
@@ -257,13 +257,13 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				6CFC31302DEB023D003BCCBF /* Lynk-mac */,
+				6CFC31302DEB023D003BCCBF /* Lynk-large */,
 			);
-			name = "Lynk-mac";
+			name = "Lynk-large";
 			packageProductDependencies = (
 			);
 			productName = "Lynk-mac";
-			productReference = 6CFC312F2DEB023D003BCCBF /* Lynk-mac.app */;
+			productReference = 6CFC312F2DEB023D003BCCBF /* Lynk-large.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -306,7 +306,7 @@
 			targets = (
 				6CF5BDFB2DA6CB4500EFE633 /* Lynk */,
 				6CF5BE292DA6E65100EFE633 /* LynkBookmark */,
-				6CFC312E2DEB023D003BCCBF /* Lynk-mac */,
+				6CFC312E2DEB023D003BCCBF /* Lynk-large */,
 			);
 		};
 /* End PBXProject section */
@@ -635,11 +635,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
-				CODE_SIGN_ENTITLEMENTS = "Lynk-mac/Lynk_mac.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Lynk-large/Lynk_large.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Lynk-mac/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Lynk-large/Preview Content\"";
 				DEVELOPMENT_TEAM = Q5DZZT9AYD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -667,11 +667,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
-				CODE_SIGN_ENTITLEMENTS = "Lynk-mac/Lynk_mac.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Lynk-large/Lynk_large.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Lynk-mac/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Lynk-large/Preview Content\"";
 				DEVELOPMENT_TEAM = Q5DZZT9AYD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -723,7 +723,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6CFC313B2DEB023E003BCCBF /* Build configuration list for PBXNativeTarget "Lynk-mac" */ = {
+		6CFC313B2DEB023E003BCCBF /* Build configuration list for PBXNativeTarget "Lynk-large" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6CFC313C2DEB023E003BCCBF /* Debug */,
