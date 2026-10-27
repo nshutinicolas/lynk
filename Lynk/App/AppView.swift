@@ -86,29 +86,9 @@ struct AppView: View {
 		)
 	}
 	
-	private var filteredBookmarks: [Bookmark] {
-		guard !searchText.isEmpty else {
-			return Array(bookmarksFetch)
-		}
-		
-		return Array(bookmarksFetch).filter { bookmark in
-			let model = bookmark.createItemCellViewModel()
-			switch model?.category {
-			case .text(let text):
-				return text.lowercased().contains(searchText.lowercased())
-			case .url(let url, let title):
-				return url.lowercased().contains(searchText.lowercased()) || ((title?.lowercased().contains(searchText.lowercased())) != nil)
-			case .webPage(let title, let url , _):
-				return title.lowercased().contains(searchText.lowercased()) || url.lowercased().contains(searchText.lowercased())
-			default:
-				return false
-			}
-		}
-	}
-	
 	private var bookmarkCollection: [BookmarkCollection] {
 		var domainDictionary = [String: [Bookmark]]()
-		for bookmark in filteredBookmarks {
+		for bookmark in bookmarksFetch {
 			switch bookmark.createItemCellViewModel()?.category {
 			case .text:
 				break
@@ -150,10 +130,8 @@ struct AppView: View {
 	@State private var showReminderSelector = false
 	@State private var showEnableNotificationsAlert = false
 	
-	@FetchRequest(
-		entity: Bookmark.entity(),
-		sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: false)]
-	) var bookmarksFetch: FetchedResults<Bookmark>
+	// Filtered by the search text, see `updateSearchPredicate`
+	@FetchRequest(fetchRequest: Bookmark.listFetchRequest) var bookmarksFetch: FetchedResults<Bookmark>
 	
 	var body: some View {
 		NavigationStack(path: $coordinator.path) {
@@ -203,7 +181,7 @@ struct AppView: View {
 								}
 								.matchedGeometryEffect(id: "SEARCH_BAR", in: searchBarAnimation)
 							} else {
-								if bookmarksFetch.isEmpty == false {
+								if bookmarksFetch.isEmpty == false || searchText.isEmpty == false {
 									navIcon("magnifyingglass") {
 										withAnimation {
 											showSearchBar = true
@@ -230,7 +208,7 @@ struct AppView: View {
 				}
 				.padding([.horizontal, .top])
 				
-				if filteredBookmarks.isEmpty {
+				if bookmarksFetch.isEmpty {
 					emptyView
 				} else {
 					VStack(spacing: 0) {
@@ -244,7 +222,7 @@ struct AppView: View {
 										}
 									}
 								case .list:
-									ForEach(filteredBookmarks, id: \.self) { bookmark in
+									ForEach(bookmarksFetch, id: \.self) { bookmark in
 										// TODO: Change to shareable after implementing the share sheet
 										if let model = bookmark.createItemCellViewModel(shareable: false) {
 											ItemCellView(model: model)
@@ -463,6 +441,9 @@ struct AppView: View {
 		.onChange(of: showSearchBar) { value in
 			searchFieldIsFocused = value
 		}
+		.task(id: searchText) {
+			await updateSearchPredicate()
+		}
 		.onAppear {
 			@Cached<String>(.layout) var layout
 			guard let layout, let displayMode = DisplayMode(rawValue: layout) else { return }
@@ -576,6 +557,17 @@ struct AppView: View {
 			.background()
 			.presentationDetents([.large])
 		}
+	}
+	
+	/// Let CoreData do the filtering, debounced to avoid a fetch on every keystroke
+	private func updateSearchPredicate() async {
+		let predicate = Bookmark.searchPredicate(for: searchText)
+		if predicate != nil {
+			try? await Task.sleep(for: .milliseconds(250))
+			guard Task.isCancelled == false else { return }
+		}
+		guard bookmarksFetch.nsPredicate != predicate else { return }
+		bookmarksFetch.nsPredicate = predicate
 	}
 	
 	private func deleteBookmark(_ bookmark: Bookmark) {

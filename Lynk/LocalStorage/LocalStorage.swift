@@ -12,6 +12,25 @@ import UniformTypeIdentifiers
 
 extension Bookmark {
 	static let containerName = "Bookmarks"
+	
+	/// Newest first, loaded in batches with their category to avoid a fault per row
+	static var listFetchRequest: NSFetchRequest<Bookmark> {
+		let request: NSFetchRequest<Bookmark> = Bookmark.fetchRequest()
+		request.sortDescriptors = [NSSortDescriptor(keyPath: \Bookmark.date, ascending: false)]
+		request.fetchBatchSize = 30
+		request.relationshipKeyPathsForPrefetching = ["category"]
+		return request
+	}
+	
+	/// Matches the text, title or url of a bookmark. Returns nil when there is nothing to search for
+	static func searchPredicate(for text: String) -> NSPredicate? {
+		let query = text.trimmingCharacters(in: .whitespacesAndNewlines)
+		guard query.isEmpty == false else { return nil }
+		return NSPredicate(
+			format: "category.textContent CONTAINS[cd] %@ OR category.urlContent CONTAINS[cd] %@",
+			query, query
+		)
+	}
 }
 
 class BookmarkStorage: ObservableObject {

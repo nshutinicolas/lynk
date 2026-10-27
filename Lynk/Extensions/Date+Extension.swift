@@ -8,19 +8,26 @@
 import Foundation
 
 extension Date {
+	// DateFormatter is expensive to create, reuse them across the list cells
+	private static let todayFormatter = dateFormatter(with: "'Today at' h:mm a")
+	private static let yesterdayFormatter = dateFormatter(with: "'Yesterday at' h:mm a")
+	private static let fullDateFormatter = dateFormatter(with: "h:mm a dd/MM/yyyy")
+	
+	private static func dateFormatter(with format: String) -> DateFormatter {
+		let dateFormatter = DateFormatter()
+		dateFormatter.dateFormat = format
+		return dateFormatter
+	}
+	
 	func formatted() -> String {
 		let calendar = Calendar.current
-		let dateFormatter = DateFormatter()
 		
 		if calendar.isDateInToday(self) {
-			dateFormatter.dateFormat = "'Today at' h:mm a"
-			return dateFormatter.string(from: self)
+			return Self.todayFormatter.string(from: self)
 		} else if calendar.isDateInYesterday(self) {
-			dateFormatter.dateFormat = "'Yesterday at' h:mm a"
-			return dateFormatter.string(from: self)
+			return Self.yesterdayFormatter.string(from: self)
 		} else {
-			dateFormatter.dateFormat = "h:mm a dd/MM/yyyy"
-			return dateFormatter.string(from: self)
+			return Self.fullDateFormatter.string(from: self)
 		}
 	}
 	

@@ -25,7 +25,10 @@ final class ImageCache: ImageCacheProtocol {
 	static let shared = ImageCache()
 	private let cache = NSCache<NSString, PlatformImage>()
 	
-	private init() { }
+	private init() {
+		cache.countLimit = 300
+		cache.totalCostLimit = 32 * 1024 * 1024
+	}
 	
 	func get(forKey key: String) -> PlatformImage? {
 		cache.object(forKey: key as NSString)
@@ -33,5 +36,9 @@ final class ImageCache: ImageCacheProtocol {
 	
 	func set(_ image: PlatformImage, forKey key: String) {
 		cache.setObject(image, forKey: key as NSString)
+	}
+	
+	func set(_ image: PlatformImage, forKey key: String, cost: Int) {
+		cache.setObject(image, forKey: key as NSString, cost: cost)
 	}
 }

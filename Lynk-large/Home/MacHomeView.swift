@@ -14,33 +14,7 @@ struct MacHomeView: View {
 	@State private var presentSettings = false
 	@Environment(\.managedObjectContext) private var localStorage
 	
-	private var filteredBookmarks: [Bookmark] {
-		let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
-		guard query.isEmpty == false else {
-			return Array(bookmarksFetch)
-		}
-		
-		return Array(bookmarksFetch).filter { bookmark in
-			let model = bookmark.createItemCellViewModel()
-			switch model?.category {
-			case .text(let text):
-				return text.localizedCaseInsensitiveContains(query)
-			case .url(let url, let title):
-				return url.localizedCaseInsensitiveContains(query)
-					|| title?.localizedCaseInsensitiveContains(query) == true
-			case .webPage(let title, let url , _):
-				return title.localizedCaseInsensitiveContains(query)
-					|| url.localizedCaseInsensitiveContains(query)
-			default:
-				return false
-			}
-		}
-	}
-	
-	@FetchRequest(
-		entity: Bookmark.entity(),
-		sortDescriptors: [NSSortDescriptor(keyPath: \Bookmark.date, ascending: false)]
-	) var bookmarksFetch: FetchedResults<Bookmark>
+	@FetchRequest(fetchRequest: Bookmark.listFetchRequest) var bookmarksFetch: FetchedResults<Bookmark>
 	
     var body: some View {
 		NavigationSplitView {
@@ -109,12 +83,12 @@ struct MacHomeView: View {
 					RoundedRectangle(cornerRadius: 8)
 						.stroke(lineWidth: 0.5)
 				)
-				if filteredBookmarks.isEmpty {
+				if bookmarksFetch.isEmpty {
 					emptyBookmarksView
 				} else {
 					List {
 						Section {
-							ForEach(filteredBookmarks) { bookmark in
+							ForEach(bookmarksFetch) { bookmark in
 								if let model = bookmark.createItemCellViewModel() {
 									ItemCellView(model: model)
 										.onTapGesture {
@@ -194,6 +168,9 @@ struct MacHomeView: View {
 		.onReceive(NotificationCenter.default.publisher(for: .NSPersistentStoreRemoteChange).receive(on: DispatchQueue.main)) { _ in
 			localStorage.refreshAllObjects()
 		}
+		.task(id: searchText) {
+			await updateSearchPredicate()
+		}
 		.addLinkManuallyMac($presentAddLink)
 		.sheet(isPresented: $presentSettings) {
 			MacSettingsView()
@@ -215,6 +192,17 @@ struct MacHomeView: View {
 		}
 		.frame(maxWidth: .infinity, maxHeight: .infinity)
 		.padding(.horizontal, 24)
+	}
+	
+	/// Let CoreData do the filtering, debounced to avoid a fetch on every keystroke
+	private func updateSearchPredicate() async {
+		let predicate = Bookmark.searchPredicate(for: searchText)
+		if predicate != nil {
+			try? await Task.sleep(for: .milliseconds(250))
+			guard Task.isCancelled == false else { return }
+		}
+		guard bookmarksFetch.nsPredicate != predicate else { return }
+		bookmarksFetch.nsPredicate = predicate
 	}
 	
 	private func openExternalBookmarkLink() {

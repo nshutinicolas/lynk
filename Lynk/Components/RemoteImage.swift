@@ -5,10 +5,8 @@
 //  Created by Musoni nshuti Nicolas on 09/04/2025.
 //
 
-import Combine
 import SwiftUI
 
-// TODO: Implement this using NSCache
 struct RemoteImage<Placeholder: View, ErrorView: View>: View {
 	@StateObject private var loader = ImageLoader()
 	private var placeholder: Placeholder?
@@ -31,9 +29,17 @@ struct RemoteImage<Placeholder: View, ErrorView: View>: View {
 		self.errorView = errorView
 	}
 	
+	// Read the cache directly so that an image that was already downloaded doesn't flash the placeholder
+	private var loadingState: ImageLoader.LoadingState {
+		if loader.loadingState == .loading, let cached = ImageCache.shared.get(forKey: url) {
+			return .loaded(cached)
+		}
+		return loader.loadingState
+	}
+	
 	var body: some View {
 		ZStack {
-			switch loader.loadingState {
+			switch loadingState {
 			case .loading:
 				if let placeholder {
 					placeholder
@@ -60,7 +66,7 @@ struct RemoteImage<Placeholder: View, ErrorView: View>: View {
 				}
 			}
 		}
-		.onAppear { loader.load(for: url) }
+		.task(id: url) { await loader.load(for: url) }
 	}
 }
 
@@ -86,6 +92,7 @@ extension RemoteImage {
 	}
 }
 
+#if DEBUG
 #Preview {
 	ScrollView {
 		RemoteImage(url: "https://images.unsplash.com/photo-1704340142770-b52988e5b6eb?q=80&w=2900&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
@@ -99,3 +106,4 @@ extension RemoteImage {
 			.clipShape(.rect(cornerRadius: 8))
 	}
 }
+#endif
