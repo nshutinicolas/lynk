@@ -50,21 +50,30 @@ struct BookmarkModel: Identifiable, Hashable {
 	}
 	
 	/// For deeplink, create a url to pass in the userInfo
-	/// The format is `lynk://open?link=<string>&title=<string>` where title is optional for url option
+	/// The format is `lynk://open?link=<string>&title=<string>&id=<string>` where title is optional for url option
+	/// Built with `URLComponents` so links containing `&`, `?` or spaces survive the round trip
 	var userInfo: [String: String] {
-		var url: String = "\(AppConstants.deeplinkUrl)open?"
+		var components = URLComponents()
+		components.scheme = "lynk"
+		components.host = "open"
+		var queryItems = [URLQueryItem]()
 		switch self.category {
 		case .text(let string):
-			url.append("title=\(string)") // This will always fail the link check
+			queryItems.append(.init(name: "title", value: string)) // This will always fail the link check
 		case .url(let urlString, let title):
-			url.append("link=\(urlString)")
+			queryItems.append(.init(name: "link", value: urlString))
 			if let title {
-				url.append("&title=\(title)")
+				queryItems.append(.init(name: "title", value: title))
 			}
 		case .webPage(let title, let urlString, _):
-			url.append("link=\(urlString)&title=\(title)")
+			queryItems.append(.init(name: "link", value: urlString))
+			queryItems.append(.init(name: "title", value: title))
 		}
-		return ["url": url]
+		queryItems.append(.init(name: "id", value: id))
+		components.queryItems = queryItems
+		// `+` is not encoded by URLQueryItem but would be read back as a space by some parsers
+		components.percentEncodedQuery = components.percentEncodedQuery?.replacingOccurrences(of: "+", with: "%2B")
+		return ["url": components.string ?? "\(AppConstants.deeplinkUrl)open"]
 	}
 	
 	static func == (lhs: BookmarkModel, rhs: BookmarkModel) -> Bool {

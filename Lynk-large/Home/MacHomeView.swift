@@ -93,12 +93,22 @@ struct MacHomeView: View {
 									ItemCellView(model: model)
 										.onTapGesture {
 											selectedBookmark = model
+											setOpenedState(for: bookmark, to: true)
 										}
 										.contextMenu {
 											Button {
 												copyToClipboard(model.category)
 											} label: {
 												Label(L10n.Button.copy, systemImage: "document.on.document")
+											}
+											Button {
+												setOpenedState(for: bookmark, to: model.opened == false)
+											} label: {
+												if model.opened {
+													Label(L10n.Button.markAsUnread, systemImage: "envelope.badge")
+												} else {
+													Label(L10n.Button.markAsRead, systemImage: "envelope.open")
+												}
 											}
 											Button {
 											} label: {
@@ -216,6 +226,16 @@ struct MacHomeView: View {
 			NSWorkspace.shared.open(url)
 		default:
 			break
+		}
+	}
+	
+	private func setOpenedState(for bookmark: Bookmark, to opened: Bool) {
+		guard bookmark.opened != opened else { return }
+		bookmark.opened = opened
+		do {
+			try localStorage.save()
+		} catch {
+			print("Failed to update bookmark opened state: \(error.localizedDescription)")
 		}
 	}
 	

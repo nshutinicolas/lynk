@@ -13,7 +13,7 @@ struct LynkApp: App {
 	@StateObject private var coordinator = AppCoordinator()
 	@StateObject private var storage = BookmarkStorage.shared
 	@StateObject private var appTheme = AppTheme()
-	@StateObject private var notificationContainer = NotificationContainer()
+	@StateObject private var notificationContainer = NotificationContainer.shared
 	
 	@UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 	
@@ -41,35 +41,14 @@ struct LynkApp: App {
 				.onOpenURL { url in
 					/**
 					 `Format of valid url:`
-					 - From PN to open a link`lynk://open?link=<url>&title=<text>`. title is optional
-					 - TODO: Look into using the item id from coredata instead of the url
+					 - From PN to open a link`lynk://open?link=<url>&title=<text>&id=<bookmark id>`. title and id are optional
 					 */
-					handleDeeplink(with: url)
+					notificationContainer.handleDeeplink(url)
 					// FFT: - What if we introduced universal link? How would we do this?
 					// TBD
 				}
         }
     }
-	
-	private func handleDeeplink(with url: URL) {
-		// Validate the url first
-		guard url.scheme == "lynk" else { return }
-		guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true) else {
-			print("🚨Invalid components for url: \(url)🚨")
-			return
-		}
-		guard let host = components.host, host == "open" else {
-			print("🚨Invalid host name in url: \(url) - \(components.host ?? "No Hostname")🚨")
-			return
-		}
-		// Get the value of link from the url
-		guard let linkValue = components.queryItems?.first(where: { $0.name == "link" })?.value else {
-			print("🚨Invalid link value for url: \(url)🚨")
-			return
-		}
-		let titleValue = components.queryItems?.first(where: { $0.name == "title" })?.value
-		notificationContainer.setPendingDeeplinkNotification(.init(url: linkValue, title: titleValue))
-	}
 }
 
 // Using only onOpenUrl was not working, the solution to handling PN taps is this with the usage of modern
@@ -83,6 +62,8 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 	}
 	
 	// Called when the user taps the notification
+	// Hand the deeplink straight to the container instead of round-tripping through `UIApplication.open`,
+	// which gets dropped when the tap happens while the app is in the background and not active yet
 	func userNotificationCenter(_ center: UNUserNotificationCenter,
 								didReceive response: UNNotificationResponse,
 								withCompletionHandler completionHandler: @escaping () -> Void) {
@@ -90,13 +71,11 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 		
 		if let openString = userInfo["url"] as? String,
 		   let url = URL(string: openString) {
-			// Manually trigger the deeplink
 			DispatchQueue.main.async {
-				UIApplication.shared.open(url)
+				NotificationContainer.shared.handleDeeplink(url)
 			}
 		}
 		
 		completionHandler()
 	}
 }
-

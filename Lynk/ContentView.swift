@@ -90,8 +90,10 @@ struct ContentView: View {
 	}
 }
 
+#if DEBUG
 #Preview {
     ContentView()
 		.environmentObject(AppCoordinator())
-		.environmentObject(NotificationContainer())
+		.environmentObject(NotificationContainer.shared)
 }
+#endif

@@ -248,6 +248,8 @@ extension L10n {
 		static let dismiss = LocalizedStringResource(stringLiteral: "BUTTON.DISMISS")
 		static let confirm = LocalizedStringResource(stringLiteral: "BUTTON.CONFIRM")
 		static let open = LocalizedStringResource(stringLiteral: "BUTTON.OPEN")
+		static let markAsRead = LocalizedStringResource(stringLiteral: "BUTTON.MARK_AS_READ")
+		static let markAsUnread = LocalizedStringResource(stringLiteral: "BUTTON.MARK_AS_UNREAD")
 		static let notNow = LocalizedStringResource(stringLiteral: "BUTTON.NOT_NOW")
 		static let save = LocalizedStringResource(stringLiteral: "BUTTON.SAVE")
 		static let continueButton = LocalizedStringResource(stringLiteral: "BUTTON.CONTINUE")

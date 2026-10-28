@@ -243,6 +243,15 @@ struct AppView: View {
 														Label(L10n.Button.copy, systemImage: "document.on.document")
 													}
 													Button {
+														updateStatus(for: model, opened: model.opened == false)
+													} label: {
+														if model.opened {
+															Label(L10n.Button.markAsUnread, systemImage: "envelope.badge")
+														} else {
+															Label(L10n.Button.markAsRead, systemImage: "envelope.open")
+														}
+													}
+													Button {
 														selectedBookmarkForReminder = model
 													} label: {
 														Label("Schedule a reminder", systemImage: "calendar.badge.clock")
@@ -454,11 +463,11 @@ struct AppView: View {
 			layout = newValue.rawValue
 		}
 		.onChange(of: notificationContainer.pendingDeeplinkNotification) { value in
-			guard value != nil else { return }
-			Task {
-				try await Task.sleep(for: .seconds(1))
-				showDeepLinkAlert = true
-			}
+			presentPendingDeeplink(value)
+		}
+		.onAppear {
+			// The notification may have been tapped before this view existed (cold launch, app lock, onboarding)
+			presentPendingDeeplink(notificationContainer.pendingDeeplinkNotification)
 		}
 		.onChange(of: selectedBookmarkForReminder) { bookmark in
 			guard bookmark != nil else { return }
@@ -494,6 +503,7 @@ struct AppView: View {
 						return
 					}
 					openURL(url)
+					markDeeplinkBookmarkAsOpened(stringUrl)
 					// Clear Notification
 					notificationContainer.clearPendingDeeplinkNotification()
 				}
@@ -623,11 +633,39 @@ struct AppView: View {
 		updateStatus(for: bookmark)
 	}
 	
-	private func updateStatus(for model: BookmarkModel) {
+	private func updateStatus(for model: BookmarkModel, opened: Bool = true) {
 		var bookmarkModel = model
-		bookmarkModel.updateOpenedState(to: true)
+		bookmarkModel.updateOpenedState(to: opened)
 		// Save the updated model
 		sharedStorage.updateBookmarkStatus(for: bookmarkModel)
+	}
+	
+	private func presentPendingDeeplink(_ value: NotificationContainer.AlertInfo?) {
+		guard value != nil else { return }
+		Task {
+			// Give the app time to finish coming to the foreground before presenting the alert
+			try await Task.sleep(for: .seconds(1))
+			guard notificationContainer.pendingDeeplinkNotification != nil else { return }
+			showDeepLinkAlert = true
+		}
+	}
+	
+	/// Mark the bookmark behind a notification as opened, by id when available or by its link for older notifications
+	private func markDeeplinkBookmarkAsOpened(_ info: NotificationContainer.AlertInfo) {
+		// Not using `bookmarksFetch` since it may be filtered by the search text
+		let model = sharedStorage.fetchStoredBookmarks().first { model in
+			if let bookmarkId = info.bookmarkId {
+				return model.id == bookmarkId
+			}
+			switch model.category {
+			case .url(let url, _), .webPage(_, let url, _):
+				return url == info.url
+			case .text:
+				return false
+			}
+		}
+		guard let model else { return }
+		updateStatus(for: model)
 	}
 	
 	@ViewBuilder
@@ -795,7 +833,7 @@ extension AppView {
 	AppView()
 		.environmentObject(AppCoordinator())
 		.environment(\.managedObjectContext, context)
-		.environmentObject(NotificationContainer())
+		.environmentObject(NotificationContainer.shared)
 }
 
 // TODO: Revisit this when implementing the share icon action
